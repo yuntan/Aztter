@@ -19,12 +19,11 @@ MainView {
 	width: units.gu(45)
 	height: units.gu(80)
 
-    signal buttonClicked()
-
 	PageStack {
 		id: pageStack
 
-		Component.onCompleted: push(loadingPage)
+//		Component.onCompleted: push(loadingPage)
+		Component.onCompleted: push(pinAuthPage)
 
 		Component {
 			id: loadingPage

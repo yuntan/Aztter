@@ -13,8 +13,6 @@ QML_IMPORT_PATH = /usr/bin /usr/lib/x86_64-linux-gnu/qt5/qml
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp
-#SOURCES += aztter.cpp
-#HEADERS += aztter.h
 
 # Installation path
 # target.path =

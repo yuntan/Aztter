@@ -6,6 +6,11 @@ Page {
 
     title: i18n.tr("Aztter")
 
+	ActivityIndicator {
+		anchors.right: parent.right
+		running: true //TODO: check
+	}
+
     UbuntuShape {
         width: 200
         height: width
@@ -16,6 +21,7 @@ Page {
             id: loadingLabel
             objectName: "loadingLabel"
             anchors.centerIn: parent
+			color: UbuntuColors.white
 
             text: i18n.tr("Loading...")
         }

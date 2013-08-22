@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
     //root object(MainView)
     QObject* root = viewer.rootObject();
     //fine HelloComponent by name(label)
-	QObject* label = root->findChild<QObject *>("loadingLabel");
+//	QObject* label = root->findChild<QObject *>("loadingLabel");
     //set label's text
-    label->setProperty("text", "Wow!");
+//    label->setProperty("text", "Wow!");
 
     return app.exec();
 }
