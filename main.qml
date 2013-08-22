@@ -1,11 +1,9 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-/*!
-    \brief MainView with a Label and Button elements.
-*/
-
 MainView {
+	id: mainView
+
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"
 
@@ -18,45 +16,29 @@ MainView {
     */
     automaticOrientation: true
 
-    width: units.gu(40)
-    height: units.gu(75)
+	width: units.gu(45)
+	height: units.gu(80)
 
     signal buttonClicked()
 
-    function updateText(t) {label.text = t}
+	PageStack {
+		id: pageStack
 
-    Page {
-        title: i18n.tr("Simple")
+		Component.onCompleted: push(loadingPage)
 
-        Column {
-            spacing: units.gu(1)
-            anchors {
-                margins: units.gu(2)
-                fill: parent
-            }
+		Component {
+			id: loadingPage
+			LoadingPage {}
+		}
 
-            UbuntuShape {
-                width: 200
-                height: width
+		Component {
+			id: pinAuthPage
+			PinAuthPage {}
+		}
 
-                Label {
-                    id: label
-                    objectName: "label"
-                    anchors.centerIn: parent
-
-                    text: i18n.tr("Hello...")
-                }
-            }
-
-            Button {
-                objectName: "button"
-                width: parent.width
-
-                text: i18n.tr("Tap me!")
-                onClicked: {
-                    buttonClicked()
-                }
-            }
-        }
+		Component {
+			id: timeLineContainer
+			TimelineContainer {}
+		}
     }
 }
