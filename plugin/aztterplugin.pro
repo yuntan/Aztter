@@ -1,12 +1,16 @@
 TEMPLATE = lib
 CONFIG += qt plugin
-QT += qml
+QT += qml network
 
 DESTDIR +=  ../lib
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 
-TARGET = aztter
+TARGET = AztterPlugin
+
+LIBS += \
+	-L../lib
+	-lqtweetlib
 
 HEADERS += \
     aztteroauth.h \

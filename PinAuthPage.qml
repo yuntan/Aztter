@@ -13,7 +13,7 @@ Page {
     AztterOAuth {
         id: aztterOAuth
 
-        oauthUrlChanged: authWebView.url = oauthUrl
+        onOauthUrlChanged: authWebView.url = oauthUrl
         onPleaseEnterPin: TextField.placeholderText = "Please enter PIN"
         onAuthorized: pageStack.push(TimelineContainer)
     }
@@ -48,8 +48,7 @@ Page {
 		anchors.right: parent.right
 		anchors.bottom: authWebView.top
 
-        onPinAuthorized: placeholderText = "Please Enter Pin"
-        accepted: {
+        onAccepted: {
             aztterOAuth.oauthPin = text
             aztterOAuth.onPinEntered()
         }

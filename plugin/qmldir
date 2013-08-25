@@ -1,2 +1,2 @@
-module twitter
-plugin twitter
+plugin AztterPlugin ../lib
+

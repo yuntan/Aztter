@@ -6,20 +6,20 @@
 // constructor
 AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 {
-	m_OAuthTwitter = new OAuthTwitter(this);
-	m_OAuthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
+	m_oauthTwitter = new OAuthTwitter(this);
+	m_oauthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
 
 	connect(m_oauthTwitter, SIGNAL(authorizePinAuthenticate()), this, SLOT(oauthPinAuthenticate()));
 	connect(m_oauthTwitter, SIGNAL(authorizePinFinished()), this, SLOT(accessGranted()));
 
 	qDebug() << "AztterOAuth authorization started";
-	oauthUrl = m_OAuthTwitter->authorizePin();
+	m_oauthUrl = m_oauthTwitter->authorizePin();
 	emit oauthUrlChanged();
 }
 
 QUrl AztterOAuth::oauthUrl()
 {
-	return oauthUrl();
+	return m_oauthUrl;
 }
 
 void AztterOAuth::oauthPinAuthenticate()
@@ -27,15 +27,20 @@ void AztterOAuth::oauthPinAuthenticate()
 	emit pleaseEnterPin();
 }
 
+QString AztterOAuth::oauthPin()
+{
+	return m_oauthPin;
+}
+
 void AztterOAuth::setOAuthPin(QString &str)
 {
-	oauthPin = str;
+	m_oauthPin = str;
 }
 
 void AztterOAuth::onPinEntered()
 {
-	if(!oauthPin.isEmpty())
-		m_OAuthTwitter->requestAccessToken(&oauthPin);
+	if(!m_oauthPin.isEmpty())
+		m_oauthTwitter->requestAccessToken(m_oauthPin);
 }
 
 void AztterOAuth::accessGranted()
