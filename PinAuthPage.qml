@@ -1,11 +1,22 @@
 import QtQuick 2.0
 import QtWebKit 3.0
 import Ubuntu.Components 0.1
+import "plugin" 1.0
 
 Page {
 	id: pinAuthPage
 
 	title: i18n.tr("Authentication")
+
+    Component.onCompleted:
+
+    AztterOAuth {
+        id: aztterOAuth
+
+        oauthUrlChanged: authWebView.url = oauthUrl
+        onPleaseEnterPin: TextField.placeholderText = "Please enter PIN"
+        onAuthorized: pageStack.push(TimelineContainer)
+    }
 
 	ActivityIndicator {
 		anchors.centerIn: parent
@@ -36,13 +47,18 @@ Page {
 		width: parent.width - pinText.width
 		anchors.right: parent.right
 		anchors.bottom: authWebView.top
+
+        onPinAuthorized: placeholderText = "Please Enter Pin"
+        accepted: {
+            aztterOAuth.oauthPin = text
+            aztterOAuth.onPinEntered()
+        }
 	}
 
 	WebView {
 		id: authWebView
 		width: parent.width
 		height: parent.height - authLabel.height - pinTextField.height - units.gu(3)
-		anchors.bottom: parent.bottom
-		url: "http://mobile.twitter.com"
+        anchors.bottom: parent.bottom
 	}
 }
