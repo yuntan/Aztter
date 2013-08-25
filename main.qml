@@ -36,7 +36,7 @@ MainView {
 		}
 
 		Component {
-			id: timeLineContainer
+            id: timelineContainer
 			TimelineContainer {}
 		}
     }
