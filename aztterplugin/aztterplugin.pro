@@ -2,20 +2,22 @@ TEMPLATE = lib
 CONFIG += qt plugin
 QT += qml network
 
-DESTDIR +=  ../lib
+INCLUDEPATH += ../QTweetLib/src
+
+DESTDIR += ../lib
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 
 TARGET = AztterPlugin
 
 LIBS += \
-	-L../lib
+	-L../lib \
 	-lqtweetlib
 
 HEADERS += \
-    aztteroauth.h \
-    aztterplugin.h
+	aztterplugin.h \
+	aztteroauth.h
 
 SOURCES += \
-    aztteroauth.cpp \
-    aztterplugin.cpp
+	aztterplugin.cpp \
+	aztteroauth.cpp

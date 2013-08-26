@@ -1,7 +1,6 @@
 #include "aztteroauth.h"
 #include <QNetworkAccessManager>
 #include <QDebug>
-#include "../QTweetLib/src/oauthtwitter.h"
 
 // constructor
 AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
@@ -12,9 +11,9 @@ AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 	connect(m_oauthTwitter, SIGNAL(authorizePinAuthenticate()), this, SLOT(oauthPinAuthenticate()));
 	connect(m_oauthTwitter, SIGNAL(authorizePinFinished()), this, SLOT(accessGranted()));
 
-	qDebug() << "AztterOAuth authorization started";
-	m_oauthUrl = m_oauthTwitter->authorizePin();
-	emit oauthUrlChanged();
+//	qDebug() << "AztterOAuth authorization started";
+//	m_oauthUrl = m_oauthTwitter->authorizePin();
+//	emit oauthUrlChanged();
 }
 
 QUrl AztterOAuth::oauthUrl()

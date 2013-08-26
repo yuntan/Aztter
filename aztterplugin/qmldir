@@ -1,2 +1,2 @@
+module AztterPlugin
 plugin AztterPlugin ../lib
-

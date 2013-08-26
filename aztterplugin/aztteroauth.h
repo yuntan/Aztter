@@ -2,14 +2,15 @@
 #define AZTTEROAUTH_H
 
 #include <QObject>
-#include "../QTweetLib/src/oauthtwitter.h"
+#include "oauthtwitter.h"
 
 class AztterOAuth : public QObject
 {
     Q_OBJECT
 
-	Q_PROPERTY(QUrl oauthUrl READ oauthUrl NOTIFY oauthUrlChanged);
-	Q_PROPERTY(QString oauthPin READ oauthPin WRITE setOAuthPin);
+	Q_PROPERTY(QUrl oauthUrl READ oauthUrl NOTIFY oauthUrlChanged)
+
+	Q_PROPERTY(QString oauthPin READ oauthPin WRITE setOAuthPin)
 
 public:
 	// constractor
