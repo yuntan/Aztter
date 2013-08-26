@@ -16,7 +16,6 @@ twitter client for Ubuntu Phone
 1. qmake
 1. make
 1. cd ..
-1. cp QTweetLib/lib/libqtweetlib.so lib/
+1. sudo cp QTweetLib/lib/libqtweetlib.so /usr/local/lib/
 1. qmlscene main.qml
 
-✌('ω'✌ )三✌('ω')✌三( ✌'ω')✌
