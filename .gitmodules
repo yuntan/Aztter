@@ -1,3 +1,6 @@
 [submodule "QTweetLib"]
 	path = QTweetLib
 	url = https://github.com/minimoog/QTweetLib.git
+[submodule "kQOAuth"]
+	path = kQOAuth
+	url = https://github.com/kypeli/kQOAuth.git
