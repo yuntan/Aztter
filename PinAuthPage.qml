@@ -8,13 +8,12 @@ Page {
 
 	title: i18n.tr("Authentication")
 
-//    AztterOAuth {
-//        id: aztterOAuth
+    AztterOAuth {
+        id: aztterOAuth
 
-//        onOauthUrlChanged: authWebView.url = oauthUrl
-//        onPleaseEnterPin: TextField.placeholderText = "Please enter PIN"
-//        onAuthorized: pageStack.push(TimelineContainer)
-//    }
+        onOauthUrlChanged: authWebView.url = oauthUrl
+        onAuthorized: pageStack.push(timelineContainer)
+    }
 
 	ActivityIndicator {
 		anchors.centerIn: parent
@@ -30,26 +29,6 @@ Page {
 			text: i18n.tr("Let's do twitter authentication first.")
 			fontSize: "large"
 		}
-	}
-
-	Label {
-		id: pinText
-		anchors.left: parent.left
-		anchors.bottom: authWebView.top
-		fontSize: "x-large"
-		text: "PIN : "
-	}
-
-	TextField {
-		id: pinTextField
-		width: parent.width - pinText.width
-		anchors.right: parent.right
-		anchors.bottom: authWebView.top
-
-//        onAccepted: {
-//            aztterOAuth.oauthPin = text
-//            aztterOAuth.onPinEntered()
-//        }
 	}
 
 	WebView {
