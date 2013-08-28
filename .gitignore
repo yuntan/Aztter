@@ -3,4 +3,8 @@
 *.autosave
 build*
 lib/*
+aztterkeystore*
+e.*
+y.*
+k.*
 
