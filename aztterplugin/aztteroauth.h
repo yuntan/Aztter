@@ -39,7 +39,7 @@ private slots:
 private:
 	KQOAuthManager *m_oauthManager;
 	KQOAuthRequest *m_oauthRequest;
-	QSettings m_oauthSettings;
+	QSettings *m_oauthSettings;
 	QUrl m_oauthUrl;
 };
 

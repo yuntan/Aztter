@@ -13,7 +13,9 @@ AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 {
 	m_oauthRequest = new KQOAuthRequest(this);
 	m_oauthManager = new KQOAuthManager(this);
+	m_oauthSettings = new QSettings(this);
 	m_oauthRequest->setEnableDebugOutput(false);
+	m_oauthSettings = new QSettings(QSettings::NativeFormat, QSettings::UserScope, "Aztter", "Aztter", this);
 
 	connect(m_oauthManager, SIGNAL(temporaryTokenReceived(QString, QString)),
 			this, SLOT(onTemporaryTokenReceived(QString, QString)));
@@ -79,14 +81,12 @@ void AztterOAuth::onAccessTokenReceived(QString token, QString tokenSecret) {
 	Q_UNUSED(tokenSecret)
 	qDebug() << "Access token received!";
 
+	m_oauthSettings->setValue("accounts/test/oauth_token", token);
+	m_oauthSettings->setValue("accounts/test/oauth_token_secret", tokenSecret);
+
+	qDebug() << "Account Infomation Saved";
+
 	emit authorized();
-
-//    m_oauthSettings.setValue("oauth_token", token);
-//    m_oauthSettings.setValue("oauth_token_secret", tokenSecret);
-
-//    qDebug() << "Access tokens now stored. You are ready to send Tweets from user's account!";
-
-//    QCoreApplication::exit();
 }
 
 void AztterOAuth::onAuthorizedRequestDone() {
