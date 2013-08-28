@@ -34,7 +34,7 @@ Page {
 	WebView {
 		id: authWebView
 		width: parent.width
-		height: parent.height - authLabel.height - pinTextField.height - units.gu(3)
+        height: parent.height - authLabel.height - units.gu(3)
         anchors.bottom: parent.bottom
 	}
 }
