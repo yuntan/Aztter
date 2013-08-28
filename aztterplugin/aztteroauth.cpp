@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "kqoauthrequest.h"
 #include "kqoauthmanager.h"
+#include "aztterkeystore.h"
 
 // constructor
 AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
@@ -31,8 +32,8 @@ AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 
 	qDebug() << "AztterOAuth authorization started";
 	m_oauthRequest->initRequest(KQOAuthRequest::TemporaryCredentials, QUrl("https://api.twitter.com/oauth/request_token"));
-	m_oauthRequest->setConsumerKey("*****"); // TODO
-	m_oauthRequest->setConsumerSecretKey("*****"); //TODO
+	m_oauthRequest->setConsumerKey(AztterKeyStore::consumerKey()); // TODO
+	m_oauthRequest->setConsumerSecretKey(AztterKeyStore::consumerSecretKey()); //TODO
 
 	m_oauthManager->setHandleUserAuthorization(true);
 	m_oauthManager->setHandleAuthorizationPageOpening(false);
