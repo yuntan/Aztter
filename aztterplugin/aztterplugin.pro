@@ -6,6 +6,8 @@ DESTDIR += ../lib
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 
+QMAKE_CXXFLAGS += -std=c++0x
+
 TARGET = AztterPlugin
 
 INCLUDEPATH += ../kQOAuth/src
@@ -16,8 +18,19 @@ LIBS += \
 
 HEADERS += \
 	aztterplugin.h \
-	aztteroauth.h
+	aztteroauth.h \
+	aztterkeystore.h \
+	y.h \
+	e.h \
+	k.h \
+	aztterinit.h \
+	aztterapibase.h \
+	aztterstatusupdate.h
 
 SOURCES += \
 	aztterplugin.cpp \
-	aztteroauth.cpp
+	aztteroauth.cpp \
+    aztterkeystore.cpp \
+	aztterinit.cpp \
+	aztterapibase.cpp \
+	aztterstatusupdate.cpp
