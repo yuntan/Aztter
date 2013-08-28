@@ -15,7 +15,11 @@ public:
 	explicit AztterStatusUpdate(QObject *parent = 0);
 	QString tweet();
 	void setTweet(QString &str);
-	
+
+private slots:
+	void onRequestReady(QByteArray);
+	void onAuthorizedRequestDone();
+
 private:
 	QString m_tweet;
 };
