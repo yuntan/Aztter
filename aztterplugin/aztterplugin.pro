@@ -25,7 +25,8 @@ HEADERS += \
 	k.h \
 	aztterinit.h \
 	aztterapibase.h \
-	aztterstatusupdate.h
+	aztterstatusupdate.h \
+    aztteruserstream.h
 
 SOURCES += \
 	aztterplugin.cpp \
@@ -33,4 +34,5 @@ SOURCES += \
     aztterkeystore.cpp \
 	aztterinit.cpp \
 	aztterapibase.cpp \
-	aztterstatusupdate.cpp
+	aztterstatusupdate.cpp \
+    aztteruserstream.cpp
