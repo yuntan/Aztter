@@ -3,7 +3,8 @@
 
 #include "aztterapibase.h"
 #include <QObject>
-#include <QString>
+
+class QString;
 
 class AztterStatusUpdate : public AztterAPIBase
 {

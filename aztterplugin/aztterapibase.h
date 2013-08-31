@@ -14,7 +14,7 @@ class AztterAPIBase : public QObject
 
 public:
 	explicit AztterAPIBase(QObject *parent = 0);
-	void init(KQOAuthRequest::RequestType type, const QUrl &requestEndpoint);
+	void init(KQOAuthRequest::RequestHttpMethod method, const QUrl &requestEndpoint);
 	
 protected slots:
 	virtual void onRequestReady(QByteArray) {}

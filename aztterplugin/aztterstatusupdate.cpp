@@ -1,6 +1,8 @@
 #include "aztterstatusupdate.h"
 #include <QDebug>
 
+#define TWITTER_STATUSUPDATE_URL "http://api.twitter.com/1.1/statuses/update.json"
+
 AztterStatusUpdate::AztterStatusUpdate(QObject *parent) : AztterAPIBase(parent)
 {
 }
@@ -13,7 +15,8 @@ QString AztterStatusUpdate::tweet()
 void AztterStatusUpdate::setTweet(QString &str)
 {
 	m_tweet = str;
-	init(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.twitter.com/1.1/statuses/update.json"));
+	init(KQOAuthRequest::POST, QUrl(TWITTER_STATUSUPDATE_URL));
+//	init(KQOAuthRequest::GET, QUrl("https://api.twitter.com/1.1/statuses/home_timeline.json"));
 
 	KQOAuthParameters params;
 	params.insert("status", m_tweet);

@@ -14,9 +14,10 @@ AztterAPIBase::AztterAPIBase(QObject *parent) : QObject(parent)
 			this, SLOT(onAuthorizedRequestDone()));
 }
 
-void AztterAPIBase::init(KQOAuthRequest::RequestType type, const QUrl &requestEndpoint)
+void AztterAPIBase::init(KQOAuthRequest::RequestHttpMethod method, const QUrl &requestEndpoint)
 {
-	m_oauthRequest->initRequest(type, requestEndpoint);
+	m_oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, requestEndpoint);
+	m_oauthRequest->setHttpMethod(method);
 	m_oauthRequest->setConsumerKey(AztterKeyStore::consumerKey());
 	m_oauthRequest->setConsumerSecretKey(AztterKeyStore::consumerSecretKey());
 	m_oauthRequest->setToken(m_settings->value("accounts/test/oauth_token").toString());
