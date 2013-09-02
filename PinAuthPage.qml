@@ -12,7 +12,10 @@ Page {
         id: aztterOAuth
 
         onOauthUrlChanged: authWebView.url = oauthUrl
-        onAuthorized: pageStack.push(timelineContainer)
+        onAuthorized: {
+            aztterOAuth.destroy()
+            pageStack.push(timelineContainer)
+        }
     }
 
 	ActivityIndicator {

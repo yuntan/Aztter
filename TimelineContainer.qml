@@ -4,7 +4,9 @@ import Ubuntu.Components 0.1
 Page {
 
     title: "Aztter"
-    Component.onCompleted: tweetBox.z = 10
+    Component.onCompleted: {
+        tweetBox.z = 10
+    }
 
     Timeline {
         id: homeTimeline

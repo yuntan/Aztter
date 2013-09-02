@@ -1,6 +1,8 @@
 #include "aztteruserstream.h"
 #include <QTimer>
 #include <QSslError>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDebug>
 
 #define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/1.1/user.json"
@@ -20,6 +22,7 @@ AztterUserStream::AztterUserStream(QObject *parent) : AztterAPIBase(parent)
 	connect(m_timeoutTimer, SIGNAL(timeout()), this, SLOT(replyTimeout()));
 }
 
+
 void AztterUserStream::startFetching()
 {
 	if (m_reply != 0) {
@@ -27,18 +30,6 @@ void AztterUserStream::startFetching()
 		m_reply->deleteLater();
 		m_reply = 0;
 	}
-
-//	QNetworkRequest req;
-//	req.setUrl(QUrl(TWITTER_USERSTREAM_URL));
-
-//    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(req.url(), OAuth::GET);
-//	QByteArray oauthHeader = m_oauthRequest->rawData();
-//	QByteArray oauthHeader = m_oauthRequest->requestBody();
-//	req.setRawHeader(AUTH_HEADER, oauthHeader);
-
-//    m_reply = m_oauthTwitter->networkAccessManager()->get(req);
-//	m_reply = m_oauthManager->networkManager()->get(req); // BANG!!
-//	qDebug() << "five";
 
 	init(KQOAuthRequest::GET, QUrl(TWITTER_USERSTREAM_URL));
 	m_oauthManager->executeRequest(m_oauthRequest);
@@ -49,7 +40,8 @@ void AztterUserStream::startFetching()
 	connect(m_reply, SIGNAL(finished()), this, SLOT(replyFinished()));
 	connect(m_reply, SIGNAL(finished()), m_timeoutTimer, SLOT(stop()));
 	connect(m_reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-	qDebug() << "six";
+
+	qDebug() << "stream fetching started";
 }
 
 void AztterUserStream::streamDisconnect()
@@ -60,6 +52,8 @@ void AztterUserStream::streamDisconnect()
 		m_reply->deleteLater();
 		m_reply = 0;
 	}
+
+	qDebug() << "stream disconnected";
 }
 
 void AztterUserStream::replyReadyRead()
@@ -84,10 +78,8 @@ void AztterUserStream::replyReadyRead()
 			QByteArray element = responseWithPreviousCache.mid(start, end - start);
 
 			if (!element.isEmpty()) {
-//				emit stream(element);
-//				parseStream(element);
-				qDebug() << "AztterUserStream::replyReadyRead()";
-				qDebug() << "element: " << element;
+//				qDebug() << "element: " << element;
+				emit streamReceived(element);
 			}
 		}
 

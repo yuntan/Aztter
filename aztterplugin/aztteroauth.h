@@ -16,7 +16,7 @@ class AztterOAuth : public QObject
 
 public:
 	// constractor
-    AztterOAuth(QObject *parent = 0);
+	AztterOAuth(QObject *parent = 0);
 
 	// Q_PROPERTY READ function
 	QString oauthUrl();
