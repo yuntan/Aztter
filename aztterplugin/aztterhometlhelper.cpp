@@ -21,17 +21,22 @@ void AztterHomeTLHelper::streamDisconnect()
 	m_stream->streamDisconnect();
 }
 
-QString AztterHomeTLHelper::name()
+QString AztterHomeTLHelper::name() const
 {
 	return m_name;
 }
 
-QString AztterHomeTLHelper::screenName()
+QString AztterHomeTLHelper::screenName() const
 {
 	return m_screenName;
 }
 
-QString AztterHomeTLHelper::text()
+QUrl AztterHomeTLHelper::iconSource() const
+{
+	return m_iconSource;
+}
+
+QString AztterHomeTLHelper::text() const
 {
 	return m_text;
 }
@@ -65,6 +70,7 @@ void AztterHomeTLHelper::parseTweet(const QJsonObject &jsonObj)
 	QJsonObject userObj = jsonObj["user"].toObject();
 	m_name = userObj["name"].toString();
 	m_screenName = userObj["screen_name"].toString();
+	m_iconSource = userObj["profile_image_url"].toString();
 
 	emit tweetReceived();
 }

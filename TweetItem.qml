@@ -8,6 +8,7 @@ ListItem.Empty {
 
     property alias text: textLabel.text
     property alias name: nameLabel.text
+    property alias iconSource: iconImage.source
     property alias screenName: screenNameLabel.text
 
     property alias control: controlContainer.control
@@ -38,21 +39,20 @@ ListItem.Empty {
             leftMargin: units.gu(2)
         }
 
-        property alias source: iconImage.source
-        property url fallbackSource: Qt.resolvedUrl("Aztter80.png")
-
-        Component.onCompleted: {
-            if(source == undefined || source == "")
-                source = fallbackSource
-        }
-
-        Image {
+        radius: "medium"
+        image: Image {
             id: iconImage
 
-            anchors.fill: parent
+            //            anchors.fill: parent
             fillMode: Image.PreserveAspectFit
+
+            property url fallbackSource: Qt.resolvedUrl("Aztter80.png")
+
+            Component.onCompleted: {
+                if(source == undefined || source == "")
+                    source = fallbackSource
+            }
         }
-        radius: "medium"
     }
 
     Label {
@@ -116,7 +116,7 @@ ListItem.Empty {
         }
         clip: true
 
-        fontSize: "large"
+        fontSize: "medium"
         wrapMode: Text.WordWrap
         elide: Text.ElideNone
         color: Theme.palette.normal.overlayText

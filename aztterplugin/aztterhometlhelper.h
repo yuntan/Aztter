@@ -10,6 +10,7 @@ class AztterHomeTLHelper : public QObject
 
 	Q_PROPERTY(QString name READ name)
 	Q_PROPERTY(QString screenName READ screenName)
+	Q_PROPERTY(QUrl iconSource READ iconSource)
 	Q_PROPERTY(QString text READ text)
 
 public:
@@ -17,9 +18,10 @@ public:
 	Q_INVOKABLE void startFetching();
 	Q_INVOKABLE void streamDisconnect();
 
-	QString name();
-	QString screenName();
-	QString text();
+	QString name() const;
+	QString screenName() const;
+	QUrl iconSource() const;
+	QString text() const;
 
 signals:
 	void tweetReceived();
@@ -41,6 +43,7 @@ private:
 	// tweet data
 	QString m_name;
 	QString m_screenName;
+	QUrl m_iconSource;
 	QString m_text;
 	qint64 m_deletedId;
 };

@@ -6,13 +6,14 @@ import "aztterplugin" 1.0
 Item {
     clip: true
 
-    Component.onCompleted: aztterUserStream.startFetching()
+    Component.onCompleted: helper.startFetching()
 
-    function createTweetItem(name, screenName, text) {
+    function createTweetItem(name, screenName, iconSource, text) {
         var component = Qt.createComponent("TweetItem.qml");
         var item = component.createObject(column, {
                                               name: name,
-                                              screenName: screenName,
+                                              screenName: "@" + screenName,
+                                              iconSource: iconSource,
                                               text: text
                                           });
 
@@ -23,9 +24,9 @@ Item {
     }
 
     AztterHomeTLHelper {
-        id: aztterUserStream
+        id: helper
 
-        onTweetReceived: createTweetItem(name, screenName, text)
+        onTweetReceived: createTweetItem(name, screenName, iconSource, text)
     }
 
     Flickable {
