@@ -9,10 +9,7 @@ class AztterHomeTLHelper : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(QVariantList tweet READ tweet)
-	Q_PROPERTY(QString name READ name)
-	Q_PROPERTY(QString screenName READ screenName)
-	Q_PROPERTY(QUrl iconSource READ iconSource)
-	Q_PROPERTY(QString text READ text)
+	Q_PROPERTY(qint64 deletedId READ deletedId)
 
 public:
 	explicit AztterHomeTLHelper(QObject *parent = 0);
@@ -20,10 +17,7 @@ public:
 	Q_INVOKABLE void streamDisconnect();
 
 	QVariantList tweet() const;
-	QString name() const;
-	QString screenName() const;
-	QUrl iconSource() const;
-	QString text() const;
+	qint64 deletedId() const;
 
 signals:
 	void tweetReceived();
@@ -41,13 +35,7 @@ private:
 	void parseDeleteTweet(const QJsonObject&);
 
 	AztterUserStream *m_stream;
-
-	// tweet data
 	QVariantList m_tweet;
-	QString m_name;
-	QString m_screenName;
-	QUrl m_iconSource;
-	QString m_text;
 	qint64 m_deletedId;
 };
 

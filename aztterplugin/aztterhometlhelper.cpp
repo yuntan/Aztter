@@ -9,7 +9,7 @@ AztterHomeTLHelper::AztterHomeTLHelper(QObject *parent) :
 {
 	m_stream = new AztterUserStream(this);
 	// resize m_tweet to 50
-	for(int i = 0; i < 500; i++)
+	for(int i = 0; i < 300; i++)
 		m_tweet.append(QVariant());
 
 	connect(m_stream, SIGNAL( streamReceived(QByteArray) ), this, SLOT( parseStream(QByteArray) ));
@@ -30,24 +30,9 @@ QVariantList AztterHomeTLHelper::tweet() const
 	return m_tweet;
 }
 
-QString AztterHomeTLHelper::name() const
+qint64 AztterHomeTLHelper::deletedId() const
 {
-	return m_name;
-}
-
-QString AztterHomeTLHelper::screenName() const
-{
-	return m_screenName;
-}
-
-QUrl AztterHomeTLHelper::iconSource() const
-{
-	return m_iconSource;
-}
-
-QString AztterHomeTLHelper::text() const
-{
-	return m_text;
+	return m_deletedId;
 }
 
 void AztterHomeTLHelper::parseStream(const QByteArray &data)
@@ -74,18 +59,21 @@ void AztterHomeTLHelper::parseStream(const QByteArray &data)
 
 void AztterHomeTLHelper::parseTweet(const QJsonObject &tweetObj)
 {
-	m_text = tweetObj["text"].toString();
-	m_tweet[AztterTweetEnum::TweetTextRole] = tweetObj["text"].toString();
-//	m_tweet[0] = tweetObj["text"].toString();
+	m_tweet[AztterTweetEnum::TweetId] = static_cast<qint64>(tweetObj["id"].toDouble());
+	m_tweet[AztterTweetEnum::TweetText] = tweetObj["text"].toString();
+	m_tweet[AztterTweetEnum::TweetCreatedAt] = tweetObj["created_at"].toString();
+	m_tweet[AztterTweetEnum::TweetSource] = tweetObj["source"].toString();
+
+	QString id = tweetObj["in_reply_to_status_id"].toString();
+	id == "null" ? m_tweet[AztterTweetEnum::TweetInReplyToStatusId] = id
+			: m_tweet[AztterTweetEnum::TweetInReplyToStatusId] = static_cast<qint64>(id.toDouble());
 
 	QJsonObject userObj = tweetObj["user"].toObject();
-	m_name = userObj["name"].toString();
-	m_tweet[AztterTweetEnum::UserNameRole] = userObj["name"].toString();
-//	m_tweet[1] = userObj["name"].toString();
-	m_screenName = userObj["screen_name"].toString();
-	m_tweet[AztterTweetEnum::UserScreenNameRole] = userObj["screen_name"].toString();
-	m_iconSource = userObj["profile_image_url"].toString();
-	m_tweet[AztterTweetEnum::UserProfileImageUrlRole] = userObj["profile_image_url"].toString();
+	m_tweet[AztterTweetEnum::UserId] = static_cast<qint64>(userObj["id"].toDouble());
+	m_tweet[AztterTweetEnum::UserName] = userObj["name"].toString();
+	m_tweet[AztterTweetEnum::UserScreenName] = userObj["screen_name"].toString();
+	m_tweet[AztterTweetEnum::UserProfileImageUrl] = userObj["profile_image_url"].toString();
+	m_tweet[AztterTweetEnum::UserVerified] = userObj["verified"].toBool();
 
 	emit tweetReceived();
 }
