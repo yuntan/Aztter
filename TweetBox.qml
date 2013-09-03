@@ -6,7 +6,7 @@ UbuntuShape {
     height: tweetEdit.height > postButton.height ? tweetEdit.height + units.gu(2)
                                                  : postButton.height + units.gu(2)
 
-    color: "transparent"
+    color: Qt.rgba(174/255, 167/255, 159/255, 0.3)
 
     AztterStatusUpdate {
         id: aztter

@@ -36,7 +36,7 @@ ListItem.Empty {
             top: parent.top
             topMargin: units.gu(1)
             left: parent.left
-            leftMargin: units.gu(2)
+            leftMargin: units.gu(1)
         }
 
         radius: "medium"
