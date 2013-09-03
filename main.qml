@@ -22,9 +22,7 @@ MainView {
 	PageStack {
 		id: pageStack
 
-//        Component.onCompleted: push(loadingPage)
-//        Component.onCompleted: push(pinAuthPage)
-        Component.onCompleted: push(timelineContainer)
+        Component.onCompleted: push(loadingPage)
 
 		Component {
 			id: loadingPage
