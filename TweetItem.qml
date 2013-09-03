@@ -43,7 +43,6 @@ ListItem.Empty {
         image: Image {
             id: iconImage
 
-            //            anchors.fill: parent
             fillMode: Image.PreserveAspectFit
 
             property url fallbackSource: Qt.resolvedUrl("Aztter80.png")
@@ -58,6 +57,7 @@ ListItem.Empty {
     Label {
         id: nameLabel
 
+        clip: true
         anchors {
             top: parent.top
             topMargin: profileIcon.anchors.topMargin
@@ -74,6 +74,17 @@ ListItem.Empty {
     Label {
         id: screenNameLabel
 
+        clip: true
+        width: parent.width - (profileIcon.anchors.leftMargin + profileIcon.width +
+                               nameLabel.anchors.leftMargin + nameLabel.width +
+                               screenNameLabel.anchors.leftMargin * 2 +
+                               timeLabel.width + timeLabel.anchors.rightMargin)
+               > 0 ?
+               parent.width - (profileIcon.anchors.leftMargin + profileIcon.width +
+                               nameLabel.anchors.leftMargin + nameLabel.width +
+                               screenNameLabel.anchors.leftMargin * 2 +
+                               timeLabel.width + timeLabel.anchors.rightMargin)
+               : 0
         anchors {
             left: nameLabel.right
             leftMargin: units.gu(1)

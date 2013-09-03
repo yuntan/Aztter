@@ -21,6 +21,7 @@ Page {
         id: tweetBox
 
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(1)
         width: parent.width
         z: 0
     }
