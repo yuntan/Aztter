@@ -10,7 +10,7 @@ QMAKE_CXXFLAGS += -std=c++0x
 
 TARGET = AztterPlugin
 
-INCLUDEPATH += ../kQOAuth/src
+INCLUDEPATH += ../KQOAuth/src
 
 LIBS += \
 	-L../lib \

@@ -12,11 +12,12 @@ twitter client for Ubuntu Phone
 1. git submodule init
 1. git submodule update
 1. cp testkeys.h aztterplugin/aztterkeystore.h
-1. cat aztterplugin/aztterplugin.pro | sed -e '/\ty.h/d' | sed -e '/\te.h/d' | sed -e '/\tk.h/d' | sed -e '/aztterkeystore.cpp/d' >aztterplugin/aztterplugin.pro
-1. cd kQOAuth
+1. cd KQOAuth
 1. /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 1. make
 1. cd ../aztterplugin
+1. mv aztterplugin.pro aztterplugin.pro.bac
+1. cat aztterplugin.pro.bac | sed -e '/\ty.h/d' | sed -e '/\te.h/d' | sed -e '/\tk.h/d' | sed -e '/aztterkeystore.cpp/d' >aztterplugin.pro
 1. /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 1. make
 1. cd ..

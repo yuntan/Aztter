@@ -10,8 +10,8 @@ class AztterKeyStore : public QObject
 
 public:
 	explicit AztterKeyStore(QObject *parent = 0);
-	static QString consumerKey() {return "uzf9lwFwNaHPqSafBXzyw"}
-	static QString consumerSecretKey() {return "gYwf7nVp3UtlZNv7DOaRUV251QEARqfUpPbFs"}
+	static QString consumerKey() {return "uzf9lwFwNaHPqSafBXzyw";}
+	static QString consumerSecretKey() {return "gYwf7nVp3UtlZNv7DOaRUV251QEARqfUpPbFs";}
 };
 
 #endif // AZTTERKEYSTORE_H
