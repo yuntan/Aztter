@@ -5,7 +5,7 @@ MainView {
 	id: mainView
 
     // objectName for functional testing purposes (autopilot-qt5)
-    objectName: "mainView"
+    objectName: "Aztter"
 
     // Note! applicationName needs to match the .desktop filename
     applicationName: "Aztter"
