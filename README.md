@@ -7,8 +7,8 @@ twitter client for Ubuntu Phone
 ※ if you can't build project though you do referencing it , sorry.
 
 1. git clone https://github.com/yuntan/Aztter-for-Ubuntu-Phone.git
+1. cd Aztter-for-Ubuntu-Phone
 1. git checkout v0.1
-1. cd Aztter
 1. git submodule init
 1. git submodule update
 1. cp testkeys.h aztterplugin/aztterkeystore.h
