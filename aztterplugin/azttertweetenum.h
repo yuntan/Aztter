@@ -10,12 +10,16 @@ class AztterTweetEnum : public QObject
 
 public:
 	enum Roles { //values accessed through data
-		TweetIdRole = Qt::UserRole, // 256
-		TweetTextRole,
-		UserIdRole,
-		UserNameRole,
-		UserScreenNameRole,
-		UserProfileImageUrlRole
+		TweetId = Qt::UserRole, // 256
+		TweetText,
+		TweetCreatedAt,
+		TweetSource,
+		TweetInReplyToStatusId, //
+		UserId,
+		UserName,
+		UserScreenName,
+		UserProfileImageUrl,
+		UserVerified
 	};
 };
 

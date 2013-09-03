@@ -4,12 +4,12 @@
 
 AztterTweetListModel::AztterTweetListModel(QObject *parent) : QAbstractListModel(parent)
 {
-	m_roles[AztterTweetEnum::TweetIdRole] = "tweetId";
-	m_roles[AztterTweetEnum::TweetTextRole] = "tweetText";
-	m_roles[AztterTweetEnum::UserIdRole] = "userId";
-	m_roles[AztterTweetEnum::UserNameRole] = "userName";
-	m_roles[AztterTweetEnum::UserScreenNameRole] = "userScreenName";
-	m_roles[AztterTweetEnum::UserProfileImageUrlRole] = "userProfileImageUrl";
+	m_roles[AztterTweetEnum::TweetId] = "tweetId";
+	m_roles[AztterTweetEnum::TweetText] = "tweetText";
+	m_roles[AztterTweetEnum::UserId] = "userId";
+	m_roles[AztterTweetEnum::UserName] = "userName";
+	m_roles[AztterTweetEnum::UserScreenName] = "userScreenName";
+	m_roles[AztterTweetEnum::UserProfileImageUrl] = "userProfileImageUrl";
 }
 
 QVariant AztterTweetListModel::data(const QModelIndex &index, int role) const
