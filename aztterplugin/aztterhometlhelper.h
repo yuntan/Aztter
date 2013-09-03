@@ -8,6 +8,7 @@ class AztterHomeTLHelper : public QObject
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QVariantList tweet READ tweet)
 	Q_PROPERTY(QString name READ name)
 	Q_PROPERTY(QString screenName READ screenName)
 	Q_PROPERTY(QUrl iconSource READ iconSource)
@@ -18,6 +19,7 @@ public:
 	Q_INVOKABLE void startFetching();
 	Q_INVOKABLE void streamDisconnect();
 
+	QVariantList tweet() const;
 	QString name() const;
 	QString screenName() const;
 	QUrl iconSource() const;
@@ -41,6 +43,7 @@ private:
 	AztterUserStream *m_stream;
 
 	// tweet data
+	QVariantList m_tweet;
 	QString m_name;
 	QString m_screenName;
 	QUrl m_iconSource;

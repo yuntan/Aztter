@@ -3,6 +3,8 @@
 #include "aztteroauth.h"
 #include "aztterstatusupdate.h"
 #include "aztterhometlhelper.h"
+#include "azttertweetenum.h"
+#include "azttertweetlistmodel.h"
 
 void AztterPlugin::registerTypes (const char *uri)
 {
@@ -10,4 +12,6 @@ void AztterPlugin::registerTypes (const char *uri)
 	qmlRegisterType<AztterOAuth>(uri, 1, 0, "AztterOAuth");
 	qmlRegisterType<AztterStatusUpdate>(uri, 1, 0, "AztterStatusUpdate");
 	qmlRegisterType<AztterHomeTLHelper>(uri, 1, 0, "AztterHomeTLHelper");
+	qmlRegisterType<AztterTweetEnum>(uri, 1, 0, "AztterTweetEnum");
+	qmlRegisterType<AztterTweetListModel>(uri, 1, 0, "AztterTweetListModel");
 }

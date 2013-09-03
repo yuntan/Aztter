@@ -2,11 +2,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
+#include "azttertweetenum.h"
 
 AztterHomeTLHelper::AztterHomeTLHelper(QObject *parent) :
 	QObject(parent)
 {
 	m_stream = new AztterUserStream(this);
+	// resize m_tweet to 50
+	for(int i = 0; i < 500; i++)
+		m_tweet.append(QVariant());
 
 	connect(m_stream, SIGNAL( streamReceived(QByteArray) ), this, SLOT( parseStream(QByteArray) ));
 }
@@ -19,6 +23,11 @@ void AztterHomeTLHelper::startFetching()
 void AztterHomeTLHelper::streamDisconnect()
 {
 	m_stream->streamDisconnect();
+}
+
+QVariantList AztterHomeTLHelper::tweet() const
+{
+	return m_tweet;
 }
 
 QString AztterHomeTLHelper::name() const
@@ -63,14 +72,20 @@ void AztterHomeTLHelper::parseStream(const QByteArray &data)
 	}
 }
 
-void AztterHomeTLHelper::parseTweet(const QJsonObject &jsonObj)
+void AztterHomeTLHelper::parseTweet(const QJsonObject &tweetObj)
 {
-	m_text = jsonObj["text"].toString();
+	m_text = tweetObj["text"].toString();
+	m_tweet[AztterTweetEnum::TweetTextRole] = tweetObj["text"].toString();
+//	m_tweet[0] = tweetObj["text"].toString();
 
-	QJsonObject userObj = jsonObj["user"].toObject();
+	QJsonObject userObj = tweetObj["user"].toObject();
 	m_name = userObj["name"].toString();
+	m_tweet[AztterTweetEnum::UserNameRole] = userObj["name"].toString();
+//	m_tweet[1] = userObj["name"].toString();
 	m_screenName = userObj["screen_name"].toString();
+	m_tweet[AztterTweetEnum::UserScreenNameRole] = userObj["screen_name"].toString();
 	m_iconSource = userObj["profile_image_url"].toString();
+	m_tweet[AztterTweetEnum::UserProfileImageUrlRole] = userObj["profile_image_url"].toString();
 
 	emit tweetReceived();
 }

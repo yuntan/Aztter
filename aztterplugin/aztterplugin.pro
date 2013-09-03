@@ -27,7 +27,9 @@ HEADERS += \
 	aztterapibase.h \
 	aztterstatusupdate.h \
 	aztteruserstream.h \
-    aztterhometlhelper.h
+    aztterhometlhelper.h \
+    azttertweetlistmodel.h \
+    azttertweetenum.h
 
 SOURCES += \
 	aztterplugin.cpp \
@@ -37,4 +39,5 @@ SOURCES += \
 	aztterapibase.cpp \
 	aztterstatusupdate.cpp \
 	aztteruserstream.cpp \
-    aztterhometlhelper.cpp
+    aztterhometlhelper.cpp \
+    azttertweetlistmodel.cpp
