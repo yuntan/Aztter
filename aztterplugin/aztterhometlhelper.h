@@ -8,7 +8,7 @@ class AztterHomeTLHelper : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QVariantList tweet READ tweet)
+	Q_PROPERTY(QVariantMap tweet READ tweet)
 	Q_PROPERTY(qint64 deletedId READ deletedId)
 
 public:
@@ -16,7 +16,7 @@ public:
 	Q_INVOKABLE void startFetching();
 	Q_INVOKABLE void streamDisconnect();
 
-	QVariantList tweet() const;
+	QVariantMap tweet() const;
 	qint64 deletedId() const;
 
 signals:
@@ -35,7 +35,7 @@ private:
 	void parseDeleteTweet(const QJsonObject&);
 
 	AztterUserStream *m_stream;
-	QVariantList m_tweet;
+	QVariantMap m_tweet;
 	qint64 m_deletedId;
 };
 

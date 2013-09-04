@@ -19,7 +19,23 @@ QVariant AztterTweetListModel::data(const QModelIndex &index, int role) const
 	if (index.row() < 0 || index.row() >= m_tweetList.count())
 		return QVariant();
 
-	return m_tweetList[index.row()]->at(role);
+	QVariantMap *tweet = m_tweetList[index.row()];
+	switch (role) {
+	case AztterTweetEnum::TweetId :
+		return tweet->value("TweetId");
+	case AztterTweetEnum::TweetText :
+		return tweet->value("TweetText");
+	case AztterTweetEnum::UserId :
+		return tweet->value("UserId");
+	case AztterTweetEnum::UserName :
+		return tweet->value("UserName");
+	case AztterTweetEnum::UserScreenName :
+		return tweet->value("UserScreenName");
+	case AztterTweetEnum::UserProfileImageUrl :
+		return tweet->value("UserProfileImageUrl");
+	default:
+		return QVariant();
+	}
 }
 
 QHash<int, QByteArray> AztterTweetListModel::roleNames() const
@@ -38,10 +54,10 @@ qint32 AztterTweetListModel::count() const
 	return m_tweetList.count();
 }
 
-void AztterTweetListModel::prepend(const QVariantList &tweet)
+void AztterTweetListModel::prepend(const QVariantMap &tweet)
 {
 	beginInsertRows(QModelIndex(), 0, 0);
-	m_tweetList.prepend(new QVariantList(tweet));
+	m_tweetList.prepend(new QVariantMap(tweet));
 	endInsertRows();
 	emit countChanged();
 }
@@ -54,7 +70,7 @@ void AztterTweetListModel::remove(int index)
 	emit countChanged();
 }
 
-QVariantList* AztterTweetListModel::get(int index) const
+QVariantMap* AztterTweetListModel::get(int index) const
 {
 	if(index < 0 || index >= m_tweetList.count())
 		return 0;

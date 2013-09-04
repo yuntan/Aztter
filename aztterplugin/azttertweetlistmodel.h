@@ -21,12 +21,12 @@ signals:
 	void countChanged();
 
 public slots:
-	void prepend(const QVariantList &tweet);
+	void prepend(const QVariantMap &tweet);
 	void remove(int index);
-	QVariantList *get(int index) const; // returns AztterTweet*
+	QVariantMap *get(int index) const;
 
 private:
-	QList<QVariantList*> m_tweetList;
+	QList<QVariantMap*> m_tweetList;
 	QHash<int, QByteArray> m_roles;
 };
 
