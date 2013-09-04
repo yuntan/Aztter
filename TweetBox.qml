@@ -6,10 +6,52 @@ UbuntuShape {
     height: tweetEdit.height > postButton.height ? tweetEdit.height + units.gu(2)
                                                  : postButton.height + units.gu(2)
 
-    color: Qt.rgba(174/255, 167/255, 159/255, 0.3)
+    color: Qt.rgba(174/255, 167/255, 159/255, 0.7)
+
+    property string tmpText
 
     AztterStatusUpdate {
         id: aztter
+
+        onStatusChanged: {
+            animTimer.stop();
+            switch(status) {
+            case AztterStatusUpdate.Success:
+                tweetEdit.text = i18n.tr("Tweet sent!");
+                tmpText = "";
+                break;
+            default:
+                tweetEdit.text = i18n.tr("Error occured!");
+                break;
+            }
+            messageTimer.start();
+        }
+    }
+
+    Timer {
+        id: messageTimer
+
+        interval: 3000
+        onTriggered: {
+            tweetEdit.text = tmpText;
+            tweetEdit.enabled = true;
+        }
+    }
+
+    Timer {
+        id: animTimer
+
+        property int i: 0
+        interval: 500
+        repeat: true
+        triggeredOnStart: true
+
+        onTriggered: {
+            tweetEdit.text = i18n.tr("Sending") + ".";
+            for(var j = 0; j < i%3; j++)
+                tweetEdit.text += ".";
+            i++;
+        }
     }
 
     TextArea {
@@ -31,6 +73,11 @@ UbuntuShape {
         anchors.right: parent.right
 
         text: i18n.tr("Post")
-        onClicked: aztter.tweet = tweetEdit.text
+        onClicked: {
+            tweetEdit.enabled = false;
+            tmpText = tweetEdit.text;
+            animTimer.start();
+            aztter.tweet(tmpText);
+        }
     }
 }

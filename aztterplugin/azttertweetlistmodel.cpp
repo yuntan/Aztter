@@ -14,7 +14,7 @@ AztterTweetListModel::AztterTweetListModel(QObject *parent) : QAbstractListModel
 
 QVariant AztterTweetListModel::data(const QModelIndex &index, int role) const
 {
-	qDebug() << "AztterTweetListModel::data" << index.row() << role;
+//	qDebug() << "AztterTweetListModel::data" << index.row() << role;
 
 	if (index.row() < 0 || index.row() >= m_tweetList.count())
 		return QVariant();

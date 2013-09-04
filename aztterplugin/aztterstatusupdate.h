@@ -9,20 +9,35 @@ class QString;
 class AztterStatusUpdate : public AztterAPIBase
 {
 	Q_OBJECT
+	Q_ENUMS(Status)
 
-	Q_PROPERTY(QString tweet READ tweet WRITE setTweet)
+	Q_PROPERTY(Status status READ status NOTIFY statusChanged)
 
 public:
 	explicit AztterStatusUpdate(QObject *parent = 0);
-	QString tweet();
-	void setTweet(QString &str);
+
+	enum Status {
+		Success = Qt::UserRole,
+		RateLimitExceeded, // code 88
+		OverCapacity, // code 130
+		InternalError, // code 131
+		TimeInvalid, // code 135
+		Duplicate, // code 187
+		Unknown
+	};
+
+	Q_INVOKABLE void tweet(QString);
+	Status status();
+
+signals:
+	void statusChanged();
 
 private slots:
 	void onRequestReady(QByteArray);
 	void onAuthorizedRequestDone();
 
 private:
-	QString m_tweet;
+	Status m_status;
 };
 
 #endif // AZTTERSTATUSUPDATE_H
