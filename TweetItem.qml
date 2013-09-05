@@ -94,7 +94,7 @@ ListItem.Empty {
         fontSize: "small"
         maximumLineCount: 1
         elide: Text.ElideRight
-        color: Theme.palette.normal.backgroundText
+        color: Theme.palette.normal.overlayText
     }
 
     Label {
