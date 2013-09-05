@@ -2,11 +2,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "aztterplugin" 1.0
 
-UbuntuShape {
-    height: tweetEdit.height > postButton.height ? tweetEdit.height + units.gu(2)
-                                                 : postButton.height + units.gu(2)
-
-    color: Qt.rgba(174/255, 167/255, 159/255, 0.5)
+Item {
+    height: tweetEdit.height + units.gu(2)
 
     property string tmpText
 
@@ -57,12 +54,27 @@ UbuntuShape {
     TextArea {
         id: tweetEdit
 
+        Component.onCompleted: postButton.height = height
+
         anchors.margins: units.gu(1)
         anchors.left: parent.left
         anchors.right: postButton.left
         anchors.bottom: parent.bottom
 
         autoSize: true
+
+        onTextChanged: {
+            if(length >= 110){
+                if(length >= 140){
+                    // TODO: change color
+                } else if(length >= 130){
+                    // TODO: change color
+                }
+                postButton.text = 140 - length
+            } else {
+                postButton.text = i18n.tr("Post")
+            }
+        }
     }
 
     Button {
