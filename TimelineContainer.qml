@@ -22,6 +22,7 @@ Page {
         listView = component.createObject(timelineContainer,
                                           {"anchors.fill": timelineContainer, "z": 12});
         flickable = listView;
+        scrollBar.flickableItem = listView;
         currentIndex = index;
     }
 
@@ -51,15 +52,26 @@ Page {
         id: scrollBar
 
         z: 20
-        flickableItem: listView
     }
 
-    Image {
-        id: wallPaper
+//    Component {
+//        id: wallpaperComponent
 
-        z: 0
-        anchors.fill: parent
-        source: Qt.resolvedUrl("wallpaper")
-        fillMode: Image.PreserveAspectCrop
-    }
+        Image {
+            id: wallpaper
+
+            z: 0
+            anchors.fill: parent
+            source: "wallpaper"
+            fillMode: Image.PreserveAspectCrop
+        }
+
+        Rectangle {
+            id: filter
+
+            z: 1
+            anchors.fill: parent
+            color: Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
+        }
+//    }
 }
