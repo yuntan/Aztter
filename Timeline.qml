@@ -4,17 +4,17 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import "aztterplugin" 1.0
 
 ListView {
-    clip: true
+    id: homeTLView
 
-    Component.onCompleted: helper.startFetching()
-
-    model: listModel
-    delegate: TweetItem {
-        text: tweetText
-        name: userName
-        screenName: "@" + userScreenName
-        iconSource: userProfileImageUrl
+    function loadStart() {
+        helper.startFetching();
     }
+    function loadStop() {
+        helper.streamDisconnect();
+    }
+
+    clip: true
+    Component.onCompleted: helper.startFetching()
 
     AztterHomeTLHelper {
         id: helper
@@ -25,7 +25,11 @@ ListView {
         id: listModel
     }
 
-    Scrollbar {
-        flickableItem: parent
+    model: listModel
+    delegate: TweetItem {
+        text: tweetText
+        name: userName
+        screenName: "@" + userScreenName
+        iconSource: userProfileImageUrl
     }
 }
