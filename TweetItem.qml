@@ -24,7 +24,7 @@ ListItem.Empty {
 
         visible: tweetItem.swipingState === "" ? control && __controlAreaPressed : false
         anchors.fill: parent
-        color: Theme.palette.selected.background
+        color: Theme.palette.selected.base
     }
 
     UbuntuShape {
@@ -43,7 +43,7 @@ ListItem.Empty {
         image: Image {
             id: iconImage
 
-            fillMode: Image.PreserveAspectFit
+            fillMode: Image.PreserveAspectCrop
 
             property url fallbackSource: Qt.resolvedUrl("Aztter80.png")
 
@@ -67,7 +67,7 @@ ListItem.Empty {
 
         maximumLineCount: 1
         elide: Text.ElideRight
-        color: Theme.palette.normal.overlayText
+        color: Theme.palette.normal.baseText
         font.bold: true
     }
 
@@ -109,7 +109,7 @@ ListItem.Empty {
         text: "time"
         fontSize: "small"
         elide: Text.ElideNone
-        color: Theme.palette.normal.backgroundText
+        color: Theme.palette.normal.overlayText
 
     }
 
@@ -130,7 +130,7 @@ ListItem.Empty {
         fontSize: "medium"
         wrapMode: Text.WordWrap
         elide: Text.ElideNone
-        color: Theme.palette.normal.overlayText
+        color: Theme.palette.normal.foregroundText
     }
 
     Item {

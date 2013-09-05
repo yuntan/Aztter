@@ -6,7 +6,7 @@ UbuntuShape {
     height: tweetEdit.height > postButton.height ? tweetEdit.height + units.gu(2)
                                                  : postButton.height + units.gu(2)
 
-    color: Qt.rgba(174/255, 167/255, 159/255, 0.7)
+    color: Qt.rgba(174/255, 167/255, 159/255, 0.5)
 
     property string tmpText
 
