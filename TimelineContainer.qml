@@ -54,6 +54,12 @@ Page {
         flickableItem: listView
     }
 
+    Image {
+        id: wallPaper
+
         z: 0
+        anchors.fill: parent
+        source: Qt.resolvedUrl("wallpaper")
+        fillMode: Image.PreserveAspectCrop
     }
 }
