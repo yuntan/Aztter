@@ -6,6 +6,11 @@ AztterTweetListModel::AztterTweetListModel(QObject *parent) : QAbstractListModel
 {
 	m_roles[AztterTweetEnum::TweetId] = "tweetId";
 	m_roles[AztterTweetEnum::TweetText] = "tweetText";
+	m_roles[AztterTweetEnum::TweetInReplyToStatusId] = "tweetInReplyToStatusId";
+	m_roles[AztterTweetEnum::TweetCreatedAt] = "tweetCreatedAt";
+	m_roles[AztterTweetEnum::TweetSource] = "tweetSource";
+	m_roles[AztterTweetEnum::TweetFavorited] = "tweetFavorited";
+	m_roles[AztterTweetEnum::TweetRetweeted] = "tweetRetweeted";
 	m_roles[AztterTweetEnum::UserId] = "userId";
 	m_roles[AztterTweetEnum::UserName] = "userName";
 	m_roles[AztterTweetEnum::UserScreenName] = "userScreenName";
@@ -25,6 +30,16 @@ QVariant AztterTweetListModel::data(const QModelIndex &index, int role) const
 		return tweet->value("TweetId");
 	case AztterTweetEnum::TweetText :
 		return tweet->value("TweetText");
+	case AztterTweetEnum::TweetInReplyToStatusId :
+		return tweet->value("TweetInReplyToStatusId");
+	case AztterTweetEnum::TweetCreatedAt :
+		return tweet->value("TweetCreatedAt");
+	case AztterTweetEnum::TweetSource :
+		return tweet->value("TweetSource");
+	case AztterTweetEnum::TweetFavorited :
+		return tweet->value("TweetFavorited");
+	case AztterTweetEnum::TweetRetweeted :
+		return tweet->value("TweetRetweeted");
 	case AztterTweetEnum::UserId :
 		return tweet->value("UserId");
 	case AztterTweetEnum::UserName :
@@ -62,12 +77,27 @@ void AztterTweetListModel::prepend(const QVariantMap &tweet)
 	emit countChanged();
 }
 
-void AztterTweetListModel::remove(int index)
+void AztterTweetListModel::remove(const qint64 tweetId)
 {
-	beginRemoveRows(QModelIndex(), index, index);
-	delete m_tweetList.takeAt(index);
-	endRemoveRows();
-	emit countChanged();
+	for(int i = 0; i < m_tweetList.count(); i++) {
+		if(m_tweetList[i]->value("TweetId") == tweetId) {
+			beginRemoveRows(QModelIndex(), i, i);
+			delete m_tweetList.takeAt(i);
+			endRemoveRows();
+			emit countChanged();
+			return;
+		}
+	}
+}
+
+void AztterTweetListModel::changeFav(const qint64 tweetId, const bool fav)
+{
+	for(int i = 0; i < m_tweetList.count(); i++) {
+		if(m_tweetList[i]->value("TweetId") == tweetId) {
+			// TODO check
+			m_tweetList[i]->insert("TweetFavorited", fav);
+		}
+	}
 }
 
 QVariantMap* AztterTweetListModel::get(int index) const

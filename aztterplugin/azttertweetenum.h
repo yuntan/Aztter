@@ -14,7 +14,9 @@ public:
 		TweetText,
 		TweetCreatedAt,
 		TweetSource,
-		TweetInReplyToStatusId, //
+		TweetInReplyToStatusId,
+		TweetFavorited,
+		TweetRetweeted,
 		UserId,
 		UserName,
 		UserScreenName,

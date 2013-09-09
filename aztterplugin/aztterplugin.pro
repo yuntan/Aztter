@@ -30,7 +30,8 @@ HEADERS += \
     aztterhometlhelper.h \
     azttertweetlistmodel.h \
     azttertweetenum.h \
-    aztterloadingpagehelper.h
+    aztterloadingpagehelper.h \
+    aztterfav.h
 
 SOURCES += \
 	aztterplugin.cpp \
@@ -42,4 +43,5 @@ SOURCES += \
 	aztteruserstream.cpp \
     aztterhometlhelper.cpp \
     azttertweetlistmodel.cpp \
-    aztterloadingpagehelper.cpp
+    aztterloadingpagehelper.cpp \
+    aztterfav.cpp

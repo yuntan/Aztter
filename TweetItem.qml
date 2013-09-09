@@ -7,6 +7,7 @@ Empty {
 
     property alias text: textLabel.text
     property alias name: nameLabel.text
+//    property alias fav:
     property alias iconSource: iconImage.source
     property alias screenName: screenNameLabel.text
 
@@ -17,6 +18,16 @@ Empty {
     width: parent.width
     height: Math.max(profileIcon.height + profileIcon.anchors.topMargin * 2,
                      nameLabel.anchors.topMargin + nameLabel.height + textLabel.height + textLabel.anchors.bottomMargin)
+
+    draggable: true
+
+    onItemSwipedLeft: {
+        console.log("Item swiped to left")
+    }
+    onItemSwipedRight: {
+        console.log("Item swiped to right")
+        closeIndicator()
+    }
 
     Rectangle {
         id: controlHighlight

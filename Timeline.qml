@@ -19,6 +19,8 @@ ListView {
     AztterHomeTLHelper {
         id: helper
         onTweetReceived: listModel.prepend(tweet)
+        onTweetDeleted: listModel.remove(tweetId)
+        onFavChanged: listModel.changeFav(tweetId, fav)
     }
 
     AztterTweetListModel {
@@ -31,5 +33,8 @@ ListView {
         name: userName
         screenName: "@" + userScreenName
         iconSource: userProfileImageUrl
+
+        onItemSwipedLeft: helper.fav(tweetId)
+        onItemSwipedRight: helper.rt(tweetText, userScreenName)
     }
 }

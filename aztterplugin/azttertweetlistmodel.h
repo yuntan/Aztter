@@ -22,7 +22,8 @@ signals:
 
 public slots:
 	void prepend(const QVariantMap &tweet);
-	void remove(int index);
+	void remove(const qint64 tweetId);
+	void changeFav(const qint64 tweetId, const bool fav);
 	QVariantMap *get(int index) const;
 
 private:

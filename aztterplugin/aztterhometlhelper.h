@@ -2,31 +2,40 @@
 #define AZTTERHOMETLHELPER_H
 
 #include <QObject>
-#include "aztteruserstream.h"
+#include <QVariantMap>
+
+class AztterUserStream;
+class AztterFav;
+class AztterStatusUpdate;
 
 class AztterHomeTLHelper : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QVariantMap tweet READ tweet)
-	Q_PROPERTY(qint64 deletedId READ deletedId)
-
 public:
 	explicit AztterHomeTLHelper(QObject *parent = 0);
+	~AztterHomeTLHelper();
+
+	// AztterUserStream
 	Q_INVOKABLE void startFetching();
 	Q_INVOKABLE void streamDisconnect();
-
-	QVariantMap tweet() const;
-	qint64 deletedId() const;
+	// AztterFavRT
+	Q_INVOKABLE void fav(const qint64 tweetId);
+	Q_INVOKABLE void unfav(const qint64 tweetId);
+	Q_INVOKABLE void rt(const QString tweetText, const QString userScreenName);
+	Q_INVOKABLE void favrt(const qint64 tweetId, const QString tweetText, const QString userScreenName);
 
 signals:
-	void tweetReceived();
+	void tweetReceived(QVariantMap tweet);
 	void friendsListReceived();
 	void directMessageReceived();
-	void tweetDeleted();
+	void tweetDeleted(qint64 tweetId);
+	void favChanged(qint64 tweetId, bool favorited);
 
 private slots:
 	void parseStream(const QByteArray&);
+	void onFinished(const qint64 tweetId, const bool fav);
+//	void onFinished(AztterAPIBase::Status);
 
 private:
 	void parseTweet(const QJsonObject&);
@@ -35,8 +44,9 @@ private:
 	void parseDeleteTweet(const QJsonObject&);
 
 	AztterUserStream *m_stream;
+	AztterFav *m_fav;
+	AztterStatusUpdate *m_statusUpdate;
 	QVariantMap m_tweet;
-	qint64 m_deletedId;
 };
 
 #endif // AZTTERHOMETLHELPER_H

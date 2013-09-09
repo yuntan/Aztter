@@ -5,6 +5,10 @@
 #include <QUrl>
 #include <QSettings>
 #include <QByteArray>
+#include <QVariantMap>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include "kqoauthmanager.h"
 #include "kqoauthrequest.h"
 
