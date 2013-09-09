@@ -57,7 +57,7 @@ import Ubuntu.Components.ListItems 0.1
 
                  delegate: ListItem.Empty {
                     height: units.gu(6)
-                    removable: true
+                    draggable: true
                     onItemRemoved: contactModel.remove(index)
                     Text {
                         text: name + " " + number
@@ -91,9 +91,9 @@ AbstractButton {
 
     /*!
       \preliminary
-      Defines if this item can be removed or not.
+      Defines if this item can be dragged or not.
      */
-    property bool removable: false
+    property bool draggable: false
 
     /*!
       \preliminary
@@ -108,6 +108,18 @@ AbstractButton {
       This handler is called when the item is removed from the list
      */
     signal itemRemoved
+
+    /*!
+      \preliminary
+      This handler is called when the item is swiped to left
+     */
+    signal itemSwipedLeft
+
+    /*!
+      \preliminary
+      This handler is called when the item is swiped to right
+     */
+    signal itemSwipedRight
 
     /*!
       \internal
@@ -156,11 +168,19 @@ AbstractButton {
     property real __contentsMargins: units.gu(2)
 
     width: parent ? parent.width : units.gu(31)
-    implicitHeight: priv.removed ? 0 : __height + bottomDividerLine.height
+    implicitHeight: priv.swiped ? 0 : __height + bottomDividerLine.height
     __mouseArea.drag.axis: Drag.XAxis
 
     // Keep compatible with the old version
     height: implicitHeight
+
+    /*! \preliminary
+        move body to default position and close backgroundIndicator
+    */
+    function closeIndicator() {
+        if(Math.abs(body.x) >= emptyListItem.width)
+            revertItemAnimation.start()
+    }
 
     /*! \internal */
     QtObject {
@@ -172,9 +192,9 @@ AbstractButton {
         readonly property int mouseMoveOffset: units.gu(1)
 
         /*! \internal
-          Defines the offset limit to consider the item removed
+          Defines the offset limit to consider the item swiped
          */
-        readonly property int itemMoveOffset: width * 0.3
+        readonly property int itemMoveOffset: width * 0.5
 
         /*! \internal
           Defines the inital pressed possition
@@ -187,14 +207,14 @@ AbstractButton {
         property bool held: false
 
         /*! \internal
-          Defines if the item should be removed after the animation or not
+          Defines if the item should be swiped after the animation or not
          */
-        property bool removeItem: false
+        property bool swipeItem: false
 
         /*! \internal
-          Defines if the item was removed or not
+          Defines if the item was swiped or not
          */
-        property bool removed: false
+        property bool swiped: false
 
         /*! \internal
             notify the start of the drag operation
@@ -214,7 +234,7 @@ AbstractButton {
             pressedPosition = -1
             __mouseArea.drag.target = null
             held = false
-            removeItem = false
+            swipeItem = false
             backgroundIndicator.state = ""
         }
 
@@ -222,20 +242,20 @@ AbstractButton {
            Commit the necessary changes to remove or not the item based on the mouse final position
         */
         function commitDrag() {
-            if (removeItem) {
-                removeItemAnimation.start()
+            if (swipeItem) {
+                swipeItemAnimation.start()
             } else {
                 resetDrag()
             }
         }
 
         /*! \internal
-            notify the releaso of the mouse button and the end of the drag operation
+            notify the release of the mouse button and the end of the drag operation
         */
         function endDrag() {
             if (Math.abs(body.x) < itemMoveOffset && held == true) {
                 held = false
-                removeItem = false
+                swipeItem = false
                 if (body.x == 0) {
                     resetDrag()
                 } else {
@@ -243,7 +263,7 @@ AbstractButton {
                 }
             } else if (held == true) {
                 held = false
-                removeItem = true
+                swipeItem = true
                 if (body.x > 0) {
                     body.x = body.width
                 } else {
@@ -256,7 +276,7 @@ AbstractButton {
     ThinDivider {
         id: bottomDividerLine
         anchors.bottom: parent.bottom
-        visible: showDivider && !priv.removed
+        visible: showDivider
     }
 
     Item {
@@ -344,7 +364,7 @@ AbstractButton {
     }
 
     SequentialAnimation {
-        id: removeItemAnimation
+        id: swipeItemAnimation
 
         running: false
         UbuntuNumberAnimation {
@@ -354,15 +374,34 @@ AbstractButton {
         }
         ScriptAction {
              script: {
-                 priv.removed = true
-                 itemRemoved()
+                 priv.swiped = true
+                 if(body.x < 0)
+                     itemSwipedLeft()
+                 else
+                     itemSwipedRight()
                  priv.resetDrag()
              }
         }
     }
 
+    SequentialAnimation {
+        id: revertItemAnimation
+
+        running: false
+        UbuntuNumberAnimation {
+            target: body
+            property: "x"
+            to: 0
+        }
+        ScriptAction {
+             script: {
+                 priv.swiped = false
+             }
+        }
+    }
+
     Connections {
-        target: (emptyListItem.removable) ? __mouseArea : null
+        target: (emptyListItem.draggable) ? __mouseArea : null
 
         onPressed: {
             priv.pressedPosition = mouse.x
