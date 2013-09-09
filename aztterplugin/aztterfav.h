@@ -13,7 +13,7 @@ public:
 	void unfav(qint64 tweetId);
 
 signals:
-	void finished(bool success, qint64 tweetId, bool favorited);
+	void finished(qint64 tweetId, bool favorited);
 
 private:
 	void onRequestReady(QByteArray);

@@ -7,7 +7,7 @@ Empty {
 
     property alias text: textLabel.text
     property alias name: nameLabel.text
-//    property alias fav:
+    property alias fav: favIndicator.visible
     property alias iconSource: iconImage.source
     property alias screenName: screenNameLabel.text
 
@@ -16,17 +16,17 @@ Empty {
     property bool __controlAreaPressed: false
 
     width: parent.width
-    height: Math.max(profileIcon.height + profileIcon.anchors.topMargin * 2,
-                     nameLabel.anchors.topMargin + nameLabel.height + textLabel.height + textLabel.anchors.bottomMargin)
+    height: Math.max(profileIcon.anchors.topMargin + profileIcon.height, nameLabel.anchors.topMargin + nameLabel.height + textLabel.height) + timeLabel.height + units.gu(1)
 
     draggable: true
 
     onItemSwipedLeft: {
-        console.log("Item swiped to left")
+        console.log("Item swiped to left");
+        closeIndicator();
     }
     onItemSwipedRight: {
-        console.log("Item swiped to right")
-        closeIndicator()
+        console.log("Item swiped to right");
+        closeIndicator();
     }
 
     Rectangle {
@@ -107,40 +107,56 @@ Empty {
         color: Theme.palette.normal.overlayText
     }
 
+    Image {
+        id: favIndicator
+
+        width: units.gu(2)
+        height: width
+        anchors {
+            top: parent.top
+            topMargin: units.gu(1)
+            right: parent.right
+            rightMargin: profileIcon.anchors.leftMargin
+        }
+
+        source: "img/star.png"
+        fillMode: Image.PreserveAspectCrop
+    }
+
+    Label {
+        id: textLabel
+
+        clip: true
+        height: contentHeight
+        anchors {
+            top: nameLabel.bottom
+            left: profileIcon.right
+            leftMargin: nameLabel.anchors.leftMargin
+            right: parent.right
+            rightMargin: profileIcon.anchors.leftMargin
+        }
+
+        fontSize: "medium"
+        wrapMode: Text.WordWrap
+        elide: Text.ElideNone
+        color: Theme.palette.normal.foregroundText
+    }
+
     Label {
         id: timeLabel
 
         anchors {
-            bottom: nameLabel.bottom
-            right: parent.right
-            rightMargin: profileIcon.anchors.leftMargin
+            top: profileIcon.y + profileIcon.height > textLabel.y + textLabel.height
+                 ? profileIcon.bottom
+                 : textLabel.bottom
+            left: profileIcon.right
+            leftMargin: nameLabel.anchors.leftMargin
         }
 
         text: "time"
         fontSize: "small"
         elide: Text.ElideNone
         color: Theme.palette.normal.overlayText
-
-    }
-
-    Label {
-        id: textLabel
-
-        height: contentHeight
-        anchors {
-            top: nameLabel.bottom
-            bottomMargin: units.gu(1)
-            left: profileIcon.right
-            leftMargin: nameLabel.anchors.leftMargin
-            right: parent.right
-            rightMargin: profileIcon.anchors.leftMargin
-        }
-        clip: true
-
-        fontSize: "medium"
-        wrapMode: Text.WordWrap
-        elide: Text.ElideNone
-        color: Theme.palette.normal.foregroundText
     }
 
     Item {

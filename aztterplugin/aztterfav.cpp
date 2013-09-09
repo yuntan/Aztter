@@ -39,12 +39,12 @@ void AztterFav::onRequestReady(QByteArray response)
 			qDebug() << "error received";
 			qDebug() << "code:" << errorObj["code"].toDouble() <<
 						"message:" << errorObj["message"].toString();
-			emit finished(false, 0, false);
+//			emit finished(Status);
 		} else if(jsonObj.contains("text")){
 			qDebug() << "success";
 			qint64 tweetId = static_cast<qint64>(jsonObj["id"].toDouble());
 			bool fav = jsonObj["favorited"].toBool();
-			emit finished(true, tweetId, fav);
+			emit finished(tweetId, fav);
 		}
 	}
 }

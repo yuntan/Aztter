@@ -94,8 +94,16 @@ void AztterTweetListModel::changeFav(const qint64 tweetId, const bool fav)
 {
 	for(int i = 0; i < m_tweetList.count(); i++) {
 		if(m_tweetList[i]->value("TweetId") == tweetId) {
-			// TODO check
-			m_tweetList[i]->insert("TweetFavorited", fav);
+			qDebug() << "changeFav";
+			QVariantMap tweet = *(m_tweetList[i]);
+			tweet.insert("TweetFavorited", fav);
+			beginRemoveRows(QModelIndex(), i, i);
+			delete m_tweetList.takeAt(i);
+			endRemoveRows();
+			beginInsertRows(QModelIndex(), i, i);
+			m_tweetList.insert(i, new QVariantMap(tweet));
+			endInsertRows();
+			return;
 		}
 	}
 }
