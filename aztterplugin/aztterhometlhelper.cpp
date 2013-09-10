@@ -17,6 +17,8 @@
 #include "aztterhometlhelper.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QDateTime>
+#include <QStringList>
 #include <QDebug>
 #include "azttertweetenum.h"
 #include "aztteruserstream.h"
@@ -83,10 +85,11 @@ void AztterHomeTLHelper::parseStream(const QByteArray &data)
 }
 
 void AztterHomeTLHelper::parseTweet(const QJsonObject &tweetObj)
-{ // Do not forget overwrite!!
+{ // Do not forget to overwrite!!
+//	qDebug() << "tweetObj:" << tweetObj;
 	m_tweet["TweetId"] = static_cast<qint64>(tweetObj["id"].toDouble());
 	m_tweet["TweetText"] = tweetObj["text"].toString();
-	m_tweet["TweetCreatedAt"] = tweetObj["created_at"].toString();
+	m_tweet["TweetCreatedAt"] = parseCreatedAt(tweetObj["created_at"].toString());
 	m_tweet["TweetSource"] = tweetObj["source"].toString();
 	m_tweet["TweetFavorited"] = tweetObj["favorited"].toBool();
 	m_tweet["TweetRetweeted"] = tweetObj["retweeted"].toBool();
@@ -125,4 +128,35 @@ void AztterHomeTLHelper::parseDeleteTweet(const QJsonObject &jsonObj)
 	QJsonObject statusJson = deleteStatusJson["status"].toObject();
 
 	emit tweetDeleted( static_cast<qint64>(statusJson["id"].toDouble()) );
+}
+
+// QDateTime and QDate uses system local month name so they don't work well on
+// non English environment
+QDateTime AztterHomeTLHelper::parseCreatedAt(const QString &str)
+{
+	/*
+	 * twitter return string created_at like this
+	 * "Tue Sep 10 04:41:30 +0000 2013"
+	 *   0   1   2     3      4     5
+	 */
+	QStringList strList = str.split(" ");
+	int month;
+	QMap<QString, int> monthMap;
+	monthMap["Jan"] = 1;
+	monthMap["Feb"] = 2;
+	monthMap["Mar"] = 3;
+	monthMap["Apr"] = 4;
+	monthMap["May"] = 5;
+	monthMap["Jun"] = 6;
+	monthMap["Jul"] = 7;
+	monthMap["Aug"] = 8;
+	monthMap["Sep"] = 9;
+	monthMap["Oct"] = 10;
+	monthMap["Nov"] = 11;
+	monthMap["Dec"] = 12;
+	month = monthMap[strList[1]];
+	QDate date(strList[5].toInt(), month, strList[2].toInt());
+	QTime time = QTime::fromString(strList[3], "hh:mm:ss");
+	QDateTime dateTime(date, time, Qt::UTC); // twitter returns UTC time
+	return dateTime.toLocalTime();
 }

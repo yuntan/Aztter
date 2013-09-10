@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QVariantMap>
 
+class QDateTime;
 class AztterUserStream;
 class AztterFav;
 class AztterStatusUpdate;
@@ -58,6 +59,7 @@ private:
 	void parseFriendsList(const QJsonObject&);
 	void parseDirectMessage(const QJsonObject&);
 	void parseDeleteTweet(const QJsonObject&);
+	QDateTime parseCreatedAt(const QString&);
 
 	AztterUserStream *m_stream;
 	AztterFav *m_fav;

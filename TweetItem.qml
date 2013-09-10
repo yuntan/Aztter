@@ -26,6 +26,7 @@ Empty {
     property alias fav: favIndicator.visible
     property alias iconSource: iconImage.source
     property alias screenName: screenNameLabel.text
+    property alias createdAt: timeLabel.createdAt
 
     property alias control: controlContainer.control
     __acceptEvents: false
@@ -163,6 +164,8 @@ Empty {
     Label {
         id: timeLabel
 
+        property date createdAt
+
         anchors {
             top: profileIcon.y + profileIcon.height > textLabel.y + textLabel.height
                  ? profileIcon.bottom
@@ -171,7 +174,20 @@ Empty {
             leftMargin: nameLabel.anchors.leftMargin
         }
 
-        text: "time"
+        text: {
+            // FIXME
+            var now = new Date();
+            if(now.getDate() - createdAt.getDate() > 0)
+                return (now.getDate() - createdAt.getDate()) + i18n.tr(" days ago");
+            if(now.getHours() - createdAt.getHours() > 0)
+                return (now.getHours() - createdAt.getHours()) + i18n.tr(" hours ago");
+            if(now.getMinutes() - createdAt.getMinutes() > 0)
+                return (now.getMinutes() - createdAt.getMinutes()) + i18n.tr(" minutes ago");
+            if(now.getSeconds() - createdAt.getSeconds() > 10)
+                return (now.getSeconds() - createdAt.getSeconds()) + i18n.tr(" seconds ago");
+            return i18n.tr("Just now");
+        }
+
         fontSize: "small"
         elide: Text.ElideNone
         color: Theme.palette.normal.overlayText
