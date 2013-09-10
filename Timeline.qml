@@ -37,5 +37,7 @@ ListView {
 
         onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
         onItemSwipedRight: helper.rt(tweetText, userScreenName)
+        onClicked: console.log("tweetItem clicked!")
+        onProfileIconClicked: console.log("profileIcon clicked!")
     }
 }

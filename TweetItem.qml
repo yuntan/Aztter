@@ -15,6 +15,8 @@ Empty {
     __acceptEvents: false
     property bool __controlAreaPressed: false
 
+    signal profileIconClicked()
+
     width: parent.width
     height: Math.max(profileIcon.anchors.topMargin + profileIcon.height, nameLabel.anchors.topMargin + nameLabel.height + textLabel.height) + timeLabel.height + units.gu(1)
 
@@ -164,13 +166,6 @@ Empty {
         property Item control
         // use the width of the control if there is (possibly elided) text,
         // or full width available if there is no text.
-//        width: control ? control.width : undefined
-//        height: control ? control.height : undefined
-//        anchors {
-//            right: parent.right
-////            rightMargin: tweetItem.__contentsMargins
-//            verticalCenter: parent.verticalCenter
-//        }
         anchors.fill: parent
         onControlChanged: {
             if (control) control.parent = controlContainer;
@@ -180,10 +175,12 @@ Empty {
             target: tweetItem.__mouseArea
 
             onClicked: {
-//                if (control && __mouseArea.mouseX < progressionHelper.x) {
-                if (control) {
-                    if (control.enabled && control.hasOwnProperty("clicked"))
-                        control.clicked();
+//                console.debug(control)
+                if (__mouseArea.mouseX > profileIcon.x
+                        && __mouseArea.mouseX < profileIcon.x + profileIcon.width
+                        && __mouseArea.mouseY > profileIcon.y
+                        && __mouseArea.mouseY < profileIcon.y + profileIcon.height) {
+                    profileIconClicked();
                 } else {
                     tweetItem.clicked();
                 }
@@ -201,7 +198,7 @@ Empty {
     }
 
     onPressedChanged: {
-        if (tweetItem.pressed && control && control.enabled && (__mouseArea.mouseX < progressionHelper.x)) {
+        if (tweetItem.pressed && control && control.enabled) {
             tweetItem.__controlAreaPressed = true
         } else {
             tweetItem.__controlAreaPressed = false
