@@ -46,11 +46,12 @@ ListView {
     model: listModel
     delegate: TweetItem {
         text: tweetText
+        createdAt: tweetCreatedAt
         fav: tweetFavorited
         name: userName
         screenName: "@" + userScreenName
         iconSource: userProfileImageUrl
-        createdAt: tweetCreatedAt
+        verified: userVerified
 
         onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
         onItemSwipedRight: helper.rt(tweetText, userScreenName)

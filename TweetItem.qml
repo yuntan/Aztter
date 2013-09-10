@@ -22,11 +22,12 @@ Empty {
     id: tweetItem
 
     property alias text: textLabel.text
-    property alias name: nameLabel.text
-    property alias fav: favIndicator.visible
-    property alias iconSource: iconImage.source
-    property alias screenName: screenNameLabel.text
     property alias createdAt: timeLabel.createdAt
+    property alias fav: favIndicator.fav
+    property alias name: nameLabel.text
+    property alias screenName: screenNameLabel.text
+    property alias iconSource: iconImage.source
+    property alias verified: verifiedIcon.verified
 
     property alias control: controlContainer.control
     __acceptEvents: false
@@ -100,22 +101,35 @@ Empty {
         font.bold: true
     }
 
+    Image {
+        id: verifiedIcon
+        property bool verified
+
+        width: verified ? height : 0
+        height: nameLabel.height
+        anchors {
+            bottom: nameLabel.bottom
+            left: nameLabel.right
+        }
+
+        source: verified ? "img/verified.png" : ""
+        fillMode: Image.PreserveAspectCrop
+    }
+
     Label {
         id: screenNameLabel
 
         clip: true
-        width: parent.width - (profileIcon.anchors.leftMargin + profileIcon.width +
-                               nameLabel.anchors.leftMargin + nameLabel.width +
-                               screenNameLabel.anchors.leftMargin * 2 +
-                               timeLabel.width + timeLabel.anchors.rightMargin)
-               > 0 ?
-               parent.width - (profileIcon.anchors.leftMargin + profileIcon.width +
-                               nameLabel.anchors.leftMargin + nameLabel.width +
-                               screenNameLabel.anchors.leftMargin * 2 +
-                               timeLabel.width + timeLabel.anchors.rightMargin)
-               : 0
+        width: {
+            var w = parent.width - (profileIcon.anchors.leftMargin + profileIcon.width +
+                                    nameLabel.anchors.leftMargin + nameLabel.width +
+                                    verifiedIcon.width +
+                                    screenNameLabel.anchors.leftMargin * 2 +
+                                    favIndicator.width + favIndicator.anchors.rightMargin);
+            return w > units.gu(2) ? w : 0;
+        }
         anchors {
-            left: nameLabel.right
+            left: verifiedIcon.right
             leftMargin: units.gu(1)
             bottom: nameLabel.bottom
         }
@@ -128,17 +142,17 @@ Empty {
 
     Image {
         id: favIndicator
+        property bool fav
 
-        width: units.gu(2)
-        height: width
+        width: fav ? height : 0
+        height: nameLabel.height
         anchors {
-            top: parent.top
-            topMargin: units.gu(1)
+            bottom: nameLabel.bottom
             right: parent.right
             rightMargin: profileIcon.anchors.leftMargin
         }
 
-        source: "img/star.png"
+        source: fav ? "img/star.png" : ""
         fillMode: Image.PreserveAspectCrop
     }
 
