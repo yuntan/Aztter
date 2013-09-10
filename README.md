@@ -23,3 +23,12 @@ twitter client for Ubuntu Phone
 1. cd ..
 1. LD_LIBRARY_PATH=./lib qmlscene main.qml
 
+# About this software
+This software is distributed under the GNU lesser general public license version 3.  
+
+__The following are used__  
+Qt LGPL  
+Ubuntu SDK (LGPL v3 2012 Canonical Ltd.)  
+Empty.qml from Ubuntu SDK (LGPL v3 2012 Canonical Ltd.)  
+kQOAuth (LGPL v2.1 Johan Paul)  
+
