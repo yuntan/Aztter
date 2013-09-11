@@ -37,7 +37,13 @@ public:
 		UserName,
 		UserScreenName,
 		UserProfileImageUrl,
-		UserVerified
+		UserVerified,
+		RT,
+		RTUserId,
+		RTUserName,
+		RTUserScreenName,
+		RTUserProfileImageUrl,
+		RTUserVerified,
 	};
 };
 

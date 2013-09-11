@@ -31,6 +31,13 @@ AztterTweetListModel::AztterTweetListModel(QObject *parent) : QAbstractListModel
 	m_roles[AztterTweetEnum::UserName] = "userName";
 	m_roles[AztterTweetEnum::UserScreenName] = "userScreenName";
 	m_roles[AztterTweetEnum::UserProfileImageUrl] = "userProfileImageUrl";
+	m_roles[AztterTweetEnum::UserVerified] = "userVerified";
+	m_roles[AztterTweetEnum::RT] = "rt";
+	m_roles[AztterTweetEnum::RTUserId] = "rtUserId";
+	m_roles[AztterTweetEnum::RTUserName] = "rtUserName";
+	m_roles[AztterTweetEnum::RTUserScreenName] = "rtUserScreenName";
+	m_roles[AztterTweetEnum::RTUserProfileImageUrl] = "rtUserProfileImageUrl";
+	m_roles[AztterTweetEnum::RTUserVerified] = "rtUserVerified";
 }
 
 QVariant AztterTweetListModel::data(const QModelIndex &index, int role) const
@@ -64,6 +71,20 @@ QVariant AztterTweetListModel::data(const QModelIndex &index, int role) const
 		return tweet->value("UserScreenName");
 	case AztterTweetEnum::UserProfileImageUrl :
 		return tweet->value("UserProfileImageUrl");
+	case AztterTweetEnum::UserVerified :
+		return tweet->value("UserVerified");
+	case AztterTweetEnum::RT :
+		return tweet->value("RT");
+	case AztterTweetEnum::RTUserId :
+		return tweet->value("RTUserId");
+	case AztterTweetEnum::RTUserName :
+		return tweet->value("RTUserName");
+	case AztterTweetEnum::RTUserScreenName :
+		return tweet->value("RTUserScreenName");
+	case AztterTweetEnum::RTUserProfileImageUrl :
+		return tweet->value("RTUserProfileImageUrl");
+	case AztterTweetEnum::RTUserVerified :
+		return tweet->value("RTUserVerified");
 	default:
 		return QVariant();
 	}

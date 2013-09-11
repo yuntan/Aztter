@@ -85,20 +85,39 @@ void AztterHomeTLHelper::parseStream(const QByteArray &data)
 }
 
 void AztterHomeTLHelper::parseTweet(const QJsonObject &tweetObj)
-{ // Do not forget to overwrite!!
-//	qDebug() << "tweetObj:" << tweetObj;
-	m_tweet["TweetId"] = static_cast<qint64>(tweetObj["id"].toDouble());
-	m_tweet["TweetText"] = tweetObj["text"].toString();
-	m_tweet["TweetCreatedAt"] = parseCreatedAt(tweetObj["created_at"].toString());
-	m_tweet["TweetSource"] = tweetObj["source"].toString();
-	m_tweet["TweetFavorited"] = tweetObj["favorited"].toBool();
-	m_tweet["TweetRetweeted"] = tweetObj["retweeted"].toBool();
+{
+	qDebug() << "tweetObj:" << tweetObj;
+	QJsonObject tmpObj;
+	if(tweetObj.contains("retweeted_status")) {
+		QJsonObject userObj = tweetObj["user"].toObject();
+		m_tweet["RT"] = true;
+		m_tweet["RTUserId"] = static_cast<qint64>(userObj["id"].toDouble());
+		m_tweet["RTUserName"] = userObj["name"].toString();
+		m_tweet["RTUserScreenName"] = userObj["screen_name"].toString();
+		m_tweet["RTUserProfileImageUrl"] = userObj["profile_image_url"].toString();
+		m_tweet["RTUserVerified"] = userObj["verified"].toBool();
+		tmpObj = tweetObj["retweeted_status"].toObject();
+	} else {
+		m_tweet["RT"] = false;
+		m_tweet["RTUserId"] = 0;
+		m_tweet["RTUserName"] = "";
+		m_tweet["RTUserScreenName"] = "";
+		m_tweet["RTUserProfileImageUrl"] = "";
+		m_tweet["RTUserVerified"] = false;
+		tmpObj = tweetObj;
+	}
+	m_tweet["TweetId"] = static_cast<qint64>(tmpObj["id"].toDouble());
+	m_tweet["TweetText"] = tmpObj["text"].toString();
+	m_tweet["TweetCreatedAt"] = parseCreatedAt(tmpObj["created_at"].toString());
+	m_tweet["TweetSource"] = tmpObj["source"].toString();
+	m_tweet["TweetFavorited"] = tmpObj["favorited"].toBool();
+	m_tweet["TweetRetweeted"] = tmpObj["retweeted"].toBool();
 
-	QString id = tweetObj["in_reply_to_status_id"].toString();
+	QString id = tmpObj["in_reply_to_status_id"].toString();
 	id == "null" ? m_tweet["TweetInReplyToStatusId"] = QVariant() // insert null
 			: m_tweet["TweetInReplyToStatusId"] = static_cast<qint64>(id.toDouble());
 
-	QJsonObject userObj = tweetObj["user"].toObject();
+	QJsonObject userObj = tmpObj["user"].toObject();
 	m_tweet["UserId"] = static_cast<qint64>(userObj["id"].toDouble());
 	m_tweet["UserName"] = userObj["name"].toString();
 	m_tweet["UserScreenName"] = userObj["screen_name"].toString();

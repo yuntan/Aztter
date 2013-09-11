@@ -52,6 +52,10 @@ ListView {
         screenName: "@" + userScreenName
         iconSource: userProfileImageUrl
         verified: userVerified
+        isRT: rt
+        rtName: rtUserName + " retweeted"
+        rtIconSource: rtUserProfileImageUrl
+//        rtVerified: rtUserVerified
 
         onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
         onItemSwipedRight: helper.rt(tweetText, userScreenName)

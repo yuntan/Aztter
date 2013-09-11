@@ -28,6 +28,9 @@ Empty {
     property alias screenName: screenNameLabel.text
     property alias iconSource: iconImage.source
     property alias verified: verifiedIcon.verified
+    property alias isRT: rtItem.isRT
+    property alias rtName: rtNameLabel.text
+    property alias rtIconSource: rtIconImage.source
 
     property alias control: controlContainer.control
     __acceptEvents: false
@@ -35,9 +38,19 @@ Empty {
 
     signal profileIconClicked()
 
+    Component.onCompleted: {
+        if(isRT) {
+            height += rtItem.height;
+            rtItem.visible = true;
+        } else {
+            rtItem.visible = false;
+        }
+    }
+
     width: parent.width
     height: Math.max(profileIcon.anchors.topMargin + profileIcon.height, nameLabel.anchors.topMargin + nameLabel.height + textLabel.height) + timeLabel.height + units.gu(1)
 
+    clip: true
     draggable: true
 
     onItemSwipedLeft: {
@@ -205,6 +218,92 @@ Empty {
         fontSize: "small"
         elide: Text.ElideNone
         color: Theme.palette.normal.overlayText
+    }
+
+    Item {
+        id: rtItem
+
+        property bool isRT
+//        visible: isRT
+
+        height: childrenRect.height
+        anchors{
+            top: timeLabel.bottom
+            left: parent.left
+            leftMargin: units.gu(1)
+            right: parent.right
+            rightMargin: units.gu(1)
+        }
+
+        Image {
+            id: rtImage
+
+            width: height; height: units.gu(3)
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
+
+            source: "img/retweet.png"
+            fillMode: Image.PreserveAspectCrop
+        }
+
+        UbuntuShape {
+            id: rtProfileIcon
+
+            width: height
+            height: units.gu(3)
+            anchors {
+                top: parent.top
+                left: rtImage.right
+                leftMargin: units.gu(1)
+            }
+
+            radius: "medium"
+            image: Image {
+                id: rtIconImage
+
+                fillMode: Image.PreserveAspectCrop
+
+                property url rtFallbackSource: Qt.resolvedUrl("Aztter80.png")
+
+                Component.onCompleted: {
+                    if(source == undefined || source == "")
+                        source = rtFallbackSource
+                }
+            }
+        }
+
+        Label {
+            id: rtNameLabel
+
+            clip: true
+            anchors {
+                bottom: rtProfileIcon.bottom
+                left: rtProfileIcon.right
+                leftMargin: units.gu(1)
+            }
+
+            maximumLineCount: 1
+            elide: Text.ElideRight
+            color: Theme.palette.normal.baseText
+            font.bold: true
+        }
+
+//        Image {
+//            id: rtVerifiedIcon
+//            property bool verified
+
+//            width: verified ? height : 0
+//            height: rtNameLabel.height
+//            anchors {
+//                bottom: rtNameLabel.bottom
+//                left: rtNameLabel.right
+//            }
+
+//            source: verified ? "img/verified.png" : ""
+//            fillMode: Image.PreserveAspectCrop
+//        }
     }
 
     Item {
