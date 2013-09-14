@@ -34,14 +34,14 @@ Page {
     Timer {
         id: timer
 
-        interval: 3000
+        interval: 2000
         onTriggered: {
             if(helper.isAuthenticated){
-                parent.destroy()
                 pageStack.push(timelineContainer)
             } else {
                 pageStack.push(pinAuthPage)
             }
+            loadingPage.destroy()
         }
     }
 
@@ -50,19 +50,12 @@ Page {
 //		running: true
 	}
 
-    UbuntuShape {
-        width: 200
-        height: width
+    Label {
+        id: loadingLabel
+
         anchors.centerIn: parent
-        color : UbuntuColors.orange
-
-        Label {
-            id: loadingLabel
-            objectName: "loadingLabel"
-            anchors.centerIn: parent
-            color: "white"
-
-            text: i18n.tr("Loading...")
-        }
+        color: "white"
+        fontSize: "large"
+        text: i18n.tr("Loading...")
     }
 }

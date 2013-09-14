@@ -21,6 +21,8 @@ Page {
     id: timelineContainer
 
     Component.onCompleted: {
+        if(wallpaper.status === Image.Ready)
+            color: Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
         tweetBox.visible = true;
 //        loadListView(settings.load("view/last_view"));
         loadListView(0)
@@ -42,17 +44,13 @@ Page {
         currentIndex = index;
     }
 
-//    AztterSettings {
-//        id: settings
-//    }
-
     Tabs {
         id: tabs
 
         onSelectedTabIndexChanged: loadListView(selectedTabIndex)
         Tab {title: i18n.tr("Home")}
-        Tab {title: i18n.tr("Mention")}
-        Tab {title: i18n.tr("List")}
+//        Tab {title: i18n.tr("Mention")}
+//        Tab {title: i18n.tr("List")}
     }
 
     TweetBox {
@@ -87,7 +85,7 @@ Page {
 
             z: 1
             anchors.fill: parent
-            color: Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
+            color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
         }
 //    }
 }
