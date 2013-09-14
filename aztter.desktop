@@ -5,6 +5,7 @@ Type=Application
 Terminal=false
 Name=Aztter
 Comment=twitter client for Ubuntu Phone
-Exec=./aztter
 Icon=./aztter80.png
+Exec=qmlscene -I ./lib ./main.qml
 X-Ubuntu-Touch=true
+
