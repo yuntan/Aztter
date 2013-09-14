@@ -110,7 +110,7 @@ Empty {
 
         maximumLineCount: 1
         elide: Text.ElideRight
-        color: Theme.palette.normal.baseText
+        color: "whitesmoke"
         font.bold: true
     }
 
@@ -150,7 +150,7 @@ Empty {
         fontSize: "small"
         maximumLineCount: 1
         elide: Text.ElideRight
-        color: Theme.palette.normal.overlayText
+        color: "silver"
     }
 
     Image {
@@ -185,7 +185,7 @@ Empty {
         fontSize: "medium"
         wrapMode: Text.WordWrap
         elide: Text.ElideNone
-        color: Theme.palette.normal.foregroundText
+        color: "whitesmoke"
     }
 
     Label {
@@ -217,7 +217,7 @@ Empty {
 
         fontSize: "small"
         elide: Text.ElideNone
-        color: Theme.palette.normal.overlayText
+        color: "silver"
     }
 
     Item {
@@ -286,7 +286,7 @@ Empty {
 
             maximumLineCount: 1
             elide: Text.ElideRight
-            color: Theme.palette.normal.baseText
+            color: "whitesmoke"
             font.bold: true
         }
 
