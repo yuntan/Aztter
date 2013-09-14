@@ -1,0 +1,14 @@
+{
+    "description": "twitter client for Ubuntu Phone",
+    "framework": "ubuntu-sdk-13.10",
+    "hooks": {
+        "Aztter": {
+            "apparmor": "Aztter.json",
+            "desktop": "Aztter.desktop"
+        }
+    },
+    "maintainer": "",
+    "name": "com.ubuntu.developer.username.Aztter",
+    "title": "Aztter",
+    "version": "0.18"
+}

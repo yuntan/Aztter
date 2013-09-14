@@ -1,0 +1,4 @@
+#!/bin/bash
+LD_LiBRARY_PATH=./lib
+qmlscene ./main.qml
+
