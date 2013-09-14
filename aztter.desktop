@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Name=Aztter
+Comment=twitter client for Ubuntu Phone
+Exec=./aztter
+Icon=./aztter80.png
+X-Ubuntu-Touch=true
