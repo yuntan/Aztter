@@ -22,7 +22,7 @@ Page {
 
     Component.onCompleted: {
         if(wallpaper.status === Image.Ready)
-            color: Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
+            filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
         tweetBox.visible = true;
 //        loadListView(settings.load("view/last_view"));
         loadListView(0)
