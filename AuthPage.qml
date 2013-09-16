@@ -21,7 +21,7 @@ import Ubuntu.Components 0.1
 import "aztterplugin" 1.0
 
 Page {
-	id: pinAuthPage
+    id: authPage
 
 	title: i18n.tr("Authentication")
 

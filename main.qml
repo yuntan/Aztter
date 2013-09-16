@@ -55,7 +55,7 @@ MainView {
 
         Component {
             id: pinAuthPage
-            PinAuthPage {}
+            AuthPage {}
         }
 
 		Component {
