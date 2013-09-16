@@ -102,6 +102,15 @@ AbstractButton {
      */
     readonly property alias swipingState: backgroundIndicator.state
 
+    /*!
+      \preliminary
+      \qmlproperty real swipingDegree
+      The current swiping degree (min 0, max 1)
+      If the value is 1, item is ready to swiped
+    */
+    readonly property real swipingDegree: Math.abs(body.x) < priv.itemMoveOffset
+                                         ? Math.abs(body.x) / priv.itemMoveOffset
+                                         : 1
 
     /*!
       \preliminary
@@ -194,7 +203,7 @@ AbstractButton {
         /*! \internal
           Defines the offset limit to consider the item swiped
          */
-        readonly property int itemMoveOffset: width * 0.5
+        readonly property int itemMoveOffset: width * 0.3
 
         /*! \internal
           Defines the inital pressed possition
@@ -316,9 +325,11 @@ AbstractButton {
 
             onXChanged: {
                 if (x > 0) {
-                    backgroundIndicator.state = "SwipingRight"
+                    backgroundIndicator.state = "SwipingRight";
+                } else if(x < 0) {
+                    backgroundIndicator.state = "SwipingLeft";
                 } else {
-                    backgroundIndicator.state = "SwipingLeft"
+                    backgroundIndicator.state = "";
                 }
             }
         }
@@ -344,7 +355,7 @@ AbstractButton {
                     }
                     PropertyChanges {
                         target: backgroundIndicator
-                        opacity: 1.0
+                        opacity: swipingDegree/1.2
                     }
                 },
                 State {
@@ -356,7 +367,7 @@ AbstractButton {
                     }
                     PropertyChanges {
                         target: backgroundIndicator
-                        opacity: 1.0
+                        opacity: swipingDegree/1.2
                     }
                 }
             ]

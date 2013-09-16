@@ -62,12 +62,29 @@ Empty {
         closeIndicator();
     }
 
-    Rectangle {
-        id: controlHighlight
-
-        visible: tweetItem.swipingState === "" ? control && __controlAreaPressed : false
+    backgroundIndicator: Item {
         anchors.fill: parent
-        color: Theme.palette.selected.base
+
+        Rectangle {
+            anchors.fill: parent
+            color: "#DD4814"
+        }
+
+        Label {
+            anchors {
+                left: swipingState === "SwipingLeft" ? parent.left : undefined
+                right: swipingState === "SwipingRight" ? parent.right : undefined
+                verticalCenter: parent.verticalCenter
+            }
+
+            text: swipingState === "SwipingRight"
+                  ? "Swipe to RT >|"
+                  : "|< Swipe to Fav"
+            maximumLineCount: 1
+            color: "white"
+            font.bold: true
+            fontSize: "x-large"
+        }
     }
 
     UbuntuShape {
