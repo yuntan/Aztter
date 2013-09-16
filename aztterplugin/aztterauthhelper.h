@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef AZTTEROAUTH_H
-#define AZTTEROAUTH_H
+#ifndef AZTTERAUTHHELPER_H
+#define AZTTEOAUTHHELPER_H
 
 #include <QObject>
 #include <QUrl>
@@ -23,13 +23,13 @@
 class KQOAuthManager;
 class KQOAuthRequest;
 
-class AztterOAuth : public QObject
+class AztterAuthHelper : public QObject
 {
 	Q_OBJECT
 
 public:
 	// constractor
-	AztterOAuth(QObject *parent = 0);
+	AztterAuthHelper(QObject *parent = 0);
     
 signals:
 	// Q_PROPERTY NOTIFY function
@@ -52,4 +52,4 @@ private:
 	QString m_oauthTokenSecret;
 };
 
-#endif // AZTTEROAUTH_H
+#endif // AZTTERAUTHHELPER_H

@@ -25,7 +25,7 @@ Page {
 
 	title: i18n.tr("Authentication")
 
-    AztterOAuth {
+    AztterAuthHelper {
         id: aztterOAuth
 
         onAuthPageRequested: authWebView.url = authPageUrl

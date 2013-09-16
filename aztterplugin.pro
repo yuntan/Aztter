@@ -18,35 +18,31 @@ INCLUDEPATH += \
 # aztterplugin
 HEADERS += \
 	aztterplugin/aztterplugin.h \
-	aztterplugin/aztteroauth.h \
 	aztterplugin/aztterkeystore.h \
 	aztterplugin/y.h \
 	aztterplugin/e.h \
 	aztterplugin/k.h \
-	aztterplugin/aztterinit.h \
 	aztterplugin/aztterapibase.h \
 	aztterplugin/aztterstatusupdate.h \
 	aztterplugin/aztteruserstream.h \
 	aztterplugin/aztterhometlhelper.h \
 	aztterplugin/azttertweetlistmodel.h \
 	aztterplugin/azttertweetenum.h \
-	aztterplugin/aztterloadingpagehelper.h \
 	aztterplugin/aztterfav.h \
-    aztterplugin/aztterlocalstorage.h
+    aztterplugin/aztterlocalstorage.h \
+    aztterplugin/aztterauthhelper.h
 
 SOURCES += \
 	aztterplugin/aztterplugin.cpp \
-	aztterplugin/aztteroauth.cpp \
 	aztterplugin/aztterkeystore.cpp \
-	aztterplugin/aztterinit.cpp \
 	aztterplugin/aztterapibase.cpp \
 	aztterplugin/aztterstatusupdate.cpp \
 	aztterplugin/aztteruserstream.cpp \
 	aztterplugin/aztterhometlhelper.cpp \
 	aztterplugin/azttertweetlistmodel.cpp \
-	aztterplugin/aztterloadingpagehelper.cpp \
 	aztterplugin/aztterfav.cpp \
-    aztterplugin/aztterlocalstorage.cpp
+    aztterplugin/aztterlocalstorage.cpp \
+    aztterplugin/aztterauthhelper.cpp
 
 # KQOAuth
 PUBLIC_HEADERS += \

@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "aztteroauth.h"
+#include "aztterauthhelper.h"
 #include <QtCore>
 #include <QStringList>
 #include <QUrl>
@@ -28,7 +28,7 @@
 #include "aztterlocalstorage.h"
 
 // constructor
-AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
+AztterAuthHelper::AztterAuthHelper(QObject *parent) : QObject(parent)
 {
 	m_oauthRequest = new KQOAuthRequest(this);
 	m_oauthManager = new KQOAuthManager(this);
@@ -46,7 +46,7 @@ AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 	connect(m_oauthManager, SIGNAL(accessTokenReceived(QString, QString)),
 			this, SLOT(onAccessTokenReceived(QString, QString)));
 
-	qDebug() << "AztterOAuth authorization started";
+	qDebug() << "AztterAuthHelper authorization started";
 	m_oauthRequest->initRequest(KQOAuthRequest::TemporaryCredentials, QUrl("https://api.twitter.com/oauth/request_token"));
 	m_oauthRequest->setConsumerKey(AztterKeyStore::consumerKey());
 	m_oauthRequest->setConsumerSecretKey(AztterKeyStore::consumerSecretKey());
@@ -57,7 +57,7 @@ AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 	m_oauthManager->executeRequest(m_oauthRequest);
 }
 
-void AztterOAuth::onTemporaryTokenReceived(QString token, QString tokenSecret)
+void AztterAuthHelper::onTemporaryTokenReceived(QString token, QString tokenSecret)
 {
 	qDebug() << "Temporary token received: " << token << tokenSecret;
 
@@ -67,17 +67,17 @@ void AztterOAuth::onTemporaryTokenReceived(QString token, QString tokenSecret)
 		qDebug() << "Asking for user's permission to access protected resources. Opening URL: " << userAuthURL;
 		m_oauthManager->getUserAuthorization(userAuthURL);
 	} else {
-		qDebug() << "AztterOAuth::onTemporaryTokenReceived error!";
+		qDebug() << "AztterAuthHelper::onTemporaryTokenReceived error!";
 	}
 }
 
-void AztterOAuth::onAuthorizationPageRequested(QUrl openWebPageUrl)
+void AztterAuthHelper::onAuthorizationPageRequested(QUrl openWebPageUrl)
 {
 	qDebug() << "Opening WebPage...";
 	emit authPageRequested(openWebPageUrl.toString());
 }
 
-void AztterOAuth::onAuthorizationReceived(QString token, QString verifier)
+void AztterAuthHelper::onAuthorizationReceived(QString token, QString verifier)
 {
 //	qDebug() << "User authorization received: " << token << verifier;
 	Q_UNUSED(token)
@@ -85,11 +85,11 @@ void AztterOAuth::onAuthorizationReceived(QString token, QString verifier)
 
 	m_oauthManager->getUserAccessTokens(QUrl("https://api.twitter.com/oauth/access_token"));
 	if( m_oauthManager->lastError() != KQOAuthManager::NoError) {
-		qDebug() << "AztterOAuth::onAuthorizationReceived error!";
+		qDebug() << "AztterAuthHelper::onAuthorizationReceived error!";
 	}
 }
 
-void AztterOAuth::onAccessTokenReceived(QString token, QString tokenSecret)
+void AztterAuthHelper::onAccessTokenReceived(QString token, QString tokenSecret)
 {
 	qDebug() << "Access token received!";
 	m_oauthToken = token; m_oauthTokenSecret = tokenSecret;
@@ -131,12 +131,12 @@ void AztterOAuth::onAccessTokenReceived(QString token, QString tokenSecret)
 	emit authorized();
 }
 
-void AztterOAuth::onAuthorizedRequestDone()
+void AztterAuthHelper::onAuthorizedRequestDone()
 {
 	qDebug() << "Request sent to Twitter!";
 }
 
-void AztterOAuth::onRequestReady(QByteArray response)
+void AztterAuthHelper::onRequestReady(QByteArray response)
 {
 //	qDebug() << "Response from the service: " << response;
 
