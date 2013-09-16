@@ -39,10 +39,14 @@ MainView {
     backgroundColor: "#00c262" // DIC-92
     footerColor: "#00a567" // DIC-173
 
-	PageStack {
-		id: pageStack
+    Component.onCompleted: pageStack.push(loadingPage)
 
-        Component.onCompleted: push(loadingPage)
+    Storage {
+        id: storage
+    }
+
+	PageStack {
+        id: pageStack
 
 		Component {
 			id: loadingPage

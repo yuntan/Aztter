@@ -43,7 +43,8 @@ AztterStatusUpdate::Status AztterStatusUpdate::status()
 	return m_status;
 }
 
-void AztterStatusUpdate::onRequestReady(QByteArray response) {
+void AztterStatusUpdate::onRequestReady(QByteArray response)
+{
 //	qDebug() << "Response from the service: " << response;
 
 	QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
@@ -83,6 +84,7 @@ void AztterStatusUpdate::onRequestReady(QByteArray response) {
 	}
 }
 
-void AztterStatusUpdate::onAuthorizedRequestDone() {
+void AztterStatusUpdate::onAuthorizedRequestDone()
+{
 	qDebug() << "Request sent to Twitter";
 }

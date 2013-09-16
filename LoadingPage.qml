@@ -25,22 +25,15 @@ Page {
 
     Component.onCompleted: timer.start()
 
-    AztterLoadingPageHelper {
-        id: helper
-
-        onLoadingTextChanged: loadingLabel.text = loadingText
-    }
-
     Timer {
         id: timer
 
         interval: 2000
         onTriggered: {
-            if(helper.isAuthenticated){
-                pageStack.push(timelineContainer)
-            } else {
-                pageStack.push(pinAuthPage)
-            }
+            if(storage.isAuthenticated())
+                pageStack.push(timelineContainer);
+            else
+                pageStack.push(pinAuthPage);
             loadingPage.destroy()
         }
     }

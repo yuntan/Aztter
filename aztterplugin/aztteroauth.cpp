@@ -19,19 +19,20 @@
 #include <QStringList>
 #include <QUrl>
 #include <QNetworkAccessManager>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDebug>
 #include "kqoauthrequest.h"
 #include "kqoauthmanager.h"
 #include "aztterkeystore.h"
+#include "aztterlocalstorage.h"
 
 // constructor
 AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 {
 	m_oauthRequest = new KQOAuthRequest(this);
 	m_oauthManager = new KQOAuthManager(this);
-	m_oauthSettings = new QSettings(this);
 	m_oauthRequest->setEnableDebugOutput(false);
-	m_oauthSettings = new QSettings(QSettings::NativeFormat, QSettings::UserScope, "Aztter", "Aztter", this);
 
 	connect(m_oauthManager, SIGNAL(temporaryTokenReceived(QString, QString)),
 			this, SLOT(onTemporaryTokenReceived(QString, QString)));
@@ -45,13 +46,10 @@ AztterOAuth::AztterOAuth(QObject *parent) : QObject(parent)
 	connect(m_oauthManager, SIGNAL(accessTokenReceived(QString, QString)),
 			this, SLOT(onAccessTokenReceived(QString, QString)));
 
-	connect(m_oauthManager, SIGNAL(requestReady(QByteArray)),
-			this, SLOT(onRequestReady(QByteArray)));
-
 	qDebug() << "AztterOAuth authorization started";
 	m_oauthRequest->initRequest(KQOAuthRequest::TemporaryCredentials, QUrl("https://api.twitter.com/oauth/request_token"));
-	m_oauthRequest->setConsumerKey(AztterKeyStore::consumerKey()); // TODO
-	m_oauthRequest->setConsumerSecretKey(AztterKeyStore::consumerSecretKey()); //TODO
+	m_oauthRequest->setConsumerKey(AztterKeyStore::consumerKey());
+	m_oauthRequest->setConsumerSecretKey(AztterKeyStore::consumerSecretKey());
 
 	m_oauthManager->setHandleUserAuthorization(true);
 	m_oauthManager->setHandleAuthorizationPageOpening(false);
@@ -76,11 +74,11 @@ void AztterOAuth::onTemporaryTokenReceived(QString token, QString tokenSecret)
 void AztterOAuth::onAuthorizationPageRequested(QUrl openWebPageUrl)
 {
 	qDebug() << "Opening WebPage...";
-	m_oauthUrl = openWebPageUrl;
-	emit oauthUrlChanged();
+	emit authPageRequested(openWebPageUrl.toString());
 }
 
-void AztterOAuth::onAuthorizationReceived(QString token, QString verifier) {
+void AztterOAuth::onAuthorizationReceived(QString token, QString verifier)
+{
 //	qDebug() << "User authorization received: " << token << verifier;
 	Q_UNUSED(token)
 	Q_UNUSED(verifier)
@@ -91,31 +89,68 @@ void AztterOAuth::onAuthorizationReceived(QString token, QString verifier) {
 	}
 }
 
-void AztterOAuth::onAccessTokenReceived(QString token, QString tokenSecret) {
-//	qDebug() << "Access token received: " << token << tokenSecret;
-	Q_UNUSED(token)
-	Q_UNUSED(tokenSecret)
+void AztterOAuth::onAccessTokenReceived(QString token, QString tokenSecret)
+{
 	qDebug() << "Access token received!";
+	m_oauthToken = token; m_oauthTokenSecret = tokenSecret;
 
-	m_oauthSettings->setValue("accounts/test/oauth_token", token);
-	m_oauthSettings->setValue("accounts/test/oauth_token_secret", tokenSecret);
+	// TODO get user screen name
+//	disconnect(m_oauthManager, SIGNAL(temporaryTokenReceived(QString, QString)),
+//			this, SLOT(onTemporaryTokenReceived(QString, QString)));
+//	disconnect(m_oauthManager, SIGNAL(authorizationPageRequested(QUrl)),
+//			this, SLOT(onAuthorizationPageRequested(QUrl)));
+//	disconnect(m_oauthManager, SIGNAL(authorizationReceived(QString, QString)),
+//			this, SLOT(onAuthorizationReceived(QString, QString)));
+//	disconnect(m_oauthManager, SIGNAL(accessTokenReceived(QString, QString)),
+//			this, SLOT(onAccessTokenReceived(QString, QString)));
 
-	qDebug() << "Account Infomation Saved";
+//	delete m_oauthManager;
+//	delete m_oauthRequest;
+
+//	m_oauthManager = new KQOAuthManager(this);
+//	m_oauthRequest = new KQOAuthRequest(this);
+//	m_oauthRequest->setEnableDebugOutput(false);
+
+//	connect(m_oauthManager, SIGNAL(requestReady(QByteArray)),
+//			this, SLOT(onRequestReady(QByteArray)));
+//	connect(m_oauthManager, SIGNAL(authorizedRequestDone()),
+//			this, SLOT(onAuthorizedRequestDone()));
+
+//	m_oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest,
+//								 QUrl("https://api.twitter.com/1.1/account/settings.json"));
+//	m_oauthRequest->setHttpMethod(KQOAuthRequest::GET);
+//	m_oauthRequest->setConsumerKey(AztterKeyStore::consumerKey());
+//	m_oauthRequest->setConsumerSecretKey(AztterKeyStore::consumerSecretKey());
+//	m_oauthRequest->setToken(m_oauthToken);
+//	m_oauthRequest->setTokenSecret(m_oauthTokenSecret);
+//	m_oauthManager->executeRequest(m_oauthRequest);
+
+	AztterLocalStorage storage(this);
+	storage.addAccount("test", m_oauthToken, m_oauthTokenSecret);
 
 	emit authorized();
 }
 
-void AztterOAuth::onAuthorizedRequestDone() {
-	qDebug() << "Request sent to Twitter!";
-//    QCoreApplication::exit();
-}
-
-void AztterOAuth::onRequestReady(QByteArray response) {
-//	qDebug() << "Response from the service: " << response;
-	Q_UNUSED(response)
-}
-
-QString AztterOAuth::oauthUrl()
+void AztterOAuth::onAuthorizedRequestDone()
 {
-	return m_oauthUrl.toString();
+	qDebug() << "Request sent to Twitter!";
+}
+
+void AztterOAuth::onRequestReady(QByteArray response)
+{
+//	qDebug() << "Response from the service: " << response;
+
+	QString screenName;
+
+	QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
+	if(jsonDoc.isObject()) {
+		QJsonObject jsonObj = jsonDoc.object();
+		screenName = jsonObj["screen_name"].toString();
+	}
+
+	AztterLocalStorage storage(this);
+	storage.addAccount(screenName, m_oauthToken, m_oauthTokenSecret);
+	qDebug() << "Account information saved";
+
+	emit authorized();
 }

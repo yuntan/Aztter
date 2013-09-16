@@ -19,29 +19,22 @@
 
 #include <QObject>
 #include <QUrl>
-#include <QSettings>
 
 class KQOAuthManager;
 class KQOAuthRequest;
 
 class AztterOAuth : public QObject
 {
-    Q_OBJECT
-
-	Q_PROPERTY(QString oauthUrl READ oauthUrl NOTIFY oauthUrlChanged)
+	Q_OBJECT
 
 public:
 	// constractor
 	AztterOAuth(QObject *parent = 0);
-
-	// Q_PROPERTY READ function
-	QString oauthUrl();
     
 signals:
 	// Q_PROPERTY NOTIFY function
-	void oauthUrlChanged();
-
-    void authorized();
+	void authPageRequested(QString authPageUrl);
+	void authorized();
 
 private slots:
 	// connected with signals in KQOAuth
@@ -55,8 +48,8 @@ private slots:
 private:
 	KQOAuthManager *m_oauthManager;
 	KQOAuthRequest *m_oauthRequest;
-	QSettings *m_oauthSettings;
-	QUrl m_oauthUrl;
+	QString m_oauthToken;
+	QString m_oauthTokenSecret;
 };
 
 #endif // AZTTEROAUTH_H

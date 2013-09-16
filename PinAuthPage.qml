@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.LocalStorage 2.0 as Storage
 import QtWebKit 3.0
 import Ubuntu.Components 0.1
 import "aztterplugin" 1.0
@@ -27,7 +28,7 @@ Page {
     AztterOAuth {
         id: aztterOAuth
 
-        onOauthUrlChanged: authWebView.url = oauthUrl
+        onAuthPageRequested: authWebView.url = authPageUrl
         onAuthorized: {
             aztterOAuth.destroy()
             pageStack.push(timelineContainer)

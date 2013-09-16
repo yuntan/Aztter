@@ -19,7 +19,6 @@
 
 #include <QObject>
 #include <QUrl>
-#include <QSettings>
 #include <QByteArray>
 #include <QVariantMap>
 #include <QJsonDocument>
@@ -43,7 +42,6 @@ protected slots:
 protected:
 	KQOAuthManager *m_oauthManager;
 	KQOAuthRequest *m_oauthRequest;
-	QSettings *m_settings;
 };
 
 #endif // AZTTERAPIBASE_H
