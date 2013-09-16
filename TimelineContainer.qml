@@ -23,13 +23,13 @@ Page {
     Component.onCompleted: {
         if(wallpaper.status === Image.Ready)
             filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
-        tweetBox.visible = true;
 //        loadListView(settings.load("view/last_view"));
         loadListView(0)
     }
 
     property int currentIndex: -1
     property QtObject listView
+
     function loadListView(index) {
         console.debug("loadListView(" + index + ")");
         if(currentIndex != -1){
@@ -44,6 +44,19 @@ Page {
         currentIndex = index;
     }
 
+    tools: ToolbarItems {
+        ToolbarButton {
+            id: showhideboxbutton
+
+            action: Action {
+                text: tweetBox.visible ? "Hide Box" : "New Tweet"
+                onTriggered: tweetBox.visible
+                             ? tweetBox.visible = false
+                             : tweetBox.visible = true
+            }
+        }
+    }
+
     Tabs {
         id: tabs
 
@@ -56,9 +69,10 @@ Page {
     TweetBox {
         id: tweetBox
 
+        visible: false
         z: 15
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(2)
+        anchors.bottomMargin: units.gu(26)
         width: parent.width
     }
 
