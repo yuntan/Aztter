@@ -7,8 +7,9 @@
             "desktop": "aztter.desktop"
         }
     },
-    "maintainer": "Yuuto Tokunaga",
+    "maintainer": "Yuuto Tokunaga <yuntan.sub1@gmail.com>",
     "name": "com.ubuntu.developer.yuntan.aztter",
     "title": "Aztter",
-    "version": "0.18"
+    "version": "0.2"
 }
+
