@@ -19,51 +19,16 @@ import Ubuntu.Components 0.1
 import "aztterplugin" 1.0
 
 Item {
-    height: tweetEdit.height + units.gu(2)
-
-    property string tmpText
+    height: tweetEdit.height
 
     AztterStatusUpdate {
         id: aztter
 
         onStatusChanged: {
-            animTimer.stop();
-            switch(status) {
-            case AztterStatusUpdate.Success:
-                tweetEdit.text = i18n.tr("Tweet sent!");
-                tmpText = "";
-                break;
-            default:
-                tweetEdit.text = i18n.tr("Error occured!");
-                break;
-            }
-            messageTimer.start();
-        }
-    }
-
-    Timer {
-        id: messageTimer
-
-        interval: 3000
-        onTriggered: {
-            tweetEdit.text = tmpText;
+            if(status === AztterStatusUpdate.Success)
+                tweetEdit.text = "";
+            postButton.enabled = true;
             tweetEdit.enabled = true;
-        }
-    }
-
-    Timer {
-        id: animTimer
-
-        property int i: 0
-        interval: 500
-        repeat: true
-        triggeredOnStart: true
-
-        onTriggered: {
-            tweetEdit.text = i18n.tr("Sending") + ".";
-            for(var j = 0; j < i%3; j++)
-                tweetEdit.text += ".";
-            i++;
         }
     }
 
@@ -72,17 +37,20 @@ Item {
 
         Component.onCompleted: postButton.height = height
 
-        anchors.margins: units.gu(1)
-        anchors.left: parent.left
-        anchors.right: postButton.left
-        anchors.bottom: parent.bottom
+        anchors {
+            margins: units.gu(1)
+            left: parent.left
+            right: postButton.left
+            bottom: parent.bottom
+        }
 
         autoSize: true
 
         onTextChanged: {
+            postButton.enabled = true;
             if(length >= 110){
-                if(length >= 140){
-                    // TODO: change color
+                if(length > 140){
+                    postButton.enabled = false;
                 } else if(length >= 130){
                     // TODO: change color
                 }
@@ -96,16 +64,20 @@ Item {
     Button {
         id: postButton
 
-        anchors.margins: units.gu(1)
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
+        enabled: false
+        anchors {
+            margins: units.gu(1)
+            bottom: parent.bottom
+            right: parent.right
+        }
 
         text: i18n.tr("Post")
         onClicked: {
-            tweetEdit.enabled = false;
-            tmpText = tweetEdit.text;
-            animTimer.start();
-            aztter.tweet(tmpText);
+            if(tweetEdit.length != 0 && tweetEdit.length <= 140) {
+                enabled = false;
+                tweetEdit.enabled = false;
+                aztter.tweet(tweetEdit.text);
+            }
         }
     }
 }
