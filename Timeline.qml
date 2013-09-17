@@ -58,7 +58,7 @@ ListView {
 //        rtVerified: rtUserVerified
 
         onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
-        onItemSwipedRight: helper.rt(tweetText, userScreenName)
+        onItemSwipedRight: helper.rt(tweetId)
         onClicked: console.log("tweetItem clicked!")
         onProfileIconClicked: console.log("profileIcon clicked!")
     }

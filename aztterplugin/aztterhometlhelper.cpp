@@ -23,12 +23,14 @@
 #include "azttertweetenum.h"
 #include "aztteruserstream.h"
 #include "aztterfav.h"
+#include "aztterrt.h"
 #include "aztterstatusupdate.h"
 
 AztterHomeTLHelper::AztterHomeTLHelper(QObject *parent) : QObject(parent)
 {
 	m_stream = new AztterUserStream(this);
 	m_fav = new AztterFav(this);
+	m_rt = new AztterRT(this);
 	m_statusUpdate = new AztterStatusUpdate(this);
 
 	connect(m_stream, SIGNAL( streamReceived(QByteArray) ), this, SLOT( parseStream(QByteArray) ));
@@ -49,18 +51,8 @@ void AztterHomeTLHelper::streamDisconnect() {m_stream->streamDisconnect();}
 
 void AztterHomeTLHelper::fav(const qint64 tweetId) {m_fav->fav(tweetId);}
 void AztterHomeTLHelper::unfav(const qint64 tweetId) {m_fav->unfav(tweetId);}
-
-void AztterHomeTLHelper::rt(const QString tweetText, const QString userScreenName)
-{
-	m_statusUpdate->tweet("RT @" + userScreenName + ": " + tweetText);
-}
-
-void AztterHomeTLHelper::favrt(const qint64 tweetId, const QString tweetText,
-							   const QString userScreenName)
-{
-	fav(tweetId);
-	rt(tweetText, userScreenName);
-}
+void AztterHomeTLHelper::rt(const qint64 tweetId) {m_rt->rt(tweetId);}
+void AztterHomeTLHelper::favrt(const qint64 tweetId) {fav(tweetId); rt(tweetId);}
 
 void AztterHomeTLHelper::parseStream(const QByteArray &data)
 {

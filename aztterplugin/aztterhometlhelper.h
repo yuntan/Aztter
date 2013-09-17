@@ -23,6 +23,7 @@
 class QDateTime;
 class AztterUserStream;
 class AztterFav;
+class AztterRT;
 class AztterStatusUpdate;
 
 class AztterHomeTLHelper : public QObject
@@ -39,8 +40,8 @@ public:
 	// AztterFavRT
 	Q_INVOKABLE void fav(const qint64 tweetId);
 	Q_INVOKABLE void unfav(const qint64 tweetId);
-	Q_INVOKABLE void rt(const QString tweetText, const QString userScreenName);
-	Q_INVOKABLE void favrt(const qint64 tweetId, const QString tweetText, const QString userScreenName);
+	Q_INVOKABLE void rt(const qint64 tweetId);
+	Q_INVOKABLE void favrt(const qint64 tweetId);
 
 signals:
 	void tweetReceived(QVariantMap tweet);
@@ -63,6 +64,7 @@ private:
 
 	AztterUserStream *m_stream;
 	AztterFav *m_fav;
+	AztterRT *m_rt;
 	AztterStatusUpdate *m_statusUpdate;
 	QVariantMap m_tweet;
 };

@@ -30,7 +30,8 @@ HEADERS += \
 	aztterplugin/azttertweetenum.h \
 	aztterplugin/aztterfav.h \
     aztterplugin/aztterlocalstorage.h \
-    aztterplugin/aztterauthhelper.h
+    aztterplugin/aztterauthhelper.h \
+    aztterplugin/aztterrt.h
 
 SOURCES += \
 	aztterplugin/aztterplugin.cpp \
@@ -42,7 +43,8 @@ SOURCES += \
 	aztterplugin/azttertweetlistmodel.cpp \
 	aztterplugin/aztterfav.cpp \
     aztterplugin/aztterlocalstorage.cpp \
-    aztterplugin/aztterauthhelper.cpp
+    aztterplugin/aztterauthhelper.cpp \
+    aztterplugin/aztterrt.cpp
 
 # KQOAuth
 PUBLIC_HEADERS += \
