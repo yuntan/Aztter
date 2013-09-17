@@ -21,6 +21,12 @@ import "aztterplugin" 1.0
 Item {
     height: tweetEdit.height
 
+    function postTweet() {
+        postButton.enabled = false;
+        tweetEdit.enabled = false;
+        aztter.tweet(tweetEdit.text);
+    }
+
     AztterStatusUpdate {
         id: aztter
 
@@ -35,6 +41,13 @@ Item {
     TextArea {
         id: tweetEdit
 
+        Keys.onReturnPressed: {
+            if(event.modifiers & Qt.ControlModifier || event.modifiers & Qt.ShiftModifier)
+                postTweet();
+            else
+                event.accepted = false;
+        }
+
         Component.onCompleted: postButton.height = height
 
         anchors {
@@ -48,6 +61,7 @@ Item {
 
         onTextChanged: {
             postButton.enabled = true;
+            postButton.text = i18n.tr("Post")
             if(length >= 110){
                 if(length > 140){
                     postButton.enabled = false;
@@ -55,8 +69,8 @@ Item {
                     // TODO: change color
                 }
                 postButton.text = 140 - length
-            } else {
-                postButton.text = i18n.tr("Post")
+            } else if(length == 0){
+                postButton.enabled = false;
             }
         }
     }
@@ -72,12 +86,6 @@ Item {
         }
 
         text: i18n.tr("Post")
-        onClicked: {
-            if(tweetEdit.length != 0 && tweetEdit.length <= 140) {
-                enabled = false;
-                tweetEdit.enabled = false;
-                aztter.tweet(tweetEdit.text);
-            }
-        }
+        onClicked: postTweet()
     }
 }
