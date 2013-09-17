@@ -62,4 +62,35 @@ ListView {
         onClicked: console.log("tweetItem clicked!")
         onProfileIconClicked: console.log("profileIcon clicked!")
     }
+
+    // animation
+    add: Transition {
+        UbuntuNumberAnimation {
+            property: "x"
+            from: units.gu(9); to: 0;
+            duration: UbuntuAnimation.BriskDuration
+        }
+        UbuntuNumberAnimation {
+            property: "opacity"
+            from: 0; to: 1.0;
+            duration: UbuntuAnimation.BriskDuration
+        }
+    }
+
+    displaced: Transition {
+        UbuntuNumberAnimation {
+            properties: "x"
+            to: 0
+            duration: UbuntuAnimation.BriskDuration
+        }
+        UbuntuNumberAnimation {
+            properties: "y"
+            duration: UbuntuAnimation.BriskDuration
+        }
+        UbuntuNumberAnimation {
+            properties: "opacity"
+            to: 1.0
+            duration: UbuntuAnimation.BriskDuration
+        }
+    }
 }

@@ -382,6 +382,7 @@ AbstractButton {
             target: emptyListItem
             property: "implicitHeight"
             to: 0
+            duration: UbuntuAnimation.BriskDuration
         }
         ScriptAction {
              script: {
@@ -403,6 +404,7 @@ AbstractButton {
             target: body
             property: "x"
             to: 0
+            duration: UbuntuAnimation.BriskDuration
         }
         ScriptAction {
              script: {
