@@ -20,10 +20,13 @@
 #include <QObject>
 #include <QUrl>
 #include <QByteArray>
+#include <QStringList>
 #include <QVariantMap>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDateTime>
+#include <QDebug>
 #include "kqoauthmanager.h"
 #include "kqoauthrequest.h"
 
@@ -34,6 +37,8 @@ class AztterAPIBase : public QObject
 public:
 	explicit AztterAPIBase(QObject *parent = 0);
 	void init(KQOAuthRequest::RequestHttpMethod method, const QUrl &requestEndpoint);
+	QVariantMap parseTweet(const QJsonObject &);
+	QDateTime parseCreatedAt(const QString &);
 
 protected slots:
 	virtual void onRequestReady(QByteArray) {}

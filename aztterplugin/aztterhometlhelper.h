@@ -20,7 +20,6 @@
 #include <QObject>
 #include <QVariantMap>
 
-class QDateTime;
 class AztterUserStream;
 class AztterFav;
 class AztterRT;
@@ -38,10 +37,10 @@ public:
 	Q_INVOKABLE void startFetching();
 	Q_INVOKABLE void streamDisconnect();
 	// AztterFavRT
-	Q_INVOKABLE void fav(const qint64 tweetId);
-	Q_INVOKABLE void unfav(const qint64 tweetId);
-	Q_INVOKABLE void rt(const qint64 tweetId);
-	Q_INVOKABLE void favrt(const qint64 tweetId);
+	Q_INVOKABLE void fav(qint64 tweetId);
+	Q_INVOKABLE void unfav(qint64 tweetId);
+	Q_INVOKABLE void rt(qint64 tweetId);
+	Q_INVOKABLE void favrt(qint64 tweetId);
 
 signals:
 	void tweetReceived(QVariantMap tweet);
@@ -50,23 +49,11 @@ signals:
 	void tweetDeleted(qint64 tweetId);
 	void favChanged(qint64 tweetId, bool favorited);
 
-private slots:
-	void parseStream(const QByteArray&);
-	void onFinished(const qint64 tweetId, const bool fav);
-//	void onFinished(AztterAPIBase::Status);
-
 private:
-	void parseTweet(const QJsonObject&);
-	void parseFriendsList(const QJsonObject&);
-	void parseDirectMessage(const QJsonObject&);
-	void parseDeleteTweet(const QJsonObject&);
-	QDateTime parseCreatedAt(const QString&);
-
 	AztterUserStream *m_stream;
 	AztterFav *m_fav;
 	AztterRT *m_rt;
 	AztterStatusUpdate *m_statusUpdate;
-	QVariantMap m_tweet;
 };
 
 #endif // AZTTERHOMETLHELPER_H

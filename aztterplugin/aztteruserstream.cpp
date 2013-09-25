@@ -17,9 +17,6 @@
 #include "aztteruserstream.h"
 #include <QTimer>
 #include <QSslError>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QDebug>
 
 #define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/1.1/user.json"
 #define AUTH_HEADER "Authorization"
@@ -36,6 +33,7 @@ AztterUserStream::AztterUserStream(QObject *parent) : AztterAPIBase(parent)
 
 	connect(m_backofftimer, SIGNAL(timeout()), this, SLOT(startFetching()));
 	connect(m_timeoutTimer, SIGNAL(timeout()), this, SLOT(replyTimeout()));
+	connect(this, SIGNAL( streamReceived(QByteArray) ), this, SLOT( parseStream(QByteArray) ));
 }
 
 
@@ -169,4 +167,47 @@ void AztterUserStream::sslErrors(const QList<QSslError> &errors)
 	if (reply) {
 		reply->ignoreSslErrors();
 	}
+}
+
+void AztterUserStream::parseStream(const QByteArray &data)
+{
+	QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+
+	if(jsonDoc.isObject()) {
+		QJsonObject jsonObj = jsonDoc.object();
+		if (jsonObj.contains("friends")) {
+			qDebug() << "friends list received";
+			parseFriendsList(jsonObj);
+			emit friendsListReceived();
+		} else if (jsonObj.contains("text")) {
+			qDebug() << "tweet received";
+			emit tweetReceived(parseTweet(jsonObj));
+		} else if (jsonObj.contains("delete")) {
+			qDebug() << "delete received";
+			emit tweetDeleted(parseDeleteTweet(jsonObj));
+		} else if (jsonObj.contains("direct_message")) {
+			qDebug() << "direct message received";
+			parseDirectMessage(jsonObj);
+			emit directMessageReceived();
+		}
+	}
+}
+
+void AztterUserStream::parseFriendsList(const QJsonObject &jsonObj)
+{
+	// TODO parse friendslist
+	Q_UNUSED(jsonObj)
+}
+
+void AztterUserStream::parseDirectMessage(const QJsonObject &jsonObj)
+{
+	// TODO parse directmessaga
+	Q_UNUSED(jsonObj)
+}
+
+qint64 AztterUserStream::parseDeleteTweet(const QJsonObject &jsonObj)
+{
+	QJsonObject deleteStatusJson = jsonObj["delete"].toObject();
+	QJsonObject statusJson = deleteStatusJson["status"].toObject();
+	return static_cast<qint64>(statusJson["id"].toDouble());
 }

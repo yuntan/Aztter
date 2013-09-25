@@ -18,8 +18,6 @@
 #define AZTTERUSERSTREAM_H
 
 #include "aztterapibase.h"
-#include <QObject>
-#include <QList>
 
 class QTimer;
 class QSslError;
@@ -40,6 +38,11 @@ signals:
 	// Usefull when users stream fails to revert to REST API
 	void failureConnect();
 
+	void tweetReceived(QVariantMap tweet);
+	void friendsListReceived();
+	void directMessageReceived();
+	void tweetDeleted(qint64 tweetId);
+
 public slots:
 	void startFetching();
 	void streamDisconnect();
@@ -50,8 +53,13 @@ private slots:
 	void replyFinished();
 	void replyTimeout();
 	void sslErrors(const QList<QSslError>& errors);
+	void parseStream(const QByteArray&);
 
 private:
+	void parseFriendsList(const QJsonObject &);
+	void parseDirectMessage(const QJsonObject &);
+	qint64 parseDeleteTweet(const QJsonObject &);
+
 	QByteArray m_cachedResponse;
 	QNetworkReply *m_reply;
 	QTimer *m_backofftimer;
