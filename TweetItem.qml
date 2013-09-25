@@ -105,7 +105,7 @@ Empty {
 
             fillMode: Image.PreserveAspectCrop
 
-            property url fallbackSource: Qt.resolvedUrl("Aztter80.png")
+            property url fallbackSource: Qt.resolvedUrl("img/loading.png")
 
             Component.onCompleted: {
                 if(source == undefined || source == "")
@@ -282,7 +282,7 @@ Empty {
 
                 fillMode: Image.PreserveAspectCrop
 
-                property url rtFallbackSource: Qt.resolvedUrl("Aztter80.png")
+                property url rtFallbackSource: Qt.resolvedUrl("img/loading.png")
 
                 Component.onCompleted: {
                     if(source == undefined || source == "")

@@ -82,24 +82,20 @@ Page {
         z: 20
     }
 
-//    Component {
-//        id: wallpaperComponent
+    Image {
+        id: wallpaper
 
-        Image {
-            id: wallpaper
+        z: 0
+        anchors.fill: parent
+        source: "wallpaper"
+        fillMode: Image.PreserveAspectCrop
+    }
 
-            z: 0
-            anchors.fill: parent
-            source: "wallpaper"
-            fillMode: Image.PreserveAspectCrop
-        }
+    Rectangle {
+        id: filter
 
-        Rectangle {
-            id: filter
-
-            z: 1
-            anchors.fill: parent
-            color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
-        }
-//    }
+        z: 1
+        anchors.fill: parent
+        color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
+    }
 }

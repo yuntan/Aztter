@@ -10,12 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="128"
-   height="128"
+   width="512"
+   height="512"
    id="svg3881"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="aztter.png">
+   sodipodi:docname="aztter.svg"
+   inkscape:export-filename="/home/yuntan/workspace/qtcreator/aztter/img/aztter64.png"
+   inkscape:export-xdpi="11.25"
+   inkscape:export-ydpi="11.25">
   <defs
      id="defs3883">
     <linearGradient
@@ -218,16 +221,6 @@
          offset="1"
          id="stop3961" />
     </linearGradient>
-    <linearGradient
-       gradientTransform="matrix(0.9598315,0,0,0.95945896,-49.621164,-115.12409)"
-       y2="54.517433"
-       x2="184.08867"
-       y1="172.61372"
-       x1="70.951561"
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient3972"
-       xlink:href="#linearGradient3755"
-       inkscape:collect="always" />
     <radialGradient
        r="15.15625"
        fy="225.46545"
@@ -302,9 +295,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.63"
-     inkscape:cx="32"
-     inkscape:cy="61.684503"
+     inkscape:zoom="0.90028971"
+     inkscape:cx="218.9673"
+     inkscape:cy="266.72953"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -313,7 +306,11 @@
      inkscape:window-height="713"
      inkscape:window-x="-2"
      inkscape:window-y="-3"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata3886">
     <rdf:RDF>
@@ -330,20 +327,21 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,64)">
+     transform="translate(-1.34375,449.125)">
     <rect
-       style="fill:url(#linearGradient3972);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.95964521px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#1ebba6;fill-opacity:1;fill-rule:evenodd;stroke:none"
        id="rect2985"
-       width="124.77809"
-       height="124.72966"
-       x="1.8149321"
-       y="-62.33712"
-       ry="5.7129035" />
+       width="512"
+       height="512"
+       x="1.34375"
+       y="-449.125"
+       ry="65.841454"
+       rx="65.841454" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot3795"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3786);fill-opacity:1;stroke:none;font-family:'TakaoEx明朝';-inkscape-font-specification:'TakaoEx明朝'"
-       transform="matrix(2.2420635,0,0,2.1955825,-362.15568,-530.4891)"><flowRegion
+       transform="matrix(9.2747383,0,0,9.0211307,-1508.0506,-2373.1357)"><flowRegion
          id="flowRegion3797"
          style="fill:url(#radialGradient3976);fill-opacity:1"><rect
            id="rect3799"
@@ -352,13 +350,13 @@
            x="160.76601"
            y="246.54732"
            ry="0"
-           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3974);fill-opacity:1;font-family:'TakaoEx明朝';-inkscape-font-specification:'TakaoEx明朝'" /></flowRegion><flowPara
+           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3974);fill-opacity:1;stroke:none;font-family:'TakaoEx明朝';-inkscape-font-specification:'TakaoEx明朝'" /></flowRegion><flowPara
          id="flowPara3815"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3978);fill-opacity:1;font-family:'TakaoEx明朝';-inkscape-font-specification:'TakaoEx明朝'">あ</flowPara></flowRoot>    <flowRoot
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3978);fill-opacity:1;stroke:none;font-family:'TakaoEx明朝';-inkscape-font-specification:'TakaoEx明朝'">あ</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3825"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3794);fill-opacity:1;stroke:none;font-family:'Takao P明朝';-inkscape-font-specification:'Takao P明朝'"
-       transform="matrix(1.4037216,0,0,1.575915,-97.763349,-292.493)"><flowRegion
+       transform="matrix(5.8067712,0,0,6.4750631,-414.33952,-1395.2658)"><flowRegion
          id="flowRegion3827"
          style="fill:url(#radialGradient3982);fill-opacity:1"><rect
            id="rect3829"
@@ -366,7 +364,7 @@
            height="77.405861"
            x="117.10117"
            y="218.7606"
-           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3980);fill-opacity:1;font-family:'Takao P明朝';-inkscape-font-specification:'Takao P明朝'" /></flowRegion><flowPara
+           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:0%;writing-mode:lr-tb;text-anchor:start;fill:url(#radialGradient3980);fill-opacity:1;stroke:none;font-family:'Takao P明朝';-inkscape-font-specification:'Takao P明朝'" /></flowRegion><flowPara
          id="flowPara3831"
-         style="fill:url(#radialGradient3984);fill-opacity:1">ず</flowPara></flowRoot>  </g>
+         style="fill:url(#radialGradient3984);fill-opacity:1;stroke:none">ず</flowPara></flowRoot>  </g>
 </svg>
