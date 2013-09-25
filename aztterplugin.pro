@@ -31,7 +31,8 @@ HEADERS += \
 	aztterplugin/aztterfav.h \
     aztterplugin/aztterlocalstorage.h \
     aztterplugin/aztterauthhelper.h \
-    aztterplugin/aztterrt.h
+    aztterplugin/aztterrt.h \
+	aztterplugin/aztterhometl.h
 
 SOURCES += \
 	aztterplugin/aztterplugin.cpp \
@@ -44,7 +45,8 @@ SOURCES += \
 	aztterplugin/aztterfav.cpp \
     aztterplugin/aztterlocalstorage.cpp \
     aztterplugin/aztterauthhelper.cpp \
-    aztterplugin/aztterrt.cpp
+    aztterplugin/aztterrt.cpp \
+	aztterplugin/aztterhometl.cpp
 
 # KQOAuth
 PUBLIC_HEADERS += \

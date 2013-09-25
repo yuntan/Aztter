@@ -16,6 +16,7 @@
 
 #include "aztterhometlhelper.h"
 #include "aztteruserstream.h"
+#include "aztterhometl.h"
 #include "aztterfav.h"
 #include "aztterrt.h"
 #include "aztterstatusupdate.h"
@@ -23,6 +24,7 @@
 AztterHomeTLHelper::AztterHomeTLHelper(QObject *parent) : QObject(parent)
 {
 	m_stream = new AztterUserStream(this);
+	m_homeTL = new AztterHomeTL(this);
 	m_fav = new AztterFav(this);
 	m_rt = new AztterRT(this);
 	m_statusUpdate = new AztterStatusUpdate(this);
@@ -31,6 +33,7 @@ AztterHomeTLHelper::AztterHomeTLHelper(QObject *parent) : QObject(parent)
 	connect(m_stream, SIGNAL( friendsListReceived() ), this, SIGNAL( friendsListReceived() ));
 	connect(m_stream, SIGNAL( directMessageReceived() ), this, SIGNAL( directMessageReceived() ));
 	connect(m_stream, SIGNAL( tweetDeleted(qint64) ), this, SIGNAL( tweetDeleted(qint64) ));
+	connect(m_homeTL, SIGNAL( tweetReceived(QVariantMap) ), this, SIGNAL( tweetReceived(QVariantMap) ));
 	connect(m_fav, SIGNAL( finished(qint64,bool) ), this, SIGNAL( favChanged(qint64,bool) ));
 //	connect(m_fav, SIGNAL( finished(AztterAPIBase::Status) ),
 //			this, SLOT( onFinished(AztterAPIBase::Status) ));
@@ -43,7 +46,11 @@ AztterHomeTLHelper::~AztterHomeTLHelper()
 	qDebug() << "AztterHomeTLHelper destroyed";
 }
 
-void AztterHomeTLHelper::startFetching() {m_stream->startFetching();}
+void AztterHomeTLHelper::startFetching()
+{
+	m_homeTL->fetchTimeline();
+	m_stream->startFetching();
+}
 void AztterHomeTLHelper::streamDisconnect() {m_stream->streamDisconnect();}
 
 void AztterHomeTLHelper::fav(const qint64 tweetId) {m_fav->fav(tweetId);}

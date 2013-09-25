@@ -15,10 +15,6 @@
  */
 
 #include "aztterstatusupdate.h"
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QDebug>
 
 #define TWITTER_STATUSUPDATE_URL "http://api.twitter.com/1.1/statuses/update.json"
 
@@ -29,7 +25,6 @@ AztterStatusUpdate::AztterStatusUpdate(QObject *parent) : AztterAPIBase(parent)
 void AztterStatusUpdate::tweet(QString tweet)
 {
 	init(KQOAuthRequest::POST, QUrl(TWITTER_STATUSUPDATE_URL));
-//	init(KQOAuthRequest::GET, QUrl("https://api.twitter.com/1.1/statuses/home_timeline.json"));
 
 	KQOAuthParameters params;
 	params.insert("status", tweet);
@@ -86,5 +81,5 @@ void AztterStatusUpdate::onRequestReady(QByteArray response)
 
 void AztterStatusUpdate::onAuthorizedRequestDone()
 {
-	qDebug() << "Request sent to Twitter";
+	qDebug() << "AztterStatusUpdate: Request sent to Twitter";
 }

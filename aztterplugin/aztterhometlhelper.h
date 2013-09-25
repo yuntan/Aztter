@@ -21,6 +21,7 @@
 #include <QVariantMap>
 
 class AztterUserStream;
+class AztterHomeTL;
 class AztterFav;
 class AztterRT;
 class AztterStatusUpdate;
@@ -51,6 +52,7 @@ signals:
 
 private:
 	AztterUserStream *m_stream;
+	AztterHomeTL *m_homeTL;
 	AztterFav *m_fav;
 	AztterRT *m_rt;
 	AztterStatusUpdate *m_statusUpdate;
