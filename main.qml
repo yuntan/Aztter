@@ -35,9 +35,12 @@ MainView {
 	width: units.gu(45)
 	height: units.gu(80)
 
-    headerColor: "#00ba47" // DIC-598
-    backgroundColor: "#00c262" // DIC-92
-    footerColor: "#00a567" // DIC-173
+//    headerColor: "#00ba47" // DIC-598
+//    backgroundColor: "#00c262" // DIC-92
+//    footerColor: "#00a567" // DIC-173
+    headerColor: "#5bdecd"
+    backgroundColor: "#1EBBA6"
+    footerColor: "#16ab97"
 
     Component.onCompleted: pageStack.push(loadingPage)
 
