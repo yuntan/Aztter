@@ -221,14 +221,15 @@ Empty {
         text: {
             // FIXME
             var now = new Date();
-            if(now.getDate() - createdAt.getDate() > 0)
-                return (now.getDate() - createdAt.getDate()) + i18n.tr(" days ago");
-            if(now.getHours() - createdAt.getHours() > 0)
-                return (now.getHours() - createdAt.getHours()) + i18n.tr(" hours ago");
-            if(now.getMinutes() - createdAt.getMinutes() > 0)
-                return (now.getMinutes() - createdAt.getMinutes()) + i18n.tr(" minutes ago");
-            if(now.getSeconds() - createdAt.getSeconds() > 10)
-                return (now.getSeconds() - createdAt.getSeconds()) + i18n.tr(" seconds ago");
+            var diff = Math.floor((now.getTime() - createdAt.getTime()) / 1000);
+            if(diff >= 86400)
+                return Math.floor(diff / 86400) + i18n.tr(" days ago");
+            if(diff >= 3600)
+                return Math.floor(diff / 3600) + i18n.tr(" hours ago");
+            if(diff >= 60)
+                return Math.floor(diff / 60) + i18n.tr(" minutes ago");
+            if(diff >= 10)
+                return diff + i18n.tr(" seconds ago");
             return i18n.tr("Just now");
         }
 
