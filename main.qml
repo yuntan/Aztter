@@ -24,7 +24,7 @@ MainView {
     objectName: "Aztter"
 
     // Note! applicationName needs to match the .desktop filename
-    applicationName: "Aztter"
+    applicationName: "com.ubuntu.developer.yuntan.aztter"
 
     /*
      This property enables the application to change orientation
