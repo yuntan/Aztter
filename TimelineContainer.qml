@@ -19,6 +19,7 @@ import "components"
 
 Page {
     id: timelineContainer
+    title: qsTr("Timeline")
 
     Component.onCompleted: {
 //        if(wallpaper.status === Image.Ready)
@@ -43,19 +44,6 @@ Page {
 //        scrollBar.flickableItem = listView;
         currentIndex = index;
     }
-
-//    tools: ToolbarItems {
-//        ToolbarButton {
-//            id: showhideboxbutton
-
-//            action: Action {
-//                text: tweetBox.visible ? "Hide Box" : "New Tweet"
-//                onTriggered: tweetBox.visible
-//                             ? tweetBox.visible = false
-//                             : tweetBox.visible = true
-//            }
-//        }
-//    }
 
 //    Tabs {
 //        id: tabs
