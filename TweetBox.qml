@@ -14,18 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.1
+import QtQuick.Controls 1.0
+import "components"
 import "aztterplugin" 1.0
 
-Item {
-    height: tweetEdit.height
-
+Rectangle {
     function postTweet() {
         postButton.enabled = false;
         tweetEdit.enabled = false;
         aztter.tweet(tweetEdit.text);
     }
+
+    color: "#035102"
 
     AztterStatusUpdate {
         id: aztter
@@ -38,8 +39,34 @@ Item {
         }
     }
 
-    TextArea {
+    FlatButton {
+        id: openButton
+
+        width: height
+        height: parent.height
+        anchors {
+            left: parent.left
+        }
+
+        iconSource: "img/star.png"
+
+//        onClicked: stackView.push()
+    }
+
+    TextField {
         id: tweetEdit
+
+        anchors {
+            top: parent.top
+            topMargin: parent.height / 5
+            bottom: parent.bottom
+            bottomMargin: parent.height / 5
+            left: openButton.right
+            right: postButton.left
+        }
+
+        font.pixelSize: height / 2
+        placeholderText: qsTr("What's happened?")
 
         Keys.onReturnPressed: {
             if(event.modifiers & Qt.ControlModifier || event.modifiers & Qt.ShiftModifier)
@@ -48,20 +75,9 @@ Item {
                 event.accepted = false;
         }
 
-        Component.onCompleted: postButton.height = height
-
-        anchors {
-            margins: units.gu(1)
-            left: parent.left
-            right: postButton.left
-            bottom: parent.bottom
-        }
-
-        autoSize: true
-
         onTextChanged: {
             postButton.enabled = true;
-            postButton.text = i18n.tr("Post")
+            postButton.text = qsTr("Post")
             if(length >= 110){
                 if(length > 140){
                     postButton.enabled = false;
@@ -75,17 +91,16 @@ Item {
         }
     }
 
-    Button {
+    FlatButton {
         id: postButton
 
-        enabled: false
-        anchors {
-            margins: units.gu(1)
-            bottom: parent.bottom
-            right: parent.right
-        }
+        height: parent.height
+        width: height * 3 / 2
+        anchors.right: parent.right
 
-        text: i18n.tr("Post")
+        enabled: false
+        text: qsTr("Post")
+        textColor: "white"
         onClicked: postTweet()
     }
 }

@@ -14,47 +14,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.LocalStorage 2.0 as Storage
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import QtWebKit 3.0
-import Ubuntu.Components 0.1
+import "components"
 import "aztterplugin" 1.0
 
 Page {
     id: authPage
 
-	title: i18n.tr("Authentication")
+    title: qsTr("Twitter Authentication")
+    busy: authWebView.loading
 
     AztterAuthHelper {
         id: aztterOAuth
 
         onAuthPageRequested: authWebView.url = authPageUrl
-        onAuthorized: {
-            aztterOAuth.destroy()
-            pageStack.push(timelineContainer)
-        }
+        onAuthorized: stackView.push(timelineContainer)
     }
 
-	ActivityIndicator {
-		anchors.centerIn: parent
-		running: authWebView.loading
-	}
+        Label {
+            id: authLabel
 
-	Rectangle {
-		id: authLabel
-		width: parent.width
+            width: parent.width
+            anchors.top: parent.top
+            text: qsTr("Let's do twitter authentication first.")
+            font.pointSize: 18
+            color: "white"
+        }
 
-		Label {
-			anchors.centerIn: parent
-			text: i18n.tr("Let's do twitter authentication first.")
-			fontSize: "large"
-		}
-	}
 
-	WebView {
-		id: authWebView
-		width: parent.width
-        height: parent.height - authLabel.height - units.gu(3)
+    WebView {
+        id: authWebView
+        width: parent.width
+        anchors.top: authLabel.bottom
+        anchors.topMargin: parent.height / 20
         anchors.bottom: parent.bottom
-	}
+    }
 }

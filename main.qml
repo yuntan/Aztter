@@ -14,56 +14,69 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.1
+import QtQuick.Controls 1.0
+import "components"
 
-MainView {
-	id: mainView
+ApplicationWindow {
+    id: mainWindow
+    title: qsTr("Aztter")
 
-    // objectName for functional testing purposes (autopilot-qt5)
-    objectName: "Aztter"
-
-    // Note! applicationName needs to match the .desktop filename
-    applicationName: "com.ubuntu.developer.yuntan.aztter"
-
-    /*
-     This property enables the application to change orientation
-     when the device is rotated. The default is false.
-    */
-    automaticOrientation: true
-
-	width: units.gu(45)
-	height: units.gu(80)
-
-//    headerColor: "#00ba47" // DIC-598
-//    backgroundColor: "#00c262" // DIC-92
-//    footerColor: "#00a567" // DIC-173
-    headerColor: "#5bdecd"
-    backgroundColor: "#1EBBA6"
-    footerColor: "#16ab97"
-
-    Component.onCompleted: pageStack.push(loadingPage)
+    width: 360
+    height: 640
 
     Storage {
         id: storage
     }
 
-	PageStack {
-        id: pageStack
+    StackView {
+        id: stackView
 
-		Component {
-			id: loadingPage
-			LoadingPage {}
-		}
+        anchors.fill: parent
+        initialItem: loadingPage
+//        initialItem: apage
 
-        Component {
-            id: pinAuthPage
-            AuthPage {}
+        delegate: StackViewDelegate {
+            property Component pushTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: enterItem
+                    property: "x"
+                    duration: 500
+                    easing.type: Easing.OutQuad
+                    from: enterItem.width ;to: 0
+
+                }
+            }
+
+            property Component popTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: exitItem
+                    property: "x"
+                    duration: 500
+                    easing.type: Easing.InQuad
+                    from:0 ;to: enterItem.width
+                }
+            }
         }
+    }
 
-		Component {
-            id: timelineContainer
-            TimelineContainer {}
-		}
+    Component {
+        id: loadingPage
+        LoadingPage {}
+    }
+
+    Component {
+        id: authPage
+        AuthPage {}
+    }
+
+    Component {
+        id: timelineContainer
+        TimelineContainer {}
+    }
+
+    Component {
+        id: apage
+        Page {title: "Page"; busy: true}
     }
 }

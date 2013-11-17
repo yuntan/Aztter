@@ -14,15 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.1
+import "components"
 
 Page {
     id: timelineContainer
 
     Component.onCompleted: {
-        if(wallpaper.status === Image.Ready)
-            filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
+//        if(wallpaper.status === Image.Ready)
+//            filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
 //        loadListView(settings.load("view/last_view"));
         loadListView(0)
     }
@@ -39,63 +39,65 @@ Page {
         var component = Qt.createComponent("Timeline.qml");
         listView = component.createObject(timelineContainer,
                                           {"anchors.fill": timelineContainer, "z": 12});
-        flickable = listView;
-        scrollBar.flickableItem = listView;
+//        flickable = listView;
+//        scrollBar.flickableItem = listView;
         currentIndex = index;
     }
 
-    tools: ToolbarItems {
-        ToolbarButton {
-            id: showhideboxbutton
+//    tools: ToolbarItems {
+//        ToolbarButton {
+//            id: showhideboxbutton
 
-            action: Action {
-                text: tweetBox.visible ? "Hide Box" : "New Tweet"
-                onTriggered: tweetBox.visible
-                             ? tweetBox.visible = false
-                             : tweetBox.visible = true
-            }
-        }
-    }
+//            action: Action {
+//                text: tweetBox.visible ? "Hide Box" : "New Tweet"
+//                onTriggered: tweetBox.visible
+//                             ? tweetBox.visible = false
+//                             : tweetBox.visible = true
+//            }
+//        }
+//    }
 
-    Tabs {
-        id: tabs
+//    Tabs {
+//        id: tabs
 
-        onSelectedTabIndexChanged: loadListView(selectedTabIndex)
-        Tab {title: i18n.tr("Home")}
-//        Tab {title: i18n.tr("Mention")}
-//        Tab {title: i18n.tr("List")}
-    }
+//        onSelectedTabIndexChanged: loadListView(selectedTabIndex)
+//        Tab {title: i18n.tr("Home")}
+////        Tab {title: i18n.tr("Mention")}
+////        Tab {title: i18n.tr("List")}
+//    }
 
     TweetBox {
         id: tweetBox
 
-        visible: false
+        visible: true
         z: 15
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(26)
         width: parent.width
+        height: parent.height / 10
+        anchors.bottom: parent.bottom
     }
 
-    Scrollbar {
-        id: scrollBar
+//    Scrollbar {
+//        id: scrollBar
 
-        z: 20
-    }
+//        z: 20
+//    }
 
-    Image {
-        id: wallpaper
+//    Image {
+//        id: wallpaper
 
-        z: 0
-        anchors.fill: parent
-        source: "wallpaper"
-        fillMode: Image.PreserveAspectCrop
-    }
+//        z: 0
+//        anchors.fill: parent
+//        source: "wallpaper"
+//        fillMode: Image.PreserveAspectCrop
+//    }
 
     Rectangle {
         id: filter
 
+        visible: false
         z: 1
         anchors.fill: parent
-        color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
+//        color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
+        color: "#80000000"
     }
 }

@@ -14,9 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import QtQuick 2.1
 import "aztterplugin" 1.0
 
 ListView {
@@ -65,32 +63,32 @@ ListView {
 
     // animation
     add: Transition {
-        UbuntuNumberAnimation {
+        NumberAnimation {
             property: "x"
             from: units.gu(9); to: 0;
-            duration: UbuntuAnimation.BriskDuration
+            duration: 333
         }
-        UbuntuNumberAnimation {
+        NumberAnimation {
             property: "opacity"
             from: 0; to: 1.0;
-            duration: UbuntuAnimation.BriskDuration
+            duration: 333
         }
     }
 
     displaced: Transition {
-        UbuntuNumberAnimation {
+        NumberAnimation {
             properties: "x"
             to: 0
-            duration: UbuntuAnimation.BriskDuration
+            duration: 333
         }
-        UbuntuNumberAnimation {
+        NumberAnimation {
             properties: "y"
-            duration: UbuntuAnimation.BriskDuration
+            duration: 333
         }
-        UbuntuNumberAnimation {
+        NumberAnimation {
             properties: "opacity"
             to: 1.0
-            duration: UbuntuAnimation.BriskDuration
+            duration: 333
         }
     }
 }

@@ -14,15 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 
-Page {
+Rectangle {
     id: loadingPage
 
-    title: i18n.tr("Aztter")
-
     Component.onCompleted: timer.start()
+
+    color: "#1fc4ab"
 
     Timer {
         id: timer
@@ -30,24 +30,23 @@ Page {
         interval: 2000
         onTriggered: {
             if(storage.isAuthenticated())
-                pageStack.push(timelineContainer);
+                stackView.push(timelineContainer);
             else
-                pageStack.push(pinAuthPage);
-            loadingPage.destroy()
+                stackView.push(authPage);
         }
     }
 
-	ActivityIndicator {
-		anchors.right: parent.right
-//		running: true
-	}
+//	ActivityIndicator {
+//		anchors.right: parent.right
+////		running: true
+//	}
 
     Label {
         id: loadingLabel
 
         anchors.centerIn: parent
-        color: "white"
-        fontSize: "large"
-        text: i18n.tr("Loading...")
+        color: Qt.darker(parent.color, 0.5)
+        text: qsTr("Loading...")
+        font.pointSize: 18
     }
 }
