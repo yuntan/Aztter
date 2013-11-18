@@ -1,9 +1,9 @@
 TEMPLATE = lib
-TARGET = aztterplugin
+TARGET = $$qtLibraryTarget(aztterplugin)
 #uri = com.ubuntu.developers.yuntan.aztter
 
+QT += qml quick network
 CONFIG += qt plugin
-QT += qml network
 
 DESTDIR += lib
 OBJECTS_DIR = tmp
