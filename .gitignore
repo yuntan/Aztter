@@ -2,9 +2,16 @@
 *.user.*
 *.autosave
 build*
-lib/*
+*.dll
+*.lib
+*.a
 aztterkeystore*
 e.*
 y.*
 k.*
+Makefile*
+*.Debug
+*.Release
+*.o
+aztterplugin/tmp/*
 
