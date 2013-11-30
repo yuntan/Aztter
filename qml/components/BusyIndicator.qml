@@ -24,7 +24,7 @@ Item {
         id: rotatorImg
 
         anchors.fill: parent
-        source: "../img/rotation_icon.png"
+        source: "../../img/rotation_icon.png"
 
         NumberAnimation on rotation {
             running: indicator.running
