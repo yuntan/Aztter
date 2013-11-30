@@ -18,32 +18,33 @@ import QtQuick 2.1
 import "components"
 
 Page {
-    id: timelineContainer
-    title: qsTr("Timeline")
+	id: timelineContainer
+	title: qsTr("Timeline")
 
-    Component.onCompleted: {
+	Component.onCompleted: {
 //        if(wallpaper.status === Image.Ready)
 //            filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
 //        loadListView(settings.load("view/last_view"));
-        loadListView(0)
-    }
+		loadListView(0)
+	}
 
-    property int currentIndex: -1
-    property QtObject listView
+	property int baseLength: height > width ? height : width
+	property int currentIndex: -1
+	property QtObject listView
 
-    function loadListView(index) {
-        console.debug("loadListView(" + index + ")");
-        if(currentIndex != -1){
-            listView.loadStop();
-            listView.destroy();
-        }
-        var component = Qt.createComponent("Timeline.qml");
-        listView = component.createObject(timelineContainer,
-                                          {"anchors.fill": timelineContainer, "z": 12});
+	function loadListView(index) {
+		console.debug("loadListView(" + index + ")");
+		if(currentIndex != -1){
+			listView.loadStop();
+			listView.destroy();
+		}
+		var component = Qt.createComponent("Timeline.qml");
+		listView = component.createObject(timelineContainer,
+										  {"anchors.fill": timelineContainer, "z": 12});
 //        flickable = listView;
 //        scrollBar.flickableItem = listView;
-        currentIndex = index;
-    }
+		currentIndex = index;
+	}
 
 //    Tabs {
 //        id: tabs
@@ -54,15 +55,15 @@ Page {
 ////        Tab {title: i18n.tr("List")}
 //    }
 
-    TweetBox {
-        id: tweetBox
+	TweetBox {
+		id: tweetBox
 
-        visible: true
-        z: 15
-        width: parent.width
-        height: parent.height / 10
-        anchors.bottom: parent.bottom
-    }
+		visible: true
+		z: 15
+		width: parent.width
+		height: baseLenght / 10
+		anchors.bottom: parent.bottom
+	}
 
 //    Scrollbar {
 //        id: scrollBar
@@ -79,13 +80,13 @@ Page {
 //        fillMode: Image.PreserveAspectCrop
 //    }
 
-    Rectangle {
-        id: filter
+	Rectangle {
+		id: filter
 
-        visible: false
-        z: 1
-        anchors.fill: parent
+		visible: false
+		z: 1
+		anchors.fill: parent
 //        color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
-        color: "#80000000"
-    }
+		color: "#80000000"
+	}
 }

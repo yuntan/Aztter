@@ -3,87 +3,89 @@ import QtQuick.Controls 1.0
 import QtGraphicalEffects 1.0
 
 Rectangle {
-    // ensure children added do not draw over the titleBar
-    property alias data: main.data
-    property alias title: titleLabel.text
-    property color mainColor: "#1EBBA6"
-    property color titleColor: "green"
-    property alias busy: busyIndicator.running
+	// ensure children added do not draw over the titleBar
+	property alias data: main.data
+	property alias title: titleLabel.text
+	property color mainColor: "#1EBBA6"
+	property color titleColor: "green"
+	property alias busy: busyIndicator.running
 
-    color: mainColor
+	property int  baseLenght: height > width ? height : width
 
-    // use container in order not titleBarShadow to be clipped
-    // see http://stackoverflow.com/questions/15488714/how-to-create-drop-shadow-for-rectangle-on-qtquick-2-0
-    Item {
-        id: titleBarContainer
+	color: mainColor
 
-        z: 10
-        visible: false
-        width: parent.width
-        height: parent.height / 10
+	// use container in order not titleBarShadow to be clipped
+	// see http://stackoverflow.com/questions/15488714/how-to-create-drop-shadow-for-rectangle-on-qtquick-2-0
+	Item {
+		id: titleBarContainer
 
-        Rectangle {
-            id: titleBar
+		z: 10
+		visible: false
+		width: parent.width
+		height: baseLenght / 12
 
-            anchors.top: parent.top
-            width: parent.width
-            height: parent.height - titleBarShadow.radius
+		Rectangle {
+			id: titleBar
 
-            color: titleColor
+			anchors.top: parent.top
+			width: parent.width
+			height: parent.height - titleBarShadow.radius
 
-            Label {
-                id: titleLabel
+			color: titleColor
 
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    leftMargin: parent.width / 20
-                }
+			Label {
+				id: titleLabel
 
-                color: "white"
-                font.pixelSize: parent.height / 2
-                fontSizeMode: Text.HorizontalFit
-                font.bold: true
-                style: Text.Raised
-            }
+				anchors {
+					verticalCenter: parent.verticalCenter
+					left: parent.left
+					leftMargin: parent.width / 20
+				}
 
-            BusyIndicator {
-                id: busyIndicator
+				color: "white"
+				font.pixelSize: parent.height / 2
+				fontSizeMode: Text.HorizontalFit
+				font.bold: true
+				style: Text.Raised
+			}
 
-                width: height
-                anchors {
-                    top: parent.top
-                    margins: parent.height / 6
-                    bottom: parent.bottom
-                    right:parent.right
-                }
-            }
-        }
-    }
+			BusyIndicator {
+				id: busyIndicator
 
-    DropShadow {
-        id: titleBarShadow
+				width: height
+				anchors {
+					top: parent.top
+					margins: parent.height / 6
+					bottom: parent.bottom
+					right:parent.right
+				}
+			}
+		}
+	}
 
-        z: 10
-        anchors.fill: source
+	DropShadow {
+		id: titleBarShadow
 
-        horizontalOffset: 0
-        verticalOffset: titleBarContainer.height / 10
-        radius: verticalOffset
-        samples: radius * 2
-        color: "#80000000"
-        source: titleBarContainer
-    }
+		z: 10
+		anchors.fill: source
 
-    Item {
-        id: main
+		horizontalOffset: 0
+		verticalOffset: titleBarContainer.height / 10
+		radius: verticalOffset
+		samples: radius * 2
+		color: "#80000000"
+		source: titleBarContainer
+	}
 
-        z:5
-        anchors {
-            top: titleBarContainer.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-    }
+	Item {
+		id: main
+
+		z:5
+		anchors {
+			top: titleBarContainer.bottom
+			bottom: parent.bottom
+			left: parent.left
+			right: parent.right
+		}
+	}
 }

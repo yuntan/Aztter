@@ -16,67 +16,68 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+//import QtQuick.LocalStorage 2.0
 import "components"
 
 ApplicationWindow {
-    id: mainWindow
-    title: qsTr("Aztter")
+	id: mainWindow
+	title: qsTr("Aztter")
 
-    width: 360
-    height: 640
+	width: 360
+	height: 640
 
-    Storage {
-        id: storage
-    }
+	Storage {
+		id: storage
+	}
 
-    StackView {
-        id: stackView
+	StackView {
+		id: stackView
 
-        anchors.fill: parent
-        initialItem: loadingPage
-//        initialItem: apage
+		anchors.fill: parent
+		initialItem: loadingPage
+//		initialItem: apage
 
-        delegate: StackViewDelegate {
-            property Component pushTransition: StackViewTransition {
-                PropertyAnimation {
-                    target: enterItem
-                    property: "x"
-                    duration: 500
-                    easing.type: Easing.OutQuad
-                    from: enterItem.width ;to: 0
+		delegate: StackViewDelegate {
+			property Component pushTransition: StackViewTransition {
+				PropertyAnimation {
+					target: enterItem
+					property: "x"
+					duration: 500
+					easing.type: Easing.OutQuad
+					from: enterItem.width ;to: 0
 
-                }
-            }
+				}
+			}
 
-            property Component popTransition: StackViewTransition {
-                PropertyAnimation {
-                    target: exitItem
-                    property: "x"
-                    duration: 500
-                    easing.type: Easing.InQuad
-                    from:0 ;to: enterItem.width
-                }
-            }
-        }
-    }
+			property Component popTransition: StackViewTransition {
+				PropertyAnimation {
+					target: exitItem
+					property: "x"
+					duration: 500
+					easing.type: Easing.InQuad
+					from:0 ;to: enterItem.width
+				}
+			}
+		}
+	}
 
-    Component {
-        id: loadingPage
-        LoadingPage {}
-    }
+	Component {
+		id: loadingPage
+		LoadingPage {}
+	}
 
-    Component {
-        id: authPage
-        AuthPage {}
-    }
+	Component {
+		id: authPage
+		AuthPage {}
+	}
 
-    Component {
-        id: timelineContainer
-        TimelineContainer {}
-    }
+	Component {
+		id: timelineContainer
+		TimelineContainer {}
+	}
 
-    Component {
-        id: apage
-        Page {title: "Page"; busy: true}
-    }
+	Component {
+		id: apage
+		Page {title: "Page"; busy: true}
+	}
 }
