@@ -14,20 +14,63 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQml/qqml.h>
+//#include <QtQml/qqml.h>
 #include "aztterplugin.h"
 #include "aztterauthhelper.h"
 #include "aztterstatusupdate.h"
-#include "aztterhometlhelper.h"
 #include "azttertweetenum.h"
 #include "azttertweetlistmodel.h"
+#include "aztteruserstream.h"
+#include "aztterhometl.h"
+#include "aztterfav.h"
+#include "aztterrt.h"
 
-void AztterPlugin::registerTypes (const char *uri)
+AztterPlugin::AztterPlugin(QObject *parent) : QObject(parent)
 {
-	//register the class AztterOAuth into QML as a "AztterOAuth" element version 1.0
-	qmlRegisterType<AztterAuthHelper>(uri, 1, 0, "AztterAuthHelper");
-	qmlRegisterType<AztterStatusUpdate>(uri, 1, 0, "AztterStatusUpdate");
-	qmlRegisterType<AztterHomeTLHelper>(uri, 1, 0, "AztterHomeTLHelper");
-	qmlRegisterType<AztterTweetEnum>(uri, 1, 0, "AztterTweetEnum");
-	qmlRegisterType<AztterTweetListModel>(uri, 1, 0, "AztterTweetListModel");
+	m_stream = new AztterUserStream(this);
+	m_homeTL = new AztterHomeTL(this);
+	m_fav = new AztterFav(this);
+	m_rt = new AztterRT(this);
+	m_statusUpdate = new AztterStatusUpdate(this);
+
+	connect(m_stream, SIGNAL( tweetReceived(QVariantMap) ),
+			this, SIGNAL( tweetReceived(QVariantMap) ));
+	connect(m_stream, SIGNAL( friendsListReceived() ),
+			this, SIGNAL( friendsListReceived() ));
+	connect(m_stream, SIGNAL( directMessageReceived() ),
+			this, SIGNAL( directMessageReceived() ));
+	connect(m_stream, SIGNAL( tweetDeleted(qint64) ),
+			this, SIGNAL( tweetDeleted(qint64) ));
+	connect(m_homeTL, SIGNAL( tweetReceived(QVariantMap) ),
+			this, SIGNAL( tweetReceived(QVariantMap) ));
+	connect(m_fav, SIGNAL( finished(qint64,bool) ),
+			this, SIGNAL( favChanged(qint64,bool) ));
+//	connect(m_fav, SIGNAL( finished(AztterAPIBase::Status) ),
+//			this, SLOT( onFinished(AztterAPIBase::Status) ));
+	connect(m_statusUpdate, SIGNAL( postStatusChanged() ),
+			this, SIGNAL( postStatusChanged() ));
 }
+
+void AztterPlugin::startAuth()
+{
+	m_authHelper = new AztterAuthHelper();
+	connect(m_authHelper, SIGNAL(authPageRequested(QString)),
+			this, SIGNAL(authPageRequested(QString)));
+	connect(m_authHelper, SIGNAL(authorized()),
+			this, SIGNAL(authorized()));
+}
+
+void AztterPlugin::startFetching()
+{
+	m_homeTL->fetchTimeline();
+	m_stream->startFetching();
+}
+void AztterPlugin::streamDisconnect() {m_stream->streamDisconnect();}
+
+void AztterPlugin::fav(const qint64 tweetId) {m_fav->fav(tweetId);}
+void AztterPlugin::unfav(const qint64 tweetId) {m_fav->unfav(tweetId);}
+void AztterPlugin::rt(const qint64 tweetId) {m_rt->rt(tweetId);}
+void AztterPlugin::favrt(const qint64 tweetId) {fav(tweetId); rt(tweetId);}
+
+void AztterPlugin::tweet(const QString &tweet) {m_statusUpdate->updateStatus(tweet);}
+AztterStatusUpdate::PostStatus AztterPlugin::postStatus() {return m_statusUpdate->postStatus();}

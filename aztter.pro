@@ -1,193 +1,103 @@
 TARGET = aztter
 TEMPLATE = app
 
-QT += qml quick
-qtHaveModule(widgets) {
-	QT += widgets
-}
+QT += qml quick widgets network sql
 
 SOURCES += main.cpp
 
-OTHER_FILES += qml/aztterplugin/qmldir
-qmldir.files = qml/aztterplugin/qmldir
+OTHER_FILES += \
+	qml/components/BusyIndicator.qml \
+	qml/components/Card.qml \
+	qml/components/FlatButton.qml \
+	qml/components/Page.qml \
+	qml/components/ScrollablePageWithTab.qml \
+	qml/AuthPage.qml \
+	qml/Empty.qml \
+	qml/LoadingPage.qml \
+	qml/main.qml \
+	qml/Storage.qml \
+	qml/Timeline.qml \
+	qml/TimelineContainer.qml \
+	qml/TweetBox.qml \
+	qml/TweetItem.qml \
+    qml/components/Shape.qml
 
-# Add more folders to ship with the application, here
-qmlfolder.source = qml
-qmlfolder.target = ./
-imgfolder.source = img
-imgfolder.target = ./
-libfolder.source = aztterplugin/lib
-libfolder.target = ./
-DEPLOYMENTFOLDERS = \
-	qmlfolder \
-	imgfolder \
-	libfolder
+RESOURCES += \
+	qml.qrc \
+	img.qrc
 
-## Please do not modify the following two lines. Required for deployment.
-#include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
-#qtcAddDeployment()
+OBJECTS_DIR = tmp
+MOC_DIR = tmp
+INC_DIR = KQOAuth/include
 
-defineTest(qtcAddDeployment) {
-for(deploymentfolder, DEPLOYMENTFOLDERS) {
-	item = item$${deploymentfolder}
-	greaterThan(QT_MAJOR_VERSION, 4) {
-		itemsources = $${item}.files
-	} else {
-		itemsources = $${item}.sources
-	}
-	$$itemsources = $$eval($${deploymentfolder}.source)
-	itempath = $${item}.path
-	$$itempath= $$eval($${deploymentfolder}.target)
-	export($$itemsources)
-	export($$itempath)
-	DEPLOYMENT += $$item
-}
+QMAKE_CXXFLAGS += -std=c++0x
 
-MAINPROFILEPWD = $$PWD
+INCLUDEPATH += \
+	KQOAuth/src \
 
-android-no-sdk {
-	for(deploymentfolder, DEPLOYMENTFOLDERS) {
-		item = item$${deploymentfolder}
-		itemfiles = $${item}.files
-		$$itemfiles = $$eval($${deploymentfolder}.source)
-		itempath = $${item}.path
-		$$itempath = /data/user/qt/$$eval($${deploymentfolder}.target)
-		export($$itemfiles)
-		export($$itempath)
-		INSTALLS += $$item
-	}
+# aztterplugin
+HEADERS += \
+	aztterplugin/aztterplugin.h \
+	aztterplugin/aztterkeystore.h \
+	aztterplugin/y.h \
+	aztterplugin/e.h \
+	aztterplugin/k.h \
+	aztterplugin/aztterapibase.h \
+	aztterplugin/aztterstatusupdate.h \
+	aztterplugin/aztteruserstream.h \
+	aztterplugin/aztterhometlhelper.h \
+	aztterplugin/azttertweetlistmodel.h \
+	aztterplugin/azttertweetenum.h \
+	aztterplugin/aztterfav.h \
+	aztterplugin/aztterlocalstorage.h \
+	aztterplugin/aztterauthhelper.h \
+	aztterplugin/aztterrt.h \
+	aztterplugin/aztterhometl.h
 
-	target.path = /data/user/qt
+SOURCES += \
+	aztterplugin/aztterplugin.cpp \
+	aztterplugin/aztterkeystore.cpp \
+	aztterplugin/aztterapibase.cpp \
+	aztterplugin/aztterstatusupdate.cpp \
+	aztterplugin/aztteruserstream.cpp \
+	aztterplugin/aztterhometlhelper.cpp \
+	aztterplugin/azttertweetlistmodel.cpp \
+	aztterplugin/aztterfav.cpp \
+	aztterplugin/aztterlocalstorage.cpp \
+	aztterplugin/aztterauthhelper.cpp \
+	aztterplugin/aztterrt.cpp \
+	aztterplugin/aztterhometl.cpp
 
-	export(target.path)
-	INSTALLS += target
-} else:android {
-	for(deploymentfolder, DEPLOYMENTFOLDERS) {
-		item = item$${deploymentfolder}
-		itemfiles = $${item}.files
-		$$itemfiles = $$eval($${deploymentfolder}.source)
-		itempath = $${item}.path
-		$$itempath = /assets/$$eval($${deploymentfolder}.target)
-		export($$itemfiles)
-		export($$itempath)
-		INSTALLS += $$item
-	}
+# KQOAuth
+PUBLIC_HEADERS += \
+	KQOAuth/src/kqoauthmanager.h \
+	KQOAuth/src/kqoauthrequest.h \
+	KQOAuth/src/kqoauthrequest_1.h \
+	KQOAuth/src/kqoauthrequest_xauth.h \
+	KQOAuth/src/kqoauthglobals.h
 
-	x86 {
-		target.path = /libs/x86
-	} else: armeabi-v7a {
-		target.path = /libs/armeabi-v7a
-	} else {
-		target.path = /libs/armeabi
-	}
+PRIVATE_HEADERS += \
+	KQOAuth/src/kqoauthrequest_p.h \
+	KQOAuth/src/kqoauthmanager_p.h \
+	KQOAuth/src/kqoauthauthreplyserver.h \
+	KQOAuth/src/kqoauthauthreplyserver_p.h \
+	KQOAuth/src/kqoauthutils.h \
+	KQOAuth/src/kqoauthrequest_xauth_p.h
 
-	export(target.path)
-	INSTALLS += target
-} else:win32 {
-	copyCommand =
-	for(deploymentfolder, DEPLOYMENTFOLDERS) {
-		source = $$MAINPROFILEPWD/$$eval($${deploymentfolder}.source)
-		source = $$replace(source, /, \\)
-		sourcePathSegments = $$split(source, \\)
-		target = $$OUT_PWD/$$eval($${deploymentfolder}.target)/$$last(sourcePathSegments)
-		target = $$replace(target, /, \\)
-		target ~= s,\\\\\\.?\\\\,\\,
-		!isEqual(source,$$target) {
-			!isEmpty(copyCommand):copyCommand += &&
-			isEqual(QMAKE_DIR_SEP, \\) {
-				copyCommand += $(COPY_DIR) \"$$source\" \"$$target\"
-			} else {
-				source = $$replace(source, \\\\, /)
-				target = $$OUT_PWD/$$eval($${deploymentfolder}.target)
-				target = $$replace(target, \\\\, /)
-				copyCommand += test -d \"$$target\" || mkdir -p \"$$target\" && cp -r \"$$source\" \"$$target\"
-			}
-		}
-	}
-	!isEmpty(copyCommand) {
-		copyCommand = @echo Copying application data... && $$copyCommand
-		copydeploymentfolders.commands = $$copyCommand
-		first.depends = $(first) copydeploymentfolders
-		export(first.depends)
-		export(copydeploymentfolders.commands)
-		QMAKE_EXTRA_TARGETS += first copydeploymentfolders
-	}
-} else:unix {
-	maemo5 {
-		desktopfile.files = $${TARGET}.desktop
-		desktopfile.path = /usr/share/applications/hildon
-		icon.files = $${TARGET}64.png
-		icon.path = /usr/share/icons/hicolor/64x64/apps
-	} else:!isEmpty(MEEGO_VERSION_MAJOR) {
-		desktopfile.files = $${TARGET}_harmattan.desktop
-		desktopfile.path = /usr/share/applications
-		icon.files = $${TARGET}80.png
-		icon.path = /usr/share/icons/hicolor/80x80/apps
-	} else { # Assumed to be a Desktop Unix
-		copyCommand =
-		for(deploymentfolder, DEPLOYMENTFOLDERS) {
-			source = $$MAINPROFILEPWD/$$eval($${deploymentfolder}.source)
-			source = $$replace(source, \\\\, /)
-			macx {
-				target = $$OUT_PWD/$${TARGET}.app/Contents/Resources/$$eval($${deploymentfolder}.target)
-			} else {
-				target = $$OUT_PWD/$$eval($${deploymentfolder}.target)
-			}
-			target = $$replace(target, \\\\, /)
-			sourcePathSegments = $$split(source, /)
-			targetFullPath = $$target/$$last(sourcePathSegments)
-			targetFullPath ~= s,/\\.?/,/,
-			!isEqual(source,$$targetFullPath) {
-				!isEmpty(copyCommand):copyCommand += &&
-				copyCommand += $(MKDIR) \"$$target\"
-				copyCommand += && $(COPY_DIR) \"$$source\" \"$$target\"
-			}
-		}
-		!isEmpty(copyCommand) {
-			copyCommand = @echo Copying application data... && $$copyCommand
-			copydeploymentfolders.commands = $$copyCommand
-			first.depends = $(first) copydeploymentfolders
-			export(first.depends)
-			export(copydeploymentfolders.commands)
-			QMAKE_EXTRA_TARGETS += first copydeploymentfolders
-		}
-	}
-	!isEmpty(target.path) {
-		installPrefix = $${target.path}
-	} else {
-		installPrefix = /opt/$${TARGET}
-	}
-	for(deploymentfolder, DEPLOYMENTFOLDERS) {
-		item = item$${deploymentfolder}
-		itemfiles = $${item}.files
-		$$itemfiles = $$eval($${deploymentfolder}.source)
-		itempath = $${item}.path
-		$$itempath = $${installPrefix}/$$eval($${deploymentfolder}.target)
-		export($$itemfiles)
-		export($$itempath)
-		INSTALLS += $$item
-	}
+HEADERS += \
+	$$PUBLIC_HEADERS \
+	$$PRIVATE_HEADERS
 
-	!isEmpty(desktopfile.path) {
-		export(icon.files)
-		export(icon.path)
-		export(desktopfile.files)
-		export(desktopfile.path)
-		INSTALLS += icon desktopfile
-	}
+SOURCES += \
+	KQOAuth/src/kqoauthmanager.cpp \
+	KQOAuth/src/kqoauthrequest.cpp \
+	KQOAuth/src/kqoauthutils.cpp \
+	KQOAuth/src/kqoauthauthreplyserver.cpp \
+	KQOAuth/src/kqoauthrequest_1.cpp \
+	KQOAuth/src/kqoauthrequest_xauth.cpp
 
-	isEmpty(target.path) {
-		target.path = $${installPrefix}/bin
-		export(target.path)
-	}
-	INSTALLS += target
-}
+DEFINES += KQOAUTH
 
-export (ICON)
-export (INSTALLS)
-export (DEPLOYMENT)
-export (LIBS)
-export (QMAKE_EXTRA_TARGETS)
-}
+ANDROID_EXTRA_LIBS =
 
-qtcAddDeployment()
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

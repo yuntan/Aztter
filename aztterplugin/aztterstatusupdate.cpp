@@ -22,7 +22,7 @@ AztterStatusUpdate::AztterStatusUpdate(QObject *parent) : AztterAPIBase(parent)
 {
 }
 
-void AztterStatusUpdate::tweet(QString tweet)
+void AztterStatusUpdate::updateStatus(const QString &tweet)
 {
 	init(KQOAuthRequest::POST, QUrl(TWITTER_STATUSUPDATE_URL));
 
@@ -33,7 +33,7 @@ void AztterStatusUpdate::tweet(QString tweet)
 	m_oauthManager->executeRequest(m_oauthRequest);
 }
 
-AztterStatusUpdate::Status AztterStatusUpdate::status()
+AztterStatusUpdate::PostStatus AztterStatusUpdate::postStatus()
 {
 	return m_status;
 }
@@ -70,11 +70,11 @@ void AztterStatusUpdate::onRequestReady(QByteArray response)
 				m_status = Unknown;
 				break;
 			}
-			emit statusChanged();
+			emit postStatusChanged();
 		} else if(jsonObj.contains("text")){
 			qDebug() << "tweet sent";
 			m_status = Success;
-			emit statusChanged();
+			emit postStatusChanged();
 		}
 	}
 }

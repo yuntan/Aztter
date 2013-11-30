@@ -17,90 +17,88 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 import "components"
-import "aztterplugin" 1.0
 
 Rectangle {
-    function postTweet() {
-        postButton.enabled = false;
-        tweetEdit.enabled = false;
-        aztter.tweet(tweetEdit.text);
-    }
+	function postTweet() {
+		postButton.enabled = false;
+		tweetEdit.enabled = false;
+		aztter.tweet(tweetEdit.text);
+	}
 
-    color: "#035102"
+	color: "#035102"
 
-    AztterStatusUpdate {
-        id: aztter
+	Connections {
+		target: aztter
+		onPostStatusChanged: {
+//			if(aztter.postStatus === )
+				tweetEdit.text = ""
+			postButton.enabled = true
+			tweetEdit.enabled = true
+		}
+	}
 
-        onStatusChanged: {
-            if(status === AztterStatusUpdate.Success)
-                tweetEdit.text = "";
-            postButton.enabled = true;
-            tweetEdit.enabled = true;
-        }
-    }
+	FlatButton {
+		id: openButton
 
-    FlatButton {
-        id: openButton
+		width: height
+		height: parent.height
+		anchors {
+			left: parent.left
+		}
 
-        width: height
-        height: parent.height
-        anchors {
-            left: parent.left
-        }
-
-        iconSource: "img/star.png"
+		iconSource: "qrc:/img/star.png"
 
 //        onClicked: stackView.push()
-    }
+	}
 
-    TextField {
-        id: tweetEdit
+	TextField {
+		id: tweetEdit
 
-        anchors {
-            top: parent.top
-            topMargin: parent.height / 5
-            bottom: parent.bottom
-            bottomMargin: parent.height / 5
-            left: openButton.right
-            right: postButton.left
-        }
+		anchors {
+			top: parent.top
+			topMargin: parent.height / 5
+			bottom: parent.bottom
+			bottomMargin: parent.height / 5
+			left: openButton.right
+			right: postButton.left
+		}
 
-        font.pixelSize: height / 2
-        placeholderText: qsTr("What's happened?")
+		font.pixelSize: height / 2
+		placeholderText: qsTr("What's happened?")
 
-        Keys.onReturnPressed: {
-            if(event.modifiers & Qt.ControlModifier || event.modifiers & Qt.ShiftModifier)
-                postTweet();
-            else
-                event.accepted = false;
-        }
+		Keys.onReturnPressed: {
+			if(event.modifiers & Qt.ControlModifier || event.modifiers & Qt.ShiftModifier)
+				postTweet();
+			else
+				event.accepted = false;
+		}
 
-        onTextChanged: {
-            postButton.enabled = true;
-            postButton.text = qsTr("Post")
-            if(length >= 110){
-                if(length > 140){
-                    postButton.enabled = false;
-                } else if(length >= 130){
-                    // TODO: change color
-                }
-                postButton.text = 140 - length
-            } else if(length == 0){
-                postButton.enabled = false;
-            }
-        }
-    }
+		onTextChanged: {
+			postButton.enabled = true;
+			postButton.text = qsTr("Post")
+			if(length >= 110){
+				if(length > 140){
+					postButton.enabled = false;
+				} else if(length >= 130){
+					// TODO: change color
+				}
+				postButton.text = 140 - length
+			} else if(length == 0){
+				postButton.enabled = false;
+			}
+		}
+	}
 
-    FlatButton {
-        id: postButton
+	FlatButton {
+		id: postButton
 
-        height: parent.height
-        width: height * 3 / 2
-        anchors.right: parent.right
+		height: parent.height
+		width: height * 3 / 2
+		anchors.right: parent.right
 
-        enabled: false
-        text: qsTr("Post")
-        textColor: "white"
-        onClicked: postTweet()
-    }
+		enabled: false
+		text: qsTr("Post")
+		textColor: "white"
+		onClicked: postTweet()
+	}
 }

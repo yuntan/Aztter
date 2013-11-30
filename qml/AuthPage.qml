@@ -16,39 +16,56 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.0
-import QtWebKit 3.0
+//import QtWebKit 3.0
 import "components"
-import "aztterplugin" 1.0
 
 Page {
-    id: authPage
+	id: authPage
 
-    title: qsTr("Twitter Authentication")
-    busy: authWebView.loading
+	title: qsTr("Twitter Authentication")
+//	busy: authWebView.loading
 
-    AztterAuthHelper {
-        id: aztterOAuth
+	Component.onCompleted: {
+		aztter.startAuth()
+		busy = true
+	}
 
-        onAuthPageRequested: authWebView.url = authPageUrl
-        onAuthorized: stackView.push(timelineContainer)
-    }
+	Connections {
+		target: aztter
+//		onAuthPageRequested: authWebViewl.url = authPageUrl
+		onAuthPageRequested: {
+			busy = false
+			Qt.openUrlExternally(authPageUrl)
+		}
+		onAuthorized: stackView.push(timelineContainer)
+	}
 
-        Label {
-            id: authLabel
+	Label {
+		id: authLabel
 
-            width: parent.width
-            anchors.top: parent.top
-            text: qsTr("Let's do twitter authentication first.")
-            font.pointSize: 18
-            color: "white"
-        }
+		width: parent.width
+		anchors.top: parent.top
+		text: qsTr("Let's do twitter authentication first.")
+		font.pointSize: 18
+		color: "white"
+	}
 
 
-    WebView {
-        id: authWebView
-        width: parent.width
-        anchors.top: authLabel.bottom
-        anchors.topMargin: parent.height / 20
-        anchors.bottom: parent.bottom
-    }
+//	WebView {
+//		id: authWebView
+//		width: parent.width
+//		anchors.top: authLabel.bottom
+//		anchors.topMargin: parent.height / 20
+//		anchors.bottom: parent.bottom
+//	}
+
+	TextField {
+		id: authUrl
+		width: parent.width * 4 / 5
+		anchors {
+			top: authLabel.bottom
+			topMargin: parent.height / 20
+			horizontalCenter: parent.horizontalCenter
+		}
+	}
 }

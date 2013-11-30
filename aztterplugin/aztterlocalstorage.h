@@ -16,12 +16,12 @@ public:
 	QString screenName(int index);
 	QString oauthToken(int index);
 	QString oauthTokenSecret(int index);
-	void addAccount(QString screenName, QString token, QString tokenSecret);
-	
+	void addAccount(const QString& screenName, const QString& token, const QString& tokenSecret);
+
 private:
-	QQmlEngine *engine;
-	QQmlComponent *component;
-	QObject *storage;
+	QQmlEngine *m_engine;
+	QQmlComponent *m_component;
+	QObject *m_storage;
 };
 
 #endif // AZTTERLOCALSTORAGE_H

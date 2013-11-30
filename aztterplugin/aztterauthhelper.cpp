@@ -125,8 +125,9 @@ void AztterAuthHelper::onAccessTokenReceived(QString token, QString tokenSecret)
 //	m_oauthRequest->setTokenSecret(m_oauthTokenSecret);
 //	m_oauthManager->executeRequest(m_oauthRequest);
 
-	AztterLocalStorage storage(this);
-	storage.addAccount("test", m_oauthToken, m_oauthTokenSecret);
+	AztterLocalStorage *storage = new AztterLocalStorage();
+	storage->addAccount("test", m_oauthToken, m_oauthTokenSecret);
+	qDebug() << "Account information saved";
 
 	emit authorized();
 }

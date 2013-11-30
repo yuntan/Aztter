@@ -1,18 +1,19 @@
 #include "aztterlocalstorage.h"
+#include <QVariant>
 #include <QQmlEngine>
 #include <QQmlComponent>
 
 AztterLocalStorage::AztterLocalStorage(QObject *parent) : QObject(parent)
 {
-	engine = new QQmlEngine(this);
-	component = new QQmlComponent(engine, "Storage.qml", this);
-	storage = component->create();
+	m_engine = new QQmlEngine(this);
+	m_component = new QQmlComponent(m_engine, QUrl("qrc:/qml/Storage.qml"), this);
+	m_storage = m_component->create();
 }
 
 bool AztterLocalStorage::isAuthenticated()
 {
 	QVariant r;
-	QMetaObject::invokeMethod(storage, "isAuthenticated",
+	QMetaObject::invokeMethod(m_storage, "isAuthenticated",
 							  Q_RETURN_ARG(QVariant, r));
 	return r.toBool();
 }
@@ -20,7 +21,7 @@ bool AztterLocalStorage::isAuthenticated()
 QString AztterLocalStorage::screenName(int index)
 {
 	QVariant arg0 = QVariant(index), r;
-	QMetaObject::invokeMethod(storage, "screenName",
+	QMetaObject::invokeMethod(m_storage, "screenName",
 							  Q_RETURN_ARG(QVariant, r),
 							  Q_ARG(QVariant, arg0));
 	return r.toString();
@@ -29,7 +30,7 @@ QString AztterLocalStorage::screenName(int index)
 QString AztterLocalStorage::oauthToken(int index)
 {
 	QVariant arg0 = QVariant(index), r;
-	QMetaObject::invokeMethod(storage, "oauthToken",
+	QMetaObject::invokeMethod(m_storage, "oauthToken",
 							  Q_RETURN_ARG(QVariant, r),
 							  Q_ARG(QVariant, arg0));
 	return r.toString();
@@ -38,15 +39,15 @@ QString AztterLocalStorage::oauthToken(int index)
 QString AztterLocalStorage::oauthTokenSecret(int index)
 {
 	QVariant arg0 = QVariant(index), r;
-	QMetaObject::invokeMethod(storage, "oauthTokenSecret",
+	QMetaObject::invokeMethod(m_storage, "oauthTokenSecret",
 							  Q_RETURN_ARG(QVariant, r),
 							  Q_ARG(QVariant, arg0));
 	return r.toString();
 }
 
-void AztterLocalStorage::addAccount(QString screenName, QString token, QString tokenSecret)
+void AztterLocalStorage::addAccount(const QString& screenName, const QString& token, const QString& tokenSecret)
 {
 	QVariant v0 = QVariant(screenName), v1 = QVariant(token), v2 = QVariant(tokenSecret);
-	QMetaObject::invokeMethod(storage, "addAccount",
+	QMetaObject::invokeMethod(m_storage, "addAccount",
 							  Q_ARG(QVariant, v0), Q_ARG(QVariant, v1), Q_ARG(QVariant, v2));
 }

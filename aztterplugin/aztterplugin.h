@@ -17,15 +17,58 @@
 #ifndef AZTTERPLUGIN_H
 #define AZTTERPLUGIN_H
 
-#include <QtQml/QQmlExtensionPlugin>
+#include <QObject>
+#include <QVariantMap>
+#include <QAbstractListModel>
+#include "aztterstatusupdate.h"
 
-class AztterPlugin : public QQmlExtensionPlugin
+class AztterAuthHelper;
+class AztterUserStream;
+class AztterHomeTL;
+class AztterFav;
+class AztterRT;
+
+class AztterPlugin : public QObject
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+	Q_OBJECT
+	Q_ENUMS(AztterStatusUpdate::PostStatus)
+	Q_PROPERTY(AztterStatusUpdate::PostStatus postStatus
+			   READ postStatus NOTIFY postStatusChanged)
 
 public:
-    void registerTypes (const char *uri);
+	explicit AztterPlugin(QObject *parent = 0);
+
+	// AztterAuthHelper
+	Q_INVOKABLE void startAuth();
+	// AztterUserStream
+	Q_INVOKABLE void startFetching();
+	Q_INVOKABLE void streamDisconnect();
+	// AztterFavRT
+	Q_INVOKABLE void fav(qint64 tweetId);
+	Q_INVOKABLE void unfav(qint64 tweetId);
+	Q_INVOKABLE void rt(qint64 tweetId);
+	Q_INVOKABLE void favrt(qint64 tweetId);
+	// AztterStatusUpdate
+	Q_INVOKABLE void tweet(const QString& tweet);
+	AztterStatusUpdate::PostStatus postStatus();
+
+signals:
+	void authPageRequested(QString authPageUrl);
+	void authorized();
+	void tweetReceived(QVariantMap tweet);
+	void friendsListReceived();
+	void directMessageReceived();
+	void tweetDeleted(qint64 tweetId);
+	void favChanged(qint64 tweetId, bool favorited);
+	void postStatusChanged();
+
+private:
+	AztterAuthHelper *m_authHelper;
+	AztterUserStream *m_stream;
+	AztterHomeTL *m_homeTL;
+	AztterFav *m_fav;
+	AztterRT *m_rt;
+	AztterStatusUpdate *m_statusUpdate;
 };
 
 #endif // AZTTERPLUGIN_H

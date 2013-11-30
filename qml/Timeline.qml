@@ -15,80 +15,77 @@
  */
 
 import QtQuick 2.1
-import "aztterplugin" 1.0
 
 ListView {
-    id: homeTLView
+	id: homeTLView
 
-    function loadStart() {
-        helper.startFetching();
-    }
-    function loadStop() {
-        helper.streamDisconnect();
-    }
+	function loadStart() {
+		aztter.startFetching()
+	}
+	function loadStop() {
+		aztter.streamDisconnect()
+	}
 
-    clip: true
-    Component.onCompleted: helper.startFetching()
+	clip: true
+	Component.onCompleted: {
+		loadStart()
+	}
 
-    AztterHomeTLHelper {
-        id: helper
-        onTweetReceived: listModel.prepend(tweet)
-        onTweetDeleted: listModel.remove(tweetId)
-        onFavChanged: listModel.changeFav(tweetId, fav)
-    }
+	Connections {
+		target: aztter
+		onTweetReceived: tweetListModel.prepend(tweet)
+		onTweetDeleted: tweetListModel.remove(tweetId)
+		onFavChanged: tweetListModel.changeFav(tweetId, fav)
+	}
 
-    AztterTweetListModel {
-        id: listModel
-    }
-
-    model: listModel
-    delegate: TweetItem {
-        text: tweetText
-        createdAt: tweetCreatedAt
-        fav: tweetFavorited
-        name: userName
-        screenName: "@" + userScreenName
-        iconSource: userProfileImageUrl
-        verified: userVerified
-        isRT: rt
-        rtName: rtUserName + " retweeted"
-        rtIconSource: rtUserProfileImageUrl
+	model: tweetListModel
+	delegate: TweetItem {
+		text: tweetText
+		createdAt: tweetCreatedAt
+		fav: tweetFavorited
+		name: userName
+		screenName: "@" + userScreenName
+		iconSource: userProfileImageUrl
+		verified: userVerified
+		isRT: rt
+		rtName: rtUserName + " retweeted"
+		rtIconSource: rtUserProfileImageUrl
 //        rtVerified: rtUserVerified
 
-        onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
-        onItemSwipedRight: helper.rt(tweetId)
-        onClicked: console.log("tweetItem clicked!")
-        onProfileIconClicked: console.log("profileIcon clicked!")
-    }
+		onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
+		onItemSwipedRight: helper.rt(tweetId)
+		onClicked: console.log("tweetItem clicked!")
+		onProfileIconClicked: console.log("profileIcon clicked!")
+	}
 
-    // animation
-    add: Transition {
-        NumberAnimation {
-            property: "x"
-            from: units.gu(9); to: 0;
-            duration: 333
-        }
-        NumberAnimation {
-            property: "opacity"
-            from: 0; to: 1.0;
-            duration: 333
-        }
-    }
+	// animation
+	add: Transition {
+		NumberAnimation {
+			property: "x"
+			from: units.gu(9); to: 0;
+			duration: 333
+		}
+		NumberAnimation {
+			property: "opacity"
+			from: 0; to: 1.0;
+			duration: 333
+		}
+	}
 
-    displaced: Transition {
-        NumberAnimation {
-            properties: "x"
-            to: 0
-            duration: 333
-        }
-        NumberAnimation {
-            properties: "y"
-            duration: 333
-        }
-        NumberAnimation {
-            properties: "opacity"
-            to: 1.0
-            duration: 333
-        }
-    }
+	displaced: Transition {
+		NumberAnimation {
+			properties: "x"
+			to: 0
+			duration: 333
+		}
+		NumberAnimation {
+			properties: "y"
+			duration: 333
+		}
+		NumberAnimation {
+			properties: "opacity"
+			to: 1.0
+			duration: 333
+		}
+	}
 }
