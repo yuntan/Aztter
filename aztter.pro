@@ -20,7 +20,7 @@ OTHER_FILES += \
 	qml/TimelineContainer.qml \
 	qml/TweetBox.qml \
 	qml/TweetItem.qml \
-    qml/components/Shape.qml
+	qml/components/Shape.qml
 
 RESOURCES += \
 	qml.qrc \
@@ -39,9 +39,6 @@ INCLUDEPATH += \
 HEADERS += \
 	aztterplugin/aztterplugin.h \
 	aztterplugin/aztterkeystore.h \
-	aztterplugin/y.h \
-	aztterplugin/e.h \
-	aztterplugin/k.h \
 	aztterplugin/aztterapibase.h \
 	aztterplugin/aztterstatusupdate.h \
 	aztterplugin/aztteruserstream.h \
@@ -56,7 +53,6 @@ HEADERS += \
 
 SOURCES += \
 	aztterplugin/aztterplugin.cpp \
-	aztterplugin/aztterkeystore.cpp \
 	aztterplugin/aztterapibase.cpp \
 	aztterplugin/aztterstatusupdate.cpp \
 	aztterplugin/aztteruserstream.cpp \
