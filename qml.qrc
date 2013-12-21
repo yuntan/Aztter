@@ -14,5 +14,7 @@
         <file>qml/components/FlatButton.qml</file>
         <file>qml/components/Page.qml</file>
         <file>qml/components/ScrollablePageWithTab.qml</file>
+        <file>qml/twitter-text.js</file>
+        <file>qml/twttr.js</file>
     </qresource>
 </RCC>

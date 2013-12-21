@@ -20,7 +20,9 @@ OTHER_FILES += \
 	qml/TimelineContainer.qml \
 	qml/TweetBox.qml \
 	qml/TweetItem.qml \
-	qml/components/Shape.qml
+	qml/components/Shape.qml \
+	qml/twitter-text.js \
+    qml/twttr.js
 
 RESOURCES += \
 	qml.qrc \
