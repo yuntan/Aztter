@@ -244,18 +244,27 @@ Item {
 					}
 				}
 
-				Label {
-					id: textLabel
+				Item { // an item for enabling word wrap
+					anchors {
+						left: parent.left
+						right: parent.right
+					}
+					Layout.minimumHeight: textLabel.height
 
-					clip: true
-					//		fontSize: "medium"
-					wrapMode: Text.Wrap
-					elide: Text.ElideNone
-					color: "#666666"
-					textFormat: Text.StyledText
-					onLinkActivated: {
-						console.log(link + " link activated")
-						Qt.openUrlExternally(link)
+					Label {
+						id: textLabel
+
+						width: parent.width
+						clip: true
+						//		fontSize: "medium"
+						wrapMode: Text.Wrap
+						elide: Text.ElideNone
+						color: "#666666"
+						textFormat: Text.StyledText
+						onLinkActivated: {
+							console.log(link + " link activated")
+							Qt.openUrlExternally(link)
+						}
 					}
 				}
 
