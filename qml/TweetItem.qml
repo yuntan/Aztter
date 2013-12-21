@@ -76,7 +76,7 @@ Item {
 	//			maximumLineCount: 1
 	//			color: "white"
 	//			font.bold: true
-	////			fontSize: "x-large"
+	////			fontSize: "x-large" 34px
 	//		}
 	//	}
 
@@ -143,12 +143,12 @@ Item {
 				Label {
 					id: rtNameLabel
 
-					clip: true
 					Layout.fillWidth: true
+					font.pointSize: 9
+					font.bold: true
 					maximumLineCount: 1
 					elide: Text.ElideRight
 					color: "#666666"
-					font.bold: true
 				}
 			}
 		}
@@ -197,10 +197,11 @@ Item {
 					Label {
 						id: nameLabel
 
+						font.pointSize: 12
+						font.bold: true
 						maximumLineCount: 1
 						elide: Text.ElideRight
 						color: "#666666"
-						font.bold: true
 					}
 
 					Image {
@@ -220,9 +221,10 @@ Item {
 
 					Label {
 						id: screenNameLabel
-						Layout.fillWidth: true
 
-						//		fontSize: "small"
+						Layout.fillWidth: true
+						Layout.alignment: Qt.AlignBottom
+						font.pointSize: 9
 						maximumLineCount: 1
 						elide: Text.ElideRight
 						color: "#666666"
@@ -255,8 +257,7 @@ Item {
 						id: textLabel
 
 						width: parent.width
-						clip: true
-						//		fontSize: "medium"
+						font.pointSize: 12
 						wrapMode: Text.Wrap
 						elide: Text.ElideNone
 						color: "#666666"
@@ -277,11 +278,9 @@ Item {
 
 					property date createdAt
 
-					Layout.preferredHeight: font.pointSize
-
 					text: calcTime()
 
-					//		fontSize: "small"
+					font.pointSize: 9
 					elide: Text.ElideNone
 					color: "#666666"
 
