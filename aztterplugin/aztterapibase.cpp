@@ -44,7 +44,7 @@ void AztterAPIBase::init(KQOAuthRequest::RequestHttpMethod method, const QUrl &r
 
 QVariantMap AztterAPIBase::parseTweet(const QJsonObject &tweetObj)
 {
-	qDebug() << "tweetObj:" << tweetObj;
+//	qDebug() << "tweetObj:" << tweetObj;
 	QJsonObject tmpObj;
 	QVariantMap tweet;
 	if(tweetObj.contains("retweeted_status")) {
