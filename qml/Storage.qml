@@ -1,6 +1,6 @@
-//pragma singleton
+//pragma Singleton
 
-import QtQuick 2.1
+import QtQuick 2.2
 import QtQuick.LocalStorage 2.0
 
 Item {
