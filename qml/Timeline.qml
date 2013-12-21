@@ -14,10 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.2
+import QtQuick.Window 2.0
 
 ListView {
 	id: homeTLView
+
+	property real mm: Screen.pixelDensity
 
 	function loadStart() {
 		aztter.startFetching()
@@ -49,12 +52,13 @@ ListView {
 		verified: userVerified
 		isRT: rt
 		rtName: rtUserName + " retweeted"
-		rtIconSource: rtUserProfileImageUrl
-//        rtVerified: rtUserVerified
+		rtIconSource: rtUserProfileImageUrl !== undefined ?
+						  rtUserProfileImageUrl : ""
 
-		onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
-		onItemSwipedRight: helper.rt(tweetId)
+//		onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
+//		onItemSwipedRight: helper.rt(tweetId)
 		onClicked: console.log("tweetItem clicked!")
+		onSwiped: console.log("tweetItem swiped!")
 		onProfileIconClicked: console.log("profileIcon clicked!")
 	}
 
@@ -62,7 +66,7 @@ ListView {
 	add: Transition {
 		NumberAnimation {
 			property: "x"
-			from: units.gu(9); to: 0;
+			from: 12*mm; to: 0;
 			duration: 333
 		}
 		NumberAnimation {

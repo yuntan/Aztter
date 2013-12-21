@@ -14,359 +14,323 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
-import QtQuick.Controls 1.0
+import QtQuick 2.2
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.1
 import "components"
+import "twttr.js" as Twttr
 
-Card {
+Item {
 	id: tweetItem
 
-	property alias text: textLabel.text
+	property string tweet
+	property string text
 	property alias createdAt: timeLabel.createdAt
 	property alias fav: favIndicator.fav
 	property alias name: nameLabel.text
 	property alias screenName: screenNameLabel.text
 	property alias iconSource: iconImage.source
 	property alias verified: verifiedIcon.verified
-	property alias isRT: rtItem.isRT
+	property alias isRT: rtRow.isRT
 	property alias rtName: rtNameLabel.text
 	property alias rtIconSource: rtIconImage.source
 
-	property alias control: controlContainer.control
-	__acceptEvents: false
-	property bool __controlAreaPressed: false
+	//	property alias control: controlContainer.control
+	//	property bool __controlAreaPressed: false
 
+	signal clicked()
+	signal swiped(int index)
 	signal profileIconClicked()
 
 	Component.onCompleted: {
-		if(isRT) {
-			height += rtItem.height;
-			rtItem.visible = true;
-		} else {
-			rtItem.visible = false;
-		}
+		textLabel.text = Twttr.autoLink(text)
 	}
 
-	width: parent.width
-	height: Math.max(profileIcon.anchors.topMargin + profileIcon.height, nameLabel.anchors.topMargin + nameLabel.height + textLabel.height) + timeLabel.height + units.gu(1)
+	width: parent.width; height: tweetCard.height + 2*mm
 
 	clip: true
-	draggable: true
 
-	onItemSwipedLeft: {
-		console.log("Item swiped to left");
-		closeIndicator();
-	}
-	onItemSwipedRight: {
-		console.log("Item swiped to right");
-		closeIndicator();
-	}
+	//	onSwiped: {
+	//		console.log("Item swiped. index: " + index)
+	//		onSwiped(index)
+	//	}
 
-	backgroundIndicator: Item {
-		anchors.fill: parent
+	//	backgroundIndicator: Item {
+	//		anchors.fill: parent
+
+	//		Rectangle {
+	//			anchors.fill: parent
+	//			color: "#DD4814"
+	//		}
+
+	//		Label {
+	//			anchors {
+	//				left: swipingState === "SwipingLeft" ? parent.left : undefined
+	//				right: swipingState === "SwipingRight" ? parent.right : undefined
+	//				verticalCenter: parent.verticalCenter
+	//			}
+
+	//			text: swipingState === "SwipingRight"
+	//				  ? "Swipe to RT >|"
+	//				  : "|< Swipe to Fav"
+	//			maximumLineCount: 1
+	//			color: "white"
+	//			font.bold: true
+	////			fontSize: "x-large"
+	//		}
+	//	}
+
+	Card {
+		id: tweetCard
+
+		anchors {
+			top: parent.top
+			left: parent.left
+			right: parent.right
+			margins: 2*mm
+		}
+		height: rtRect.height + mainRow.height + 3*mm
+
+		onClicked: tweetItem.clicked()
 
 		Rectangle {
-			anchors.fill: parent
-			color: "#DD4814"
-		}
+			id: rtRect
 
-		Label {
-			anchors {
-				left: swipingState === "SwipingLeft" ? parent.left : undefined
-				right: swipingState === "SwipingRight" ? parent.right : undefined
-				verticalCenter: parent.verticalCenter
-			}
-
-			text: swipingState === "SwipingRight"
-				  ? "Swipe to RT >|"
-				  : "|< Swipe to Fav"
-			maximumLineCount: 1
-			color: "white"
-			font.bold: true
-//			fontSize: "x-large"
-		}
-	}
-
-	Rectangle {
-		id: profileIcon
-
-		width: height
-		height: units.gu(7)
-		anchors {
-			top: parent.top
-			topMargin: units.gu(1)
-			left: parent.left
-			leftMargin: units.gu(1)
-		}
-
-		radius: height / 2
-
-		Image {
-			id: iconImage
-
-			anchors.fill: parent
-			fillMode: Image.PreserveAspectCrop
-
-			property url fallbackSource: Qt.resolvedUrl("img/loading.png")
-
-			Component.onCompleted: {
-				if(source == undefined || source == "")
-					source = fallbackSource
-			}
-		}
-	}
-
-	Label {
-		id: nameLabel
-
-		clip: true
-		anchors {
-			top: parent.top
-			topMargin: profileIcon.anchors.topMargin
-			left: profileIcon.right
-			leftMargin: units.gu(1)
-		}
-
-		maximumLineCount: 1
-		elide: Text.ElideRight
-		color: "whitesmoke"
-		font.bold: true
-	}
-
-	Image {
-		id: verifiedIcon
-		property bool verified
-
-		width: verified ? height : 0
-		height: nameLabel.height
-		anchors {
-			bottom: nameLabel.bottom
-			left: nameLabel.right
-		}
-
-		source: verified ? "img/verified.png" : ""
-		fillMode: Image.PreserveAspectCrop
-	}
-
-	Label {
-		id: screenNameLabel
-
-		clip: true
-		width: {
-			var w = parent.width - (profileIcon.anchors.leftMargin + profileIcon.width +
-									nameLabel.anchors.leftMargin + nameLabel.width +
-									verifiedIcon.width +
-									screenNameLabel.anchors.leftMargin * 2 +
-									favIndicator.width + favIndicator.anchors.rightMargin);
-			return w > units.gu(2) ? w : 0;
-		}
-		anchors {
-			left: verifiedIcon.right
-			leftMargin: units.gu(1)
-			bottom: nameLabel.bottom
-		}
-
-//		fontSize: "small"
-		maximumLineCount: 1
-		elide: Text.ElideRight
-		color: "silver"
-	}
-
-	Image {
-		id: favIndicator
-		property bool fav
-
-		width: fav ? height : 0
-		height: nameLabel.height
-		anchors {
-			bottom: nameLabel.bottom
-			right: parent.right
-			rightMargin: profileIcon.anchors.leftMargin
-		}
-
-		source: fav ? "img/star.png" : ""
-		fillMode: Image.PreserveAspectCrop
-	}
-
-	Label {
-		id: textLabel
-
-		clip: true
-		height: contentHeight
-		anchors {
-			top: nameLabel.bottom
-			left: profileIcon.right
-			leftMargin: nameLabel.anchors.leftMargin
-			right: parent.right
-			rightMargin: profileIcon.anchors.leftMargin
-		}
-
-//		fontSize: "medium"
-		wrapMode: Text.WordWrap
-		elide: Text.ElideNone
-		color: "whitesmoke"
-	}
-
-	Label {
-		id: timeLabel
-
-		property date createdAt
-
-		anchors {
-			top: profileIcon.y + profileIcon.height > textLabel.y + textLabel.height
-				 ? profileIcon.bottom
-				 : textLabel.bottom
-			left: profileIcon.right
-			leftMargin: nameLabel.anchors.leftMargin
-		}
-
-		text: {
-			// FIXME
-			var now = new Date();
-			var diff = Math.floor((now.getTime() - createdAt.getTime()) / 1000);
-			if(diff >= 86400)
-				return Math.floor(diff / 86400) + i18n.tr(" days ago");
-			if(diff >= 3600)
-				return Math.floor(diff / 3600) + i18n.tr(" hours ago");
-			if(diff >= 60)
-				return Math.floor(diff / 60) + i18n.tr(" minutes ago");
-			if(diff >= 10)
-				return diff + i18n.tr(" seconds ago");
-			return i18n.tr("Just now");
-		}
-
-//		fontSize: "small"
-		elide: Text.ElideNone
-		color: "silver"
-	}
-
-	Item {
-		id: rtItem
-
-		property bool isRT
-//        visible: isRT
-
-		height: childrenRect.height
-		anchors{
-			top: timeLabel.bottom
-			left: parent.left
-			leftMargin: units.gu(1)
-			right: parent.right
-			rightMargin: units.gu(1)
-		}
-
-		Image {
-			id: rtImage
-
-			width: height; height: units.gu(3)
 			anchors {
 				top: parent.top
 				left: parent.left
+				right: parent.right
 			}
+			height: isRT ? 6*mm : 0
+			color: "#80000000"
 
-			source: "img/retweet.png"
-			fillMode: Image.PreserveAspectCrop
+			RowLayout {
+				id: rtRow
+
+				anchors {
+					fill: parent
+					margins: 0.5*mm
+					leftMargin: 6*mm
+				}
+
+				spacing: 1*mm
+				property bool isRT
+				visible: isRT
+
+				/*
+				Image {
+					id: rtImage
+
+					Layout.preferredWidth: 4*mm
+					sourceSize.width: 4*mm; sourceSize.height: 4*mm
+					source: "qrc:/img/retweet.png"
+					fillMode: Image.PreserveAspectFit
+				} */
+
+				Image {
+					id: rtIconImage
+
+					Layout.minimumWidth: 5*mm
+					sourceSize.width: 5*mm; sourceSize.height: 5*mm
+					fillMode: Image.PreserveAspectFit
+
+					Component.onCompleted: {
+						if(isRT && (source === undefined || source === ""))
+							source = Qt.resolvedUrl("qrc:/img/loading.png")
+					}
+				}
+
+				Label {
+					id: rtNameLabel
+
+					clip: true
+					Layout.fillWidth: true
+					maximumLineCount: 1
+					elide: Text.ElideRight
+					color: "#666666"
+					font.bold: true
+				}
+			}
 		}
 
-		Rectangle {
-			id: rtProfileIcon
+		RowLayout {
+			id: mainRow
 
-			width: height
-			height: units.gu(3)
 			anchors {
-				top: parent.top
-				left: rtImage.right
-				leftMargin: units.gu(1)
+				top: rtRect.bottom
+				left: parent.left
+				right: parent.right
+				margins: 1*mm
 			}
+			height: textCol.height
+			spacing: 1*mm
 
-			radius: height / 6
 			Image {
-				id: rtIconImage
+				id: iconImage
 
-				fillMode: Image.PreserveAspectCrop
+				Layout.alignment: Qt.AlignTop
+				Layout.minimumWidth: 12*mm
+				sourceSize.width: 12*mm; sourceSize.height: 12*mm
+				fillMode: Image.PreserveAspectFit
 
-				property url rtFallbackSource: Qt.resolvedUrl("img/loading.png")
+				property url fallbackSource: Qt.resolvedUrl("qrc:/img/loading.png")
 
 				Component.onCompleted: {
 					if(source == undefined || source == "")
-						source = rtFallbackSource
-				}
-			}
-		}
-
-		Label {
-			id: rtNameLabel
-
-			clip: true
-			anchors {
-				bottom: rtProfileIcon.bottom
-				left: rtProfileIcon.right
-				leftMargin: units.gu(1)
-			}
-
-			maximumLineCount: 1
-			elide: Text.ElideRight
-			color: "whitesmoke"
-			font.bold: true
-		}
-
-//        Image {
-//            id: rtVerifiedIcon
-//            property bool verified
-
-//            width: verified ? height : 0
-//            height: rtNameLabel.height
-//            anchors {
-//                bottom: rtNameLabel.bottom
-//                left: rtNameLabel.right
-//            }
-
-//            source: verified ? "img/verified.png" : ""
-//            fillMode: Image.PreserveAspectCrop
-//        }
-	}
-
-	Item {
-		id: controlContainer
-		property Item control
-		// use the width of the control if there is (possibly elided) text,
-		// or full width available if there is no text.
-		anchors.fill: parent
-		onControlChanged: {
-			if (control) control.parent = controlContainer;
-		}
-
-		Connections {
-			target: tweetItem.__mouseArea
-
-			onClicked: {
-//                console.debug(control)
-				if (__mouseArea.mouseX > profileIcon.x
-						&& __mouseArea.mouseX < profileIcon.x + profileIcon.width
-						&& __mouseArea.mouseY > profileIcon.y
-						&& __mouseArea.mouseY < profileIcon.y + profileIcon.height) {
-					profileIconClicked();
-				} else {
-					tweetItem.clicked();
+						source = fallbackSource
 				}
 			}
 
-			onPressAndHold: {
-//                if (control && control.enabled && __mouseArea.mouseX < progressionHelper.x && control.hasOwnProperty("pressAndHold")) {
-				if (control && control.enabled && control.hasOwnProperty("pressAndHold")) {
-					control.pressAndHold();
-				} else {
-					tweetItem.pressAndHold();
+			ColumnLayout {
+				id: textCol
+
+				anchors.top: parent.top
+				Layout.fillWidth: true
+				spacing: 1*mm
+
+				RowLayout {
+					id: nameRow
+
+					Layout.preferredHeight: nameLabel.font.pixelSize
+					spacing: 0.5*mm
+
+					Label {
+						id: nameLabel
+
+						maximumLineCount: 1
+						elide: Text.ElideRight
+						color: "#666666"
+						font.bold: true
+					}
+
+					Image {
+						id: verifiedIcon
+						property bool verified
+
+						visible: verified
+						Layout.preferredWidth: verified ? parent.height : 0
+						sourceSize.width: parent.height
+						sourceSize.height: parent.height
+						source: "qrc:/img/verified.png"
+					}
+
+					Item {
+						Layout.minimumWidth: 1*mm
+					}
+
+					Label {
+						id: screenNameLabel
+						Layout.fillWidth: true
+
+						//		fontSize: "small"
+						maximumLineCount: 1
+						elide: Text.ElideRight
+						color: "#666666"
+					}
+
+					Item {
+						Layout.fillWidth: true
+					}
+
+					Image {
+						id: favIndicator
+						property bool fav
+
+						visible: fav
+						Layout.preferredWidth: fav ? parent.height : 0
+						sourceSize.width: parent.height
+						sourceSize.height: parent.height
+						source: "qrc:/img/star.png"
+					}
+				}
+
+				Label {
+					id: textLabel
+
+					clip: true
+					//		fontSize: "medium"
+					wrapMode: Text.Wrap
+					elide: Text.ElideNone
+					color: "#666666"
+					textFormat: Text.StyledText
+					onLinkActivated: {
+						console.log(link + " link activated")
+						Qt.openUrlExternally(link)
+					}
+				}
+
+				Item {
+					Layout.minimumHeight: 0.5*mm
+				}
+
+				Label {
+					id: timeLabel
+
+					property date createdAt
+
+					Layout.preferredHeight: font.pointSize
+
+					text: calcTime()
+
+					//		fontSize: "small"
+					elide: Text.ElideNone
+					color: "#666666"
+
+					function calcTime() {
+						// FIXME
+						var now = new Date();
+						var diff = Math.floor((now.getTime() - createdAt.getTime()) / 1000);
+						if(diff >= 86400)
+							return Math.floor(diff / 86400) + qsTr(" days ago");
+						if(diff >= 3600)
+							return Math.floor(diff / 3600) + qsTr(" hours ago");
+						if(diff >= 60)
+							return Math.floor(diff / 60) + qsTr(" minutes ago");
+						if(diff >= 10)
+							return diff + qsTr(" seconds ago");
+						return qsTr("Just now");
+					}
 				}
 			}
-		}
-	}
-
-	onPressedChanged: {
-		if (tweetItem.pressed && control && control.enabled) {
-			tweetItem.__controlAreaPressed = true
-		} else {
-			tweetItem.__controlAreaPressed = false
 		}
 	}
 }
+
+/*
+//		Item {
+//			id: controlContainer
+//			property Item control
+//			// use the width of the control if there is (possibly elided) text,
+//			// or full width available if there is no text.
+//			anchors.fill: parent
+//			onControlChanged: {
+//				if (control) control.parent = controlContainer;
+//			}
+
+//		Connections {
+//			target: tweetItem.__mouseArea
+
+//			onClicked: {
+////                console.debug(control)
+//				if (__mouseArea.mouseX > profileIcon.x
+//						&& __mouseArea.mouseX < profileIcon.x + profileIcon.width
+//						&& __mouseArea.mouseY > profileIcon.y
+//						&& __mouseArea.mouseY < profileIcon.y + profileIcon.height) {
+//					profileIconClicked();
+//				} else {
+//					tweetItem.clicked();
+//				}
+//			}
+
+//			onPressAndHold: {
+////                if (control && control.enabled && __mouseArea.mouseX < progressionHelper.x && control.hasOwnProperty("pressAndHold")) {
+//				if (control && control.enabled && control.hasOwnProperty("pressAndHold")) {
+//					control.pressAndHold();
+//				} else {
+//					tweetItem.pressAndHold();
+//				}
+//			}
+//		}
+//		}
+*/
+

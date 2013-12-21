@@ -25,12 +25,12 @@ Page {
 //        if(wallpaper.status === Image.Ready)
 //            filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
 //        loadListView(settings.load("view/last_view"));
-		loadListView(0)
+//		loadListView(0)
 	}
 
 	property int baseLength: height > width ? height : width
 	property int currentIndex: -1
-	property QtObject listView
+	property Component listView
 
 	function loadListView(index) {
 		console.debug("loadListView(" + index + ")");
@@ -44,6 +44,11 @@ Page {
 //        flickable = listView;
 //        scrollBar.flickableItem = listView;
 		currentIndex = index;
+	}
+
+	Timeline {
+		anchors.fill: parent
+		z: 12
 	}
 
 //    Tabs {
@@ -61,7 +66,7 @@ Page {
 		visible: true
 		z: 15
 		width: parent.width
-		height: baseLenght / 10
+		height: 12*mm
 		anchors.bottom: parent.bottom
 	}
 
@@ -88,5 +93,6 @@ Page {
 		anchors.fill: parent
 //        color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
 		color: "#80000000"
+//		color: "#f0f0f0"
 	}
 }
