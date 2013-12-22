@@ -246,17 +246,10 @@ Item {
 					}
 				}
 
-				Item { // an item for enabling word wrap
-					anchors {
-						left: parent.left
-						right: parent.right
-					}
-					Layout.minimumHeight: textLabel.height
-
 					Label {
 						id: textLabel
 
-						width: parent.width
+						Layout.fillWidth: true // needed to enable word wrap
 						font.pointSize: 12
 						wrapMode: Text.Wrap
 						elide: Text.ElideNone
@@ -267,7 +260,6 @@ Item {
 							Qt.openUrlExternally(link)
 						}
 					}
-				}
 
 				Item {
 					Layout.minimumHeight: 0.5*mm
