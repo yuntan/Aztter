@@ -38,17 +38,21 @@ Page {
 			listView.loadStop();
 			listView.destroy();
 		}
-		var component = Qt.createComponent("Timeline.qml");
+		var component = Qt.createComponent("Timeline.qml")
 		listView = component.createObject(timelineContainer,
-										  {"anchors.fill": timelineContainer, "z": 12});
+										  {"anchors.fill": timelineContainer, "z": 1})
+		if(listView === null) {console.error("Error creating object") }
+		else {
+			console.debug("listView successfully created")
+			currentIndex = index
+		}
 //        flickable = listView;
 //        scrollBar.flickableItem = listView;
-		currentIndex = index;
 	}
 
 	Timeline {
 		anchors.fill: parent
-		z: 12
+		z: 1
 	}
 
 //    Tabs {
@@ -63,11 +67,15 @@ Page {
 	TweetBox {
 		id: tweetBox
 
+		z: 2
 		visible: true
-		z: 15
-		width: parent.width
-		height: 12*mm
-		anchors.bottom: parent.bottom
+		anchors {
+			left: parent.left
+			right: parent.right
+			bottom: parent.bottom
+			margins: 1*mm
+			bottomMargin: 5*mm
+		}
 	}
 
 //    Scrollbar {
@@ -76,23 +84,12 @@ Page {
 //        z: 20
 //    }
 
-//    Image {
-//        id: wallpaper
+	Image {
+		id: wallpaper
 
-//        z: 0
-//        anchors.fill: parent
-//        source: "wallpaper"
-//        fillMode: Image.PreserveAspectCrop
-//    }
-
-	Rectangle {
-		id: filter
-
-		visible: false
-		z: 1
+		z: 0
 		anchors.fill: parent
-//        color: Qt.rgba(56/255, 56/255, 55/255, 0.3) // DIC-G300
-		color: "#80000000"
-//		color: "#f0f0f0"
+		source: Qt.resolvedUrl("file:///C:/WorkSpace/wallpaper.jpg")
+		fillMode: Image.PreserveAspectCrop
 	}
 }
