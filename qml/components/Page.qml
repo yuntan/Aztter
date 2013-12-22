@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.1
 
 Rectangle {
 	id: page
@@ -17,8 +18,8 @@ Rectangle {
 	signal back()
 	//open menu
 	signal showMenu()
-	color: "#1cbfac"
 
+	color: mainColor
 
 	/*
 	// use container in order not titleBarShadow to be clipped
@@ -42,114 +43,98 @@ Rectangle {
 
 		color: titleColor
 
-		// Back arrow button
-		Rectangle {
-			id: backButton
+		RowLayout {
+			anchors.fill: parent
+			spacing: 3*mm
 
-			enabled: page.Stack.index !== 0
-			width: 10*mm; height: parent.height
-			anchors {
-				top: parent.top
-				left: parent.left
-				bottom: parent.bottom
-			}
-
-			color: mouseBack.pressed ? "#40000000" : "transparent"
-
-			Image {
-				anchors.fill: parent
-			}
-
-			MouseArea {
-				id: mouseBack
-				anchors.fill: parent
-
-				onClicked: page.back()
-			}
-
-			// white borderline
+			// Back arrow button
 			Rectangle {
-				width: 1; height: parent.height
-				anchors.right: parent.right
-				anchors.rightMargin: 1
-				color: "white"
-			}
+				id: backButton
 
-			// right shadow
-			Rectangle {
-				width: 1; height: parent.height
-				anchors.right: parent.right
-				color: "#40000000"
-			}
-		}
-
-		Rectangle {
-			id: titleLabelRect
-
-			implicitWidth: titleLabel.width
-			anchors {
-				top: parent.top
-				bottom: parent.bottom
-				left: backButton.right
-				leftMargin: 3*mm
-			}
-
-			color: mouseMenu.pressed ? "#40000000" : "transparent"
-
-			Label {
-				id: titleLabel
-
-				anchors {
-					verticalCenter: parent.verticalCenter
-					left: parent.left
+				Layout.preferredWidth: 10*mm
+				Layout.fillHeight: true
+				enabled: page.Stack.index > 1
+				color: Qt.darker(titleColor, 1.2)
+				Image {
+					anchors.fill: parent
+					anchors.margins: 1*mm
+					source: "qrc:/img/aztter64.png"
+					fillMode: Image.PreserveAspectFit
 				}
+				// push feedback
+				Rectangle {
+					anchors.fill: parent
+					color: mouseBack.pressed ? "#40000000" : "transparent"
+				}
+				MouseArea {
+					id: mouseBack
+					anchors.fill: parent
 
-				color: "white"
-				font.pixelSize: parent.height / 2
-				fontSizeMode: Text.HorizontalFit
-				font.bold: true
+					onClicked: page.back()
+				}
 			}
 
-			MouseArea {
-				id: mouseMenu
-				anchors.fill: parent
-				onClicked: page.showMenu()
+			Rectangle {
+				id: titleLabelRect
+
+				Layout.preferredWidth: titleLabel.width
+				Layout.fillWidth: true
+				color: mouseMenu.pressed ? "#40000000" : "transparent"
+				Label {
+					id: titleLabel
+
+					anchors {
+						verticalCenter: parent.verticalCenter
+						left: parent.left
+					}
+
+					color: "whitesmoke"
+					font.pointSize: 21
+					fontSizeMode: Text.HorizontalFit
+					font.bold: true
+				}
+				MouseArea {
+					id: mouseMenu
+					anchors.fill: parent
+					onClicked: page.showMenu()
+				}
+			}
+
+			Item {
+				Layout.preferredWidth: titleBarItem.implicitWidth
+				Layout.fillHeight: true
+				Item {
+					id: titleBarItem
+
+					anchors {
+						fill: parent
+						topMargin: 1*mm
+						bottomMargin: 1*mm
+						rightMargin: 3*mm
+					}
+				}
 			}
 		}
+	}
 
-
-		Item {
-			id: titleBarItem
-
-			anchors {
-				top: parent.top
-				topMargin: 1*mm
-				bottom: parent.bottom
-				bottomMargin: 1*mm
-				left:titleLabelRect.right
-				leftMargin: 3*mm
-				right: parent.right
-				rightMargin: 3*mm
-			}
-		}
-
-		//bottom border line of titleBar
-		Rectangle {
-			anchors.bottom: parent.bottom
-			width: parent.width; height: 3
-			color: Qt.darker(parent.color, 1.6)
-		}
+	//bottom border line of titleBar
+	Rectangle {
+		id: titleBarLine
+		anchors.top: titleBar.bottom
+		width: parent.width; height: 1*mm
+		color: Qt.darker(titleColor, 1.6)
 	}
 
 	// shadow of titleBar
 	Rectangle {
 		id:	titleBarShadow
 
+		z:10
 		width: parent.width; height: 5
-		anchors.top: titleBar.bottom
+		anchors.top: titleBarLine.bottom
 
 		gradient: Gradient {
-			GradientStop {position: 0; color: "#40000000"}
+			GradientStop {position: 0; color: "#80000000"}
 			GradientStop {position: 1; color: "#00000000"}
 		}
 	}
@@ -174,9 +159,8 @@ DropShadow {
 	Item {
 		id: main
 
-		z:5
 		anchors {
-			top: titleBar.bottom
+			top: titleBarLine.bottom
 			bottom: parent.bottom
 			left: parent.left
 			right: parent.right
