@@ -17,7 +17,7 @@ Item {
 			right: rightShadow.left
 		}
 
-		color: "#80ffffff"
+		color: "#d0ffffff"
 
 		MouseArea {
 			onClicked: _card.clicked()

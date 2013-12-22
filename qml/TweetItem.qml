@@ -102,7 +102,7 @@ Item {
 				right: parent.right
 			}
 			height: isRT ? 6*mm : 0
-			color: "#80000000"
+			color: "#601ebba6"
 
 			RowLayout {
 				id: rtRow
