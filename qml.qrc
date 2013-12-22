@@ -9,7 +9,6 @@
         <file>qml/TimelineContainer.qml</file>
         <file>qml/TweetBox.qml</file>
         <file>qml/TweetItem.qml</file>
-        <file>qml/components/BusyIndicator.qml</file>
         <file>qml/components/Card.qml</file>
         <file>qml/components/FlatButton.qml</file>
         <file>qml/components/Page.qml</file>

@@ -6,7 +6,6 @@ QT += qml quick widgets network sql
 SOURCES += main.cpp
 
 OTHER_FILES += \
-	qml/components/BusyIndicator.qml \
 	qml/components/Card.qml \
 	qml/components/FlatButton.qml \
 	qml/components/Page.qml \

@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
-import QtQuick.Controls 1.0
+import QtQuick 2.2
+import QtQuick.Controls 1.1
 
 Rectangle {
 	id: loadingPage
@@ -27,7 +27,7 @@ Rectangle {
 	Timer {
 		id: timer
 
-		interval: 2000
+		interval: 500
 		onTriggered: {
 			if(storage.isAuthenticated())
 				stackView.push(timelineContainer);
@@ -38,7 +38,7 @@ Rectangle {
 
 	Column {
 		anchors.centerIn: parent
-		spacing: parent.height / 10
+		spacing: 10*mm
 
 		Label {
 			id: loadingLabel
@@ -46,12 +46,12 @@ Rectangle {
 			anchors.horizontalCenter: parent.horizontalCenter
 			color: Qt.darker(loadingPage.color, 0.5)
 			text: qsTr("Loading...")
-			font.pointSize: 18
+			font.pointSize: 24
 		}
 
-//		BusyIndicator {
-//			anchors.horizontalCenter: parent.horizontalCenter
-//			running: true
-//		}
+		BusyIndicator {
+			anchors.horizontalCenter: parent.horizontalCenter
+			running: true
+		}
 	}
 }
