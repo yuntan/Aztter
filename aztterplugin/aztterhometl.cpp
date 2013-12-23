@@ -12,7 +12,7 @@ void AztterHomeTL::fetchTimeline(qint64 sinceID, qint64 maxID)
 
 	KQOAuthParameters params;
 	QString str;
-	params.insert("count", str.setNum(200));
+	params.insert("count", str.setNum(50));
 	if(sinceID)
 		params.insert("since_id", str.setNum(sinceID));
 	if(maxID)
