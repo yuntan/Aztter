@@ -74,7 +74,6 @@ Page {
 			right: parent.right
 			bottom: parent.bottom
 			margins: 1*mm
-			bottomMargin: 5*mm
 		}
 	}
 

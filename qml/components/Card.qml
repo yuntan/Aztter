@@ -4,6 +4,7 @@ Item {
 	id: _card
 
 	property alias data: main.data
+	property color color: "#d0ffffff"
 
 	signal clicked()
 
@@ -17,13 +18,14 @@ Item {
 			right: rightShadow.left
 		}
 
-		color: "#d0ffffff"
+		color: _card.color
 
 		MouseArea {
+			anchors.fill: parent
 			onClicked: _card.clicked()
 			onPressedChanged: {
-				if(pressed) { main.color = Qt.darker("#80ffffff", 1.2) }
-				else { main.color = "#c0ffffff" }
+				if(pressed) { main.color = Qt.darker(_card.color, 1.2) }
+				else { main.color = _card.color }
 			}
 		}
 	}

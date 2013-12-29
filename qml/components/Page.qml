@@ -17,7 +17,7 @@ Rectangle {
 	//back 1 page
 	signal back()
 	//open menu
-	signal showMenu()
+	function showMenu() { }
 
 	color: mainColor
 
@@ -50,7 +50,6 @@ Rectangle {
 			// Back arrow button
 			Rectangle {
 				id: backButton
-
 				Layout.preferredWidth: 10*mm
 				Layout.fillHeight: true
 				enabled: page.Stack.index > 1
@@ -77,12 +76,13 @@ Rectangle {
 			Rectangle {
 				id: titleLabelRect
 
-				Layout.preferredWidth: titleLabel.width
 				Layout.fillWidth: true
+				Layout.fillHeight: true
 				color: mouseMenu.pressed ? "#40000000" : "transparent"
 				Label {
 					id: titleLabel
 
+					width: parent.width
 					anchors {
 						verticalCenter: parent.verticalCenter
 						left: parent.left
