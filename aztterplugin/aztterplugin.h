@@ -22,6 +22,7 @@
 #include <QAbstractListModel>
 #include "aztterstatusupdate.h"
 
+class QClipboard;
 class AztterAuthHelper;
 class AztterUserStream;
 class AztterHomeTL;
@@ -34,6 +35,7 @@ class AztterPlugin : public QObject
 	Q_ENUMS(AztterStatusUpdate::PostStatus)
 	Q_PROPERTY(AztterStatusUpdate::PostStatus postStatus
 			   READ postStatus NOTIFY postStatusChanged)
+	Q_PROPERTY(QString clipboard READ clipboard WRITE setClipboard NOTIFY clipboardChanged)
 
 public:
 	explicit AztterPlugin(QObject *parent = 0);
@@ -50,7 +52,11 @@ public:
 	Q_INVOKABLE void favrt(qint64 tweetId);
 	// AztterStatusUpdate
 	Q_INVOKABLE void tweet(const QString& tweet);
+
+	// for Q_PROPERTY
 	AztterStatusUpdate::PostStatus postStatus();
+	QString clipboard();
+	void setClipboard(const QString &str);
 
 signals:
 	void authPageRequested(QString authPageUrl);
@@ -61,8 +67,10 @@ signals:
 	void tweetDeleted(qint64 tweetId);
 	void favChanged(qint64 tweetId, bool favorited);
 	void postStatusChanged();
+	void clipboardChanged();
 
 private:
+	QClipboard *m_clipboard;
 	AztterAuthHelper *m_authHelper;
 	AztterUserStream *m_stream;
 	AztterHomeTL *m_homeTL;

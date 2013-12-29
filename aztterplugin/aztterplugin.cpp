@@ -14,7 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#include <QtQml/qqml.h>
+#include <QApplication>
+#include <QClipboard>
 #include "aztterplugin.h"
 #include "aztterauthhelper.h"
 #include "aztterstatusupdate.h"
@@ -27,12 +28,15 @@
 
 AztterPlugin::AztterPlugin(QObject *parent) : QObject(parent)
 {
+	m_clipboard = QApplication::clipboard();
 	m_stream = new AztterUserStream(this);
 	m_homeTL = new AztterHomeTL(this);
 	m_fav = new AztterFav(this);
 	m_rt = new AztterRT(this);
 	m_statusUpdate = new AztterStatusUpdate(this);
 
+	connect(m_clipboard, SIGNAL( dataChanged() ),
+			this, SIGNAL( clipboardChanged() ));
 	connect(m_stream, SIGNAL( tweetReceived(QVariantMap) ),
 			this, SIGNAL( tweetReceived(QVariantMap) ));
 	connect(m_stream, SIGNAL( friendsListReceived() ),
@@ -74,3 +78,5 @@ void AztterPlugin::favrt(const qint64 tweetId) {fav(tweetId); rt(tweetId);}
 
 void AztterPlugin::tweet(const QString &tweet) {m_statusUpdate->updateStatus(tweet);}
 AztterStatusUpdate::PostStatus AztterPlugin::postStatus() {return m_statusUpdate->postStatus();}
+QString AztterPlugin::clipboard() {return m_clipboard->text();}
+void AztterPlugin::setClipboard(const QString &str) {m_clipboard->setText(str);}
