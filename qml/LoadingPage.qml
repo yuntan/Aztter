@@ -27,18 +27,18 @@ Rectangle {
 	Timer {
 		id: timer
 
-		interval: 500
+		interval: 1000
 		onTriggered: {
-			if(storage.isAuthenticated())
-				stackView.push(timelineContainer);
-			else
+//			if(storage.isAuthenticated())
+//				stackView.push(timelineContainer);
+//			else
 				stackView.push(authPage);
 		}
 	}
 
 	Column {
 		anchors.centerIn: parent
-		spacing: 10*mm
+		spacing: 8*mm
 
 		Label {
 			id: loadingLabel
