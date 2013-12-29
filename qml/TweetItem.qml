@@ -18,13 +18,13 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import "components"
-import "twttr.js" as Twttr
+//import "twttr.js" as Twttr
 
 Item {
 	id: tweetItem
 
 	property string tweet
-	property string text
+	property alias text: textLabel.text
 	property alias createdAt: timeLabel.createdAt
 	property alias fav: favIndicator.fav
 	property alias name: nameLabel.text
@@ -43,7 +43,8 @@ Item {
 	signal profileIconClicked()
 
 	Component.onCompleted: {
-		textLabel.text = Twttr.autoLink(text)
+//		textLabel.text = Twttr.autoLink(text)
+		console.debug(textLabel.text)
 	}
 
 	width: parent.width; height: tweetCard.height + 2*mm
@@ -110,7 +111,7 @@ Item {
 				anchors {
 					fill: parent
 					margins: 0.5*mm
-					leftMargin: 6*mm
+					leftMargin: 1*mm
 				}
 
 				spacing: 1*mm
@@ -197,6 +198,7 @@ Item {
 					Label {
 						id: nameLabel
 
+						Layout.preferredWidth: implicitWidth
 						font.pointSize: 12
 						font.bold: true
 						maximumLineCount: 1
@@ -252,9 +254,7 @@ Item {
 						Layout.fillWidth: true // needed to enable word wrap
 						font.pointSize: 12
 						wrapMode: Text.Wrap
-						elide: Text.ElideNone
 						color: "#666666"
-						textFormat: Text.StyledText
 						onLinkActivated: {
 							console.log(link + " link activated")
 							Qt.openUrlExternally(link)
