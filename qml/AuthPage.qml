@@ -86,14 +86,31 @@ Page {
 			Layout.preferredHeight: implicitHeight
 			readOnly: true
 			horizontalAlignment: Text.AlignHCenter
+			wrapMode: Text.WrapAnywhere
 		}
 
-		// FIXME ugly
+		FlatButton {
+			Layout.alignment: Qt.AlignHCenter
+			Layout.fillWidth: true
+			Layout.preferredHeight: 8*mm
+			text: qsTr("Copy to clipboard")
+			textColor: "white"
+			onClicked: {
+				aztter.clipboard = authUrl.text
+				copiedLabel.visible = true
+			}
+		}
 
-//		FlatButton {
-//			Layout.alignment: Qt.AlignHCenter
-//			text: qsTr("Copy to clipboard")
-//			onClicked: Qt
-//		}
+		Label {
+			id: copiedLabel
+			Layout.fillWidth: true
+			Layout.preferredHeight: implicitHeight
+			visible: false
+			text: qsTr("Copied URL to clipboard")
+			font.pointSize: 18
+			color: "white"
+			horizontalAlignment: Text.AlignHCenter
+			wrapMode: Text.Wrap
+		}
 	}
 }
