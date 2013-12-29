@@ -44,7 +44,15 @@ ApplicationWindow {
 
 	property Component loadingPage: LoadingPage { }
 	property Component authPage: AuthPage { }
-	property Component timelineContainer: TimelineContainer { }
+	property Component timelineContainer: TimelineContainer {
+		onUpdateStatusBar: mainWindow.updateStatusBar(message)
+		onBack: stackView.pop()
+	}
+
+	function updateStatusBar(message) {
+		statusLabel.text = message
+		statusBarTimer.start()
+	}
 
 	Storage {
 		id: storage
@@ -102,8 +110,7 @@ ApplicationWindow {
 
 	statusBar: StatusBar {
 		width: parent.width
-		opacity: statusLabel.text !== "" ? 1 : 0
-		height: statusLabel.text !== "" ? units.gu(5) : 0
+		height: statusLabel.text !== "" ? 5*mm : 0
 
 		Behavior on height {
 			NumberAnimation {
@@ -112,33 +119,38 @@ ApplicationWindow {
 		}
 
 		style: StatusBarStyle {
-			padding {
-				left: 0
-				right: 0
-				top: 0
-				bottom: 0
-			}
-			property Component background: Rectangle {
-				implicitHeight: 65 * ApplicationInfo.ratio
-				implicitWidth: root.width
-				color: ApplicationInfo.colors.smokeGray
+			background: Rectangle {
+				implicitHeight: 6*mm
+				implicitWidth: mainWindow.width
+				color: "#2d373f"
 				Rectangle {
 					width: parent.width
-					height: 1
-					color: Qt.darker(
-							   parent.color, 1.5)
-				}
-				Rectangle {
-					y: 1
-					width: parent.width
-					height: 1
-					color: "white"
+					height: 2
+					color: Qt.darker(parent.color, 1.5)
 				}
 			}
 		}
 
 		Label {
 			id: statusLabel
+			width: parent.width
+			text: ""
+			textFormat: Text.RichText
+			onLinkActivated: Qt.openUrlExternally(link)
+			wrapMode: Text.Wrap
+			font.pointSize: 12
+			font.bold: true
+			color: "whitesmoke"
+			verticalAlignment: Text.AlignVCenter
+			horizontalAlignment: Text.AlignHCenter
+		}
+
+		Timer {
+			id: statusBarTimer
+			interval: 10000
+			running: false
+			triggeredOnStart: false
+			onTriggered: statusLabel.text = ""
 		}
 	}
 }

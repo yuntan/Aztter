@@ -34,7 +34,28 @@ Item {
 	Connections {
 		target: aztter
 		onPostStatusChanged: {
-			//			if(aztter.postStatus === )
+			switch(aztter.postStatus) {
+			case aztter.Success:
+				updateStatusBar(qsTr("Tweet sent."))
+				break
+			case aztter.RateLimitExceeded:
+				updateStatusBar(qsTr("Rete limit exceeded."))
+				break
+			case aztter.OverCapacity:
+				updateStatusBar(qsTr("Twitter is now over capacity."))
+				break
+			case aztter.InternalError:
+				updateStatusBar(qsTr("Internal error occurd in twitter."))
+				break
+			case aztter.TimeInvalid:
+				updateStatusBar(qsTr("Your computer's time is not valid. Please fix it."))
+				break
+			case aztter.Duplicate:
+				updateStatusBar(qsTr("Tweet duplicated."))
+			default:
+				updateStatusBar(qsTr("Unknown error."))
+			}
+
 			tweetEdit.text = ""
 			postButton.enabled = true
 			tweetEdit.enabled = true
