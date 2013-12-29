@@ -14,8 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
-import QtQuick.Controls 1.0
+import QtQuick 2.2
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.1
 //import QtWebKit 3.0
 import "components"
 
@@ -23,49 +24,76 @@ Page {
 	id: authPage
 
 	title: qsTr("Twitter Authentication")
-//	busy: authWebView.loading
 
 	Component.onCompleted: {
 		aztter.startAuth()
-		busy = true
 	}
 
 	Connections {
 		target: aztter
-//		onAuthPageRequested: authWebViewl.url = authPageUrl
+		//		onAuthPageRequested: authWebViewl.url = authPageUrl
 		onAuthPageRequested: {
-			busy = false
-			Qt.openUrlExternally(authPageUrl)
+			//			Qt.openUrlExternally(authPageUrl)
+			authUrl.text = authPageUrl
+			authUrl.cursorPosition = 0
 		}
 		onAuthorized: stackView.push(timelineContainer)
 	}
 
-	Label {
-		id: authLabel
-
-		width: parent.width
-		anchors.top: parent.top
-		text: qsTr("Let's do twitter authentication first.")
-		font.pointSize: 18
-		color: "white"
-	}
-
-
-//	WebView {
-//		id: authWebView
-//		width: parent.width
-//		anchors.top: authLabel.bottom
-//		anchors.topMargin: parent.height / 20
-//		anchors.bottom: parent.bottom
-//	}
-
-	TextField {
-		id: authUrl
-		width: parent.width * 4 / 5
+	ColumnLayout {
 		anchors {
-			top: authLabel.bottom
-			topMargin: parent.height / 20
-			horizontalCenter: parent.horizontalCenter
+			top: parent.top
+			left: parent.left
+			right: parent.right
+			margins: 5*mm
 		}
+		height: childrenRect.height
+		spacing: 8*mm
+
+		Label {
+			id: authLabel
+
+			Layout.fillWidth: true
+			Layout.preferredHeight: implicitHeight
+			text: qsTr("Welcome to Aztter\n\n" +
+					   "You aren't logged in.\n" +
+					   "Let's do twitter authentication.\n" +
+					   "Please copy URL below and open it with browser. " +
+					   "You will see Twitter authentication page " +
+					   "so allow access from this app.")
+
+			font.pointSize: 18
+			color: "white"
+			horizontalAlignment: Text.AlignHCenter
+			wrapMode: Text.Wrap
+		}
+
+		// Qt5.2 Mobile dosen't supprt WebView
+		//	WebView {
+		//		id: authWebView
+		//		width: parent.width
+		//		anchors.top: authLabel.bottom
+		//		anchors.topMargin: parent.height / 20
+		//		anchors.bottom: parent.bottom
+		//	}
+
+		TextArea {
+			id: authUrl
+
+			onFocusChanged: selectAll()
+
+			Layout.fillWidth: true
+			Layout.preferredHeight: implicitHeight
+			readOnly: true
+			horizontalAlignment: Text.AlignHCenter
+		}
+
+		// FIXME ugly
+
+//		FlatButton {
+//			Layout.alignment: Qt.AlignHCenter
+//			text: qsTr("Copy to clipboard")
+//			onClicked: Qt
+//		}
 	}
 }
