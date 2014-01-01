@@ -17,13 +17,13 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
-//import QtGraphicalEffects 1.0
+import QtQuick.Controls.Styles 1.1
 import "components"
 
 Item {
 	id: box
 
-	height: mainRow.height + 2*mm
+	height: mainRow.height + 2.*mm
 
 	function postTweet() {
 		postButton.enabled = false;
@@ -52,6 +52,7 @@ Item {
 				break
 			case aztter.Duplicate:
 				updateStatusBar(qsTr("Tweet duplicated."))
+				break
 			default:
 				updateStatusBar(qsTr("Unknown error."))
 			}
@@ -65,7 +66,7 @@ Item {
 	Rectangle {
 		id: rect
 		anchors.fill: parent
-		color: "#a005b2d2"
+		color: "#c005b2d2"
 		radius: height / 3
 	}
 
@@ -77,16 +78,22 @@ Item {
 			left: parent.left
 			right: parent.right
 			bottom: parent.bottom
-			margins: 1*mm
+			margins: 1.*mm
 		}
-		spacing: 2*mm
+		spacing: 1.*mm
 
-		FlatButton {
+		Button {
 			id: openButton
 
 			Layout.preferredWidth: parent.height
 			Layout.fillHeight: true
 			iconSource: "qrc:/img/star.png"
+			style: ButtonStyle {
+				background: Rectangle {
+					width: control.width; height: control.height
+					color: control.pressed ? "#80000000" : "transparent"
+				}
+			}
 		}
 
 		TextField {
@@ -123,12 +130,11 @@ Item {
 		FlatButton {
 			id: postButton
 
-			Layout.preferredWidth: parent.height * 3 / 2
+			Layout.preferredWidth: 12.*mm
 			Layout.fillHeight: true
 
 			enabled: false
 			text: qsTr("Post")
-			textColor: "white"
 			onClicked: postTweet()
 		}
 	}

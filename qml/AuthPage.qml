@@ -94,7 +94,6 @@ Page {
 			Layout.fillWidth: true
 			Layout.preferredHeight: 8*mm
 			text: qsTr("Copy to clipboard")
-			textColor: "white"
 			onClicked: {
 				aztter.clipboard = authUrl.text
 				copiedLabel.visible = true
