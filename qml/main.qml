@@ -46,7 +46,6 @@ ApplicationWindow {
 	property Component authPage: AuthPage { }
 	property Component timelineContainer: TimelineContainer {
 		onUpdateStatusBar: mainWindow.updateStatusBar(message)
-		onBack: stackView.pop()
 	}
 
 	function updateStatusBar(message) {
