@@ -18,7 +18,7 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import "components"
-//import "twttr.js" as Twttr
+import "twttr.js" as Twttr
 
 Item {
 	id: tweetItem
@@ -39,12 +39,12 @@ Item {
 	//	property bool __controlAreaPressed: false
 
 	signal clicked()
-	signal swiped(int index)
 	signal profileIconClicked()
+	signal swiped(int index)
 
 	Component.onCompleted: {
-//		textLabel.text = Twttr.autoLink(text)
-		console.debug(textLabel.text)
+		textLabel.text = Twttr.autoLink(text)
+//		console.debug(textLabel.text)
 	}
 
 	width: parent.width; height: tweetCard.height + 2*mm
@@ -254,6 +254,7 @@ Item {
 						Layout.fillWidth: true // needed to enable word wrap
 						font.pointSize: 12
 						wrapMode: Text.Wrap
+						textFormat: Text.StyledText
 						color: "#666666"
 						onLinkActivated: {
 							console.log(link + " link activated")
