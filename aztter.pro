@@ -9,7 +9,6 @@ OTHER_FILES += \
 	qml/components/Card.qml \
 	qml/components/FlatButton.qml \
 	qml/components/Page.qml \
-	qml/components/ScrollablePageWithTab.qml \
 	qml/AuthPage.qml \
 	qml/Empty.qml \
 	qml/LoadingPage.qml \
