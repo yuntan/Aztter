@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
 	auto *tweetListModel = new AztterTweetListModel();
 	engine.rootContext()->setContextProperty(QLatin1String("tweetListModel"), tweetListModel);
 
+	qDebug() << "OfflineStoragePath: " << engine.offlineStoragePath();
+
 	QObject *topLevel = engine.rootObjects().value(0);
 	QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 	if ( !window ) {
