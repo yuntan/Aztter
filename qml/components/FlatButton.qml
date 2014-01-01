@@ -1,55 +1,31 @@
-import QtQuick 2.0
+import QtQuick 2.2
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 
-Item {
-    property alias iconSource: icon.source
-    property alias text: label.text
-    property alias textColor: label.color
-//    property Menu menu //TODO
+Button {
+	style: ButtonStyle {
+		background: Rectangle {
+			width: control.width; height: control.height
+			color: control.pressed ? "#80000000" : "transparent"
+			Rectangle {
+				id: rect
+				anchors.fill: parent
+				anchors.margins: 2
+				color: "transparent"
+				border.color: "white"
+				border.width: 2
+			}
+		}
 
-    signal clicked()
-
-    Component.onCompleted: {
-        if(iconSource === "" || iconSource == undefined)
-            icon.visible = false
-        else
-            icon.visible = true
-        if(text === "" || text == undefined)
-            label.visible = false
-        else
-            label.visible = true
-    }
-
-    Image {
-        id: icon
-
-        width: height
-        height: parent.height / 2
-        anchors.centerIn: parent
-    }
-
-    Text {
-        id: label
-
-        anchors.centerIn: parent
-        font.pixelSize: parent.height / 2
-    }
-
-    Rectangle {
-        id: filter
-
-        anchors.fill: parent
-        visible: false
-        color: "#80000000"
-    }
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-
-        onClicked: parent.clicked()
-        onPressedChanged: {
-            if(pressed) filter.visible = true
-            else filter.visible = false
-        }
-    }
+		label: Label {
+			anchors.fill: control
+			anchors.margins: 3
+			color: "whitesmoke"
+			text: control.text
+			font.pixelSize: control.height - 6
+			font.bold: true
+			maximumLineCount: 1
+			horizontalAlignment: Text.AlignHCenter
+		}
+	}
 }
