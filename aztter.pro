@@ -2,6 +2,7 @@ TARGET = aztter
 TEMPLATE = app
 
 QT += qml quick widgets network sql
+android : QT += androidextras
 
 SOURCES += main.cpp
 
@@ -20,7 +21,7 @@ OTHER_FILES += \
 	qml/TweetItem.qml \
 	qml/components/Shape.qml \
 	qml/twitter-text.js \
-    qml/twttr.js
+	qml/twttr.js
 
 RESOURCES += \
 	qml.qrc \
