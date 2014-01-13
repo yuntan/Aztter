@@ -22,8 +22,9 @@ import "components"
 
 Page {
 	id: authPage
-
 	title: qsTr("Twitter Authentication")
+
+	property string authUrl
 
 	Component.onCompleted: {
 		aztter.startAuth()
@@ -31,12 +32,7 @@ Page {
 
 	Connections {
 		target: aztter
-		//		onAuthPageRequested: authWebViewl.url = authPageUrl
-		onAuthPageRequested: {
-			//			Qt.openUrlExternally(authPageUrl)
-			authUrl.text = authPageUrl
-			authUrl.cursorPosition = 0
-		}
+		onAuthPageRequested: authUrl = authPageUrl
 		onAuthorized: stackView.push(timelineContainer)
 	}
 
@@ -58,9 +54,9 @@ Page {
 			text: qsTr("Welcome to Aztter\n\n" +
 					   "You aren't logged in.\n" +
 					   "Let's do twitter authentication.\n" +
-					   "Please copy URL below and open it with browser. " +
-					   "You will see Twitter authentication page " +
-					   "so allow access from this app.")
+					   "Please tap \"Open auth page\" button, and " +
+					   "you will see Twitter authentication page.\n" +
+					   "Please allow access from this app.")
 
 			font.pointSize: 18
 			color: "white"
@@ -77,39 +73,12 @@ Page {
 		//		anchors.bottom: parent.bottom
 		//	}
 
-		TextArea {
-			id: authUrl
-
-			onFocusChanged: selectAll()
-
-			Layout.fillWidth: true
-			Layout.preferredHeight: implicitHeight
-			readOnly: true
-			horizontalAlignment: Text.AlignHCenter
-			wrapMode: Text.WrapAnywhere
-		}
-
 		FlatButton {
 			Layout.alignment: Qt.AlignHCenter
 			Layout.fillWidth: true
-			Layout.preferredHeight: 8*mm
-			text: qsTr("Copy to clipboard")
-			onClicked: {
-				aztter.clipboard = authUrl.text
-				copiedLabel.visible = true
-			}
-		}
-
-		Label {
-			id: copiedLabel
-			Layout.fillWidth: true
-			Layout.preferredHeight: implicitHeight
-			visible: false
-			text: qsTr("Copied URL to clipboard")
-			font.pointSize: 18
-			color: "white"
-			horizontalAlignment: Text.AlignHCenter
-			wrapMode: Text.Wrap
+			Layout.preferredHeight: 6.*mm
+			text: qsTr("Open auth page")
+			onClicked: Qt.openUrlExternally(authUrl)
 		}
 	}
 }
