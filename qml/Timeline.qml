@@ -92,6 +92,10 @@ ScrollView {
 				from: 0.0; to: 1.0
 				duration: 333
 			}
+
+			onRunningChanged: {
+				if(running === false) { addTrans.ViewTransition.item.opacity = 1.0 }
+			}
 		}
 
 		displaced: Transition {
@@ -100,15 +104,6 @@ ScrollView {
 			//		}
 			NumberAnimation {
 				property: "y"
-				duration: 333
-			}
-			//		OpacityAnimator { //nothing changed. Why?
-			//			to: 1.0
-			//			duration: 333
-			//		}
-			NumberAnimation {
-				property: "opacity"
-				to: 1.0
 				duration: 333
 			}
 		}
@@ -134,6 +129,10 @@ ScrollView {
 				property: "opacity"
 				to: 0.0
 				duration: 333
+			}
+
+			onRunningChanged: {
+				if(running === false) { remTrans.ViewTransition.item.opacity = 0.0 }
 			}
 		}
 	}
