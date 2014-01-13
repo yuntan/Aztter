@@ -58,7 +58,7 @@ Item {
 			}
 
 			tweetEdit.text = ""
-			postButton.enabled = true
+			postButton.enabled = false
 			tweetEdit.enabled = true
 		}
 	}
@@ -130,7 +130,7 @@ Item {
 		FlatButton {
 			id: postButton
 
-			Layout.preferredWidth: 12.*mm
+			Layout.preferredWidth: implicitWidth
 			Layout.fillHeight: true
 
 			enabled: false
