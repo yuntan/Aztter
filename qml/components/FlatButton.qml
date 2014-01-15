@@ -3,29 +3,43 @@ import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 
 Button {
+	property int fontPixelSize: 0
+
 	style: ButtonStyle {
 		background: Rectangle {
 			width: control.width; height: control.height
 			color: control.pressed ? "#80000000" : "transparent"
 			Rectangle {
-				id: rect
 				anchors.fill: parent
-				anchors.margins: 2
+				anchors.margins: 2*dp
 				color: "transparent"
 				border.color: "white"
-				border.width: 2
+				border.width: 2*dp
 			}
 		}
 
 		label: Label {
-			anchors.fill: control
-			anchors.margins: 3
+			id: innerLabel
 			color: "whitesmoke"
 			text: control.text
-			font.pixelSize: control.height - 6
 			font.bold: true
+			font.pixelSize: 21*dp
 			maximumLineCount: 1
 			horizontalAlignment: Text.AlignHCenter
+
+			Component.onCompleted: {
+				control.fontPixelSize !== 0
+						? font.pixelSize = control.fontPixelSize
+						: control.fontPixelSize = font.pixelSize
+				control.implicitWidth = implicitWidth + 24*dp
+				control.implicitHeight = implicitHeight + 12*dp
+			}
+
+			Connections	{
+				target: control
+				onFontChanged: font = control.font
+				onFontPixelSizeChanged: font.pixelSize = control.fontPixelSize
+			}
 		}
 	}
 }
