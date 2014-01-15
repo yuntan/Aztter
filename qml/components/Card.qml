@@ -34,7 +34,7 @@ Item {
 	Rectangle {
 		id: rightShadow
 		anchors.right: parent.right
-		width: 0.5*mm; height: parent.height
+		width: 3*dp; height: parent.height
 		color: "#80000000"
 	}
 
@@ -42,7 +42,7 @@ Item {
 	Rectangle {
 		id: bottomShadow
 		anchors.bottom: parent.bottom
-		width: parent.width; height: 0.5*mm
+		width: parent.width; height: 3*dp
 		color: "#80000000"
 	}
 }

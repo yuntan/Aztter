@@ -23,7 +23,7 @@ import "components"
 Item {
 	id: box
 
-	height: mainRow.height + 2.*mm
+	height: mainRow.height + 10*dp
 
 	function postTweet() {
 		postButton.enabled = false;
@@ -78,9 +78,9 @@ Item {
 			left: parent.left
 			right: parent.right
 			bottom: parent.bottom
-			margins: 1.*mm
+			margins: 5*dp
 		}
-		spacing: 1.*mm
+		spacing: 5*dp
 
 		Button {
 			id: openButton
@@ -101,7 +101,7 @@ Item {
 
 			Layout.fillWidth: true
 
-			font.pointSize: 18
+			font.pixelSize: 24*dp
 			placeholderText: qsTr("What's happened?")
 
 			Keys.onReturnPressed: {

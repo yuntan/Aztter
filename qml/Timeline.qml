@@ -138,7 +138,7 @@ ScrollView {
 	}
 
 	style: ScrollViewStyle {
-		minimumHandleLength: 8*mm
+		minimumHandleLength: 40*dp
 		transientScrollBars: true
 	}
 }

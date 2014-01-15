@@ -25,18 +25,16 @@ ApplicationWindow {
 	id: mainWindow
 	title: qsTr("Aztter")
 
-	width: 360
-	height: 640
-
-	property real mm: Screen.pixelDensity
+	width: 360*dp
+	height: 640*dp
 
 	Component.onCompleted : {
 		console.log("name: ", Screen.name)
 		console.debug("width: ", Screen.width, " height: ", Screen.height)
-		if(Screen.primaryOrientation==Qt.LandscapeOrientation){
+		if(Screen.primaryOrientation === Qt.LandscapeOrientation){
 			console.debug("LandScape")
 		}
-		else{
+		else {
 			console.debug("Portrait")
 		}
 		console.debug("pixelDensity: ", Screen.pixelDensity)
@@ -109,7 +107,7 @@ ApplicationWindow {
 
 	statusBar: StatusBar {
 		width: parent.width
-		height: statusLabel.text !== "" ? 5*mm : 0
+		height: statusLabel.text !== "" ? 25*dp : 0
 
 		Behavior on height {
 			NumberAnimation {
@@ -119,7 +117,7 @@ ApplicationWindow {
 
 		style: StatusBarStyle {
 			background: Rectangle {
-				implicitHeight: 6*mm
+				implicitHeight: 30*dp
 				implicitWidth: mainWindow.width
 				color: "#2d373f"
 				Rectangle {

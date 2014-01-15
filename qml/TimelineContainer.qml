@@ -73,7 +73,7 @@ Page {
 			left: parent.left
 			right: parent.right
 			bottom: parent.bottom
-			margins: 1*mm
+			margins: 5*dp
 		}
 	}
 

@@ -21,42 +21,30 @@ Rectangle {
 
 	color: mainColor
 
-	/*
-	// use container in order not titleBarShadow to be clipped
-	// see http://stackoverflow.com/questions/15488714/how-to-create-drop-shadow-for-rectangle-on-qtquick-2-0
-	Item {
-		id: titleBarContainer
-
-		z: 10
-		visible: false
-		width: parent.width
-		height: 12*mm
-	*/
-
 	Rectangle {
 		id: titleBar
 
 		z:10 // so page contents doesn't draw on top
 		anchors.top: parent.top
 		width: parent.width
-		height: 10*mm
+		height: 50*dp
 
 		color: titleColor
 
 		RowLayout {
 			anchors.fill: parent
-			spacing: 3*mm
+			spacing: 15*dp
 
 			// Back arrow button
 			Rectangle {
 				id: backButton
-				Layout.preferredWidth: 10*mm
+				Layout.minimumWidth: parent.height
 				Layout.fillHeight: true
 				enabled: page.Stack.index > 1
 				color: Qt.darker(titleColor, 1.2)
 				Image {
 					anchors.fill: parent
-					anchors.margins: 1*mm
+					anchors.margins: 5*dp
 					source: "qrc:/img/aztter64.png"
 					fillMode: Image.PreserveAspectFit
 				}
@@ -89,7 +77,7 @@ Rectangle {
 					}
 
 					color: "whitesmoke"
-					font.pointSize: 21
+					font.pixelSize: 30*dp
 					fontSizeMode: Text.HorizontalFit
 					font.bold: true
 				}
@@ -108,9 +96,9 @@ Rectangle {
 
 					anchors {
 						fill: parent
-						topMargin: 1*mm
-						bottomMargin: 1*mm
-						rightMargin: 3*mm
+						topMargin: 5*dp
+						bottomMargin: 5*dp
+						rightMargin: 15*dp
 					}
 				}
 			}
@@ -121,7 +109,7 @@ Rectangle {
 	Rectangle {
 		id: titleBarLine
 		anchors.top: titleBar.bottom
-		width: parent.width; height: 1*mm
+		width: parent.width; height: 3*dp
 		color: Qt.darker(titleColor, 1.6)
 	}
 
@@ -130,7 +118,7 @@ Rectangle {
 		id:	titleBarShadow
 
 		z:10
-		width: parent.width; height: 5
+		width: parent.width; height: 5*dp
 		anchors.top: titleBarLine.bottom
 
 		gradient: Gradient {
@@ -138,22 +126,6 @@ Rectangle {
 			GradientStop {position: 1; color: "#00000000"}
 		}
 	}
-
-	/*
-DropShadow {
-	id: titleBarShadow
-
-	z: 10
-	anchors.fill: source
-
-	horizontalOffset: 0
-	verticalOffset: 1*mm
-	radius: verticalOffset
-	samples: radius * 2
-	color: "#80000000"
-	source: titleBarContainer
-}
-*/
 
 	// main contents of	the page
 	Item {

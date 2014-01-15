@@ -44,10 +44,10 @@ Item {
 
 	Component.onCompleted: {
 		textLabel.text = Twttr.autoLink(text)
-//		console.debug(textLabel.text)
+		//		console.debug(textLabel.text)
 	}
 
-	width: parent.width; height: tweetCard.height + 2*mm
+	width: parent.width; height: tweetCard.height + 10*dp
 
 	clip: true
 
@@ -88,9 +88,9 @@ Item {
 			top: parent.top
 			left: parent.left
 			right: parent.right
-			margins: 2*mm
+			margins: 10*dp
 		}
-		height: rtRect.height + mainRow.height + 3*mm
+		height: rtRect.height + mainRow.height + 15*dp
 
 		onClicked: tweetItem.clicked()
 
@@ -102,7 +102,7 @@ Item {
 				left: parent.left
 				right: parent.right
 			}
-			height: isRT ? 6*mm : 0
+			height: isRT ? 30*dp : 0
 			color: "#601ebba6"
 
 			RowLayout {
@@ -110,29 +110,19 @@ Item {
 
 				anchors {
 					fill: parent
-					margins: 0.5*mm
-					leftMargin: 1*mm
+					margins: 3*dp
+					leftMargin: 5*dp
 				}
 
-				spacing: 1*mm
+				spacing: 5*dp
 				property bool isRT
 				visible: isRT
-
-				/*
-				Image {
-					id: rtImage
-
-					Layout.preferredWidth: 4*mm
-					sourceSize.width: 4*mm; sourceSize.height: 4*mm
-					source: "qrc:/img/retweet.png"
-					fillMode: Image.PreserveAspectFit
-				} */
 
 				Image {
 					id: rtIconImage
 
-					Layout.minimumWidth: 5*mm
-					sourceSize.width: 5*mm; sourceSize.height: 5*mm
+					Layout.minimumWidth: 25*dp
+					sourceSize.width: 25*dp; sourceSize.height: 25*dp
 					fillMode: Image.PreserveAspectFit
 
 					Component.onCompleted: {
@@ -145,7 +135,7 @@ Item {
 					id: rtNameLabel
 
 					Layout.fillWidth: true
-					font.pointSize: 9
+					font.pixelSize: 15*dp
 					font.bold: true
 					maximumLineCount: 1
 					elide: Text.ElideRight
@@ -161,17 +151,17 @@ Item {
 				top: rtRect.bottom
 				left: parent.left
 				right: parent.right
-				margins: 1*mm
+				margins: 5*dp
 			}
 			height: textCol.height
-			spacing: 1*mm
+			spacing: 5*dp
 
 			Image {
 				id: iconImage
 
 				Layout.alignment: Qt.AlignTop
-				Layout.minimumWidth: 12*mm
-				sourceSize.width: 12*mm; sourceSize.height: 12*mm
+				Layout.minimumWidth: 50*dp
+				Layout.preferredHeight: 50*dp
 				fillMode: Image.PreserveAspectFit
 
 				property url fallbackSource: Qt.resolvedUrl("qrc:/img/loading.png")
@@ -187,19 +177,20 @@ Item {
 
 				anchors.top: parent.top
 				Layout.fillWidth: true
-				spacing: 1*mm
+				spacing: 5*dp
 
 				RowLayout {
 					id: nameRow
 
+					Layout.fillWidth: true
 					Layout.preferredHeight: nameLabel.font.pixelSize
-					spacing: 0.5*mm
+					spacing: 1*dp
 
 					Label {
 						id: nameLabel
 
 						Layout.preferredWidth: implicitWidth
-						font.pointSize: 12
+						font.pixelSize: 15*dp
 						font.bold: true
 						maximumLineCount: 1
 						elide: Text.ElideRight
@@ -212,13 +203,12 @@ Item {
 
 						visible: verified
 						Layout.preferredWidth: verified ? parent.height : 0
-						sourceSize.width: parent.height
-						sourceSize.height: parent.height
+						Layout.preferredHeight: parent.height
 						source: "qrc:/img/verified.png"
 					}
 
 					Item {
-						Layout.minimumWidth: 1*mm
+						Layout.minimumWidth: 5*dp
 					}
 
 					Label {
@@ -226,14 +216,10 @@ Item {
 
 						Layout.fillWidth: true
 						Layout.alignment: Qt.AlignBottom
-						font.pointSize: 9
+						font.pixelSize: 12*dp
 						maximumLineCount: 1
 						elide: Text.ElideRight
 						color: "#666666"
-					}
-
-					Item {
-						Layout.fillWidth: true
 					}
 
 					Image {
@@ -242,38 +228,40 @@ Item {
 
 						visible: fav
 						Layout.preferredWidth: fav ? parent.height : 0
-						sourceSize.width: parent.height
-						sourceSize.height: parent.height
+						Layout.preferredHeight: parent.height
 						source: "qrc:/img/star.png"
 					}
 				}
 
-					Label {
-						id: textLabel
+				Label {
+					id: textLabel
 
-						Layout.fillWidth: true // needed to enable word wrap
-						font.pointSize: 12
-						wrapMode: Text.Wrap
-						textFormat: Text.StyledText
-						color: "#666666"
-						onLinkActivated: {
-							console.log(link + " link activated")
-							Qt.openUrlExternally(link)
-						}
+					Layout.fillWidth: true // needed to enable word wrap
+					font.pixelSize: 15*dp
+					wrapMode: Text.Wrap
+					textFormat: Text.StyledText
+					lineHeight: 1.2
+					color: "#666666"
+					onLinkActivated: {
+						console.log(link + " link activated")
+						Qt.openUrlExternally(link)
 					}
+				}
 
 				Item {
-					Layout.minimumHeight: 0.5*mm
+					Layout.minimumHeight: 3*dp
 				}
 
 				Label {
 					id: timeLabel
 
+					Layout.fillWidth: true
+
 					property date createdAt
 
 					text: calcTime()
 
-					font.pointSize: 9
+					font.pixelSize: 12*dp
 					elide: Text.ElideNone
 					color: "#666666"
 

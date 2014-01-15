@@ -41,10 +41,10 @@ Page {
 			top: parent.top
 			left: parent.left
 			right: parent.right
-			margins: 5*mm
+			margins: 25*dp
 		}
 		height: childrenRect.height
-		spacing: 8*mm
+		spacing: 40*dp
 
 		Label {
 			id: authLabel
@@ -76,7 +76,8 @@ Page {
 		FlatButton {
 			Layout.alignment: Qt.AlignHCenter
 			Layout.fillWidth: true
-			Layout.preferredHeight: 6.*mm
+			Layout.preferredHeight: implicitHeight
+			fontPixelSize: 27*dp
 			text: qsTr("Open auth page")
 			onClicked: Qt.openUrlExternally(authUrl)
 		}
