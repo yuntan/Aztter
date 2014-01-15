@@ -16,7 +16,7 @@
 
 #include "aztterstatusupdate.h"
 
-#define TWITTER_STATUSUPDATE_URL "http://api.twitter.com/1.1/statuses/update.json"
+#define TWITTER_STATUSUPDATE_URL "https://api.twitter.com/1.1/statuses/update.json"
 
 AztterStatusUpdate::AztterStatusUpdate(QObject *parent) : AztterAPIBase(parent)
 {
