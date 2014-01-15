@@ -14,10 +14,8 @@ Rectangle {
 
 	//modify statusBar's label
 	signal updateStatusBar(string message)
-	//back 1 page
-	signal back()
-	//open menu
-	function showMenu() { }
+	signal titleIconClicked()
+	signal titleLabelClicked()
 
 	color: mainColor
 
@@ -35,14 +33,14 @@ Rectangle {
 			anchors.fill: parent
 			spacing: 15*dp
 
-			// Back arrow button
 			Rectangle {
-				id: backButton
+				id: titleIconRect
 				Layout.minimumWidth: parent.height
 				Layout.fillHeight: true
-				enabled: page.Stack.index > 1
+//				enabled: page.Stack.index > 1
 				color: Qt.darker(titleColor, 1.2)
 				Image {
+					id: titleIcon
 					anchors.fill: parent
 					anchors.margins: 5*dp
 					source: "qrc:/img/aztter64.png"
@@ -51,13 +49,13 @@ Rectangle {
 				// push feedback
 				Rectangle {
 					anchors.fill: parent
-					color: mouseBack.pressed ? "#40000000" : "transparent"
+					color: titleIconMouse.pressed ? "#40000000" : "transparent"
 				}
 				MouseArea {
-					id: mouseBack
+					id: titleIconMouse
 					anchors.fill: parent
 
-					onClicked: page.back()
+					onClicked: page.titleIconClicked()
 				}
 			}
 
@@ -66,7 +64,7 @@ Rectangle {
 
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				color: mouseMenu.pressed ? "#40000000" : "transparent"
+				color: titleLabelMouse.pressed ? "#40000000" : "transparent"
 				Label {
 					id: titleLabel
 
@@ -82,9 +80,9 @@ Rectangle {
 					font.bold: true
 				}
 				MouseArea {
-					id: mouseMenu
+					id: titleLabelMouse
 					anchors.fill: parent
-					onClicked: page.showMenu()
+					onClicked: page.titleLabelClicked()
 				}
 			}
 
