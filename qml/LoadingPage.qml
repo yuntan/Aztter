@@ -29,9 +29,9 @@ Rectangle {
 
 		interval: 1000
 		onTriggered: {
-//			if(storage.isAuthenticated())
-//				stackView.push(timelineContainer);
-//			else
+			if(storage.isAuthenticated())
+				stackView.push(timelineContainer);
+			else
 				stackView.push(authPage);
 		}
 	}

@@ -21,48 +21,14 @@ Page {
 	id: timelineContainer
 	title: qsTr("Timeline")
 
-	Component.onCompleted: {
-//        if(wallpaper.status === Image.Ready)
-//            filter.color = Qt.rgba(56/255, 56/255, 55/255, 0.5) // DIC-G300
-//        loadListView(settings.load("view/last_view"));
-//		loadListView(0)
-	}
-
-	property int baseLength: height > width ? height : width
-	property int currentIndex: -1
-	property Component listView
-
-	function loadListView(index) {
-		console.debug("loadListView(" + index + ")");
-		if(currentIndex != -1){
-			listView.loadStop();
-			listView.destroy();
-		}
-		var component = Qt.createComponent("Timeline.qml")
-		listView = component.createObject(timelineContainer,
-										  {"anchors.fill": timelineContainer, "z": 1})
-		if(listView === null) {console.error("Error creating object") }
-		else {
-			console.debug("listView successfully created")
-			currentIndex = index
-		}
-//        flickable = listView;
-//        scrollBar.flickableItem = listView;
-	}
+//	onTitleIconClicked: openMenu()
+	onTitleLabelClicked: timeline.positionTimelineAtBeginning()
 
 	Timeline {
+		id: timeline
 		anchors.fill: parent
 		z: 1
 	}
-
-//    Tabs {
-//        id: tabs
-
-//        onSelectedTabIndexChanged: loadListView(selectedTabIndex)
-//        Tab {title: i18n.tr("Home")}
-////        Tab {title: i18n.tr("Mention")}
-////        Tab {title: i18n.tr("List")}
-//    }
 
 	TweetBox {
 		id: tweetBox
@@ -76,12 +42,6 @@ Page {
 			margins: 5*dp
 		}
 	}
-
-//    Scrollbar {
-//        id: scrollBar
-
-//        z: 20
-//    }
 
 	Image {
 		id: wallpaper
