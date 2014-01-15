@@ -20,13 +20,15 @@ import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 
 ScrollView {
+	function positionTimelineAtBeginning() {
+		homeTLView.positionViewAtBeginning()
+	}
+
 	flickableItem.interactive: true
 	flickableItem.flickableDirection: Flickable.VerticalFlick
 
 	ListView {
 		id: homeTLView
-
-		property real mm: Screen.pixelDensity
 
 		function loadStart() {
 			aztter.startFetching()
