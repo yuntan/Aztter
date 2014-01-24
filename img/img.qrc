@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>aztter64.png</file>
+        <file>aztter128.png</file>
+        <file>loading.png</file>
+        <file>retweet.png</file>
+        <file>rotation_icon.png</file>
+        <file>star.png</file>
+        <file>verified.png</file>
+    </qresource>
+</RCC>

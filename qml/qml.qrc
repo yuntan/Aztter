@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>AuthPage.qml</file>
+        <file>Empty.qml</file>
+        <file>LoadingPage.qml</file>
+        <file>main.qml</file>
+        <file>Storage.qml</file>
+        <file>TimelineContainer.qml</file>
+        <file>TweetBox.qml</file>
+        <file>TweetItem.qml</file>
+        <file>components/Card.qml</file>
+        <file>components/FlatButton.qml</file>
+        <file>components/Page.qml</file>
+        <file>components/Shape.qml</file>
+    </qresource>
+</RCC>
