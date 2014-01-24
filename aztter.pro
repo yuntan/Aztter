@@ -1,7 +1,7 @@
 TARGET = aztter
 TEMPLATE = app
 
-QT += qml quick widgets network sql
+QT += qml quick widgets network twitterapi sql
 android : QT += androidextras
 
 SOURCES += main.cpp
@@ -15,7 +15,6 @@ OTHER_FILES += \
 	qml/LoadingPage.qml \
 	qml/main.qml \
 	qml/Storage.qml \
-	qml/Timeline.qml \
 	qml/TimelineContainer.qml \
 	qml/TweetBox.qml \
 	qml/TweetItem.qml \
@@ -50,7 +49,8 @@ HEADERS += \
 	aztterplugin/aztterlocalstorage.h \
 	aztterplugin/aztterauthhelper.h \
 	aztterplugin/aztterrt.h \
-	aztterplugin/aztterhometl.h
+	aztterplugin/aztterhometl.h \
+	src/unionmodel.h
 
 SOURCES += \
 	aztterplugin/aztterplugin.cpp \
@@ -63,7 +63,8 @@ SOURCES += \
 	aztterplugin/aztterlocalstorage.cpp \
 	aztterplugin/aztterauthhelper.cpp \
 	aztterplugin/aztterrt.cpp \
-	aztterplugin/aztterhometl.cpp
+	aztterplugin/aztterhometl.cpp \
+	src/unionmodel.cpp
 
 # KQOAuth
 PUBLIC_HEADERS += \

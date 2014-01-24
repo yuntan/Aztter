@@ -18,126 +18,139 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.1
+import TwitterAPI 1.1
 import "components"
 
 Item {
-	id: box
+    id: box
 
-	height: mainRow.height + 10*dp
+    height: mainRow.height + 10*dp
 
-	function postTweet() {
-		postButton.enabled = false;
-		tweetEdit.enabled = false;
-		aztter.tweet(tweetEdit.text);
-	}
+    Status {
+        id: tweet
 
-	Connections {
-		target: aztter
-		onPostStatusChanged: {
-			switch(aztter.postStatus) {
-			case aztter.Success:
-				updateStatusBar(qsTr("Tweet sent."))
-				break
-			case aztter.RateLimitExceeded:
-				updateStatusBar(qsTr("Rete limit exceeded."))
-				break
-			case aztter.OverCapacity:
-				updateStatusBar(qsTr("Twitter is now over capacity."))
-				break
-			case aztter.InternalError:
-				updateStatusBar(qsTr("Internal error occurd in twitter."))
-				break
-			case aztter.TimeInvalid:
-				updateStatusBar(qsTr("Your computer's time is not valid. Please fix it."))
-				break
-			case aztter.Duplicate:
-				updateStatusBar(qsTr("Tweet duplicated."))
-				break
-			default:
-				updateStatusBar(qsTr("Unknown error."))
-			}
+        onLoadingChanged: {
+            if(loading === false) {
+                tweetEdit.text = ""
+                postButton.enabled = false
+                tweetEdit.enabled = true
+            }
+        }
+    }
 
-			tweetEdit.text = ""
-			postButton.enabled = false
-			tweetEdit.enabled = true
-		}
-	}
+    function postTweet() {
+        postButton.enabled = false;
+        tweetEdit.enabled = false;
+        tweet.statusesUpdate({"status": tweetEdit.text})
+    }
 
-	Rectangle {
-		id: rect
-		anchors.fill: parent
-		color: "#c005b2d2"
-		radius: height / 3
-	}
+    Connections {
+        target: aztter
+        onPostStatusChanged: {
+            switch(aztter.postStatus) {
+            case aztter.Success:
+                updateStatusBar(qsTr("Tweet sent."))
+                break
+            case aztter.RateLimitExceeded:
+                updateStatusBar(qsTr("Rete limit exceeded."))
+                break
+            case aztter.OverCapacity:
+                updateStatusBar(qsTr("Twitter is now over capacity."))
+                break
+            case aztter.InternalError:
+                updateStatusBar(qsTr("Internal error occurd in twitter."))
+                break
+            case aztter.TimeInvalid:
+                updateStatusBar(qsTr("Your computer's time is not valid. Please fix it."))
+                break
+            case aztter.Duplicate:
+                updateStatusBar(qsTr("Tweet duplicated."))
+                break
+            default:
+                updateStatusBar(qsTr("Unknown error."))
+            }
 
-	RowLayout {
-		id: mainRow
+            tweetEdit.text = ""
+            postButton.enabled = false
+            tweetEdit.enabled = true
+        }
+    }
 
-		height: tweetEdit.height
-		anchors {
-			left: parent.left
-			right: parent.right
-			bottom: parent.bottom
-			margins: 5*dp
-		}
-		spacing: 5*dp
+    Rectangle {
+        id: rect
+        anchors.fill: parent
+        color: "#c005b2d2"
+        radius: height / 3
+    }
 
-		Button {
-			id: openButton
+    RowLayout {
+        id: mainRow
 
-			Layout.preferredWidth: parent.height
-			Layout.fillHeight: true
-			iconSource: "qrc:/img/star.png"
-			style: ButtonStyle {
-				background: Rectangle {
-					width: control.width; height: control.height
-					color: control.pressed ? "#80000000" : "transparent"
-				}
-			}
-		}
+        height: tweetEdit.height
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            margins: 5*dp
+        }
+        spacing: 5*dp
 
-		TextField {
-			id: tweetEdit
+        Button {
+            id: openButton
 
-			Layout.fillWidth: true
+            Layout.preferredWidth: parent.height
+            Layout.fillHeight: true
+            iconSource: "qrc:/img/star.png"
+            style: ButtonStyle {
+                background: Rectangle {
+                    width: control.width; height: control.height
+                    color: control.pressed ? "#80000000" : "transparent"
+                }
+            }
+        }
 
-			font.pixelSize: 24*dp
-			placeholderText: qsTr("What's happened?")
+        TextField {
+            id: tweetEdit
 
-			Keys.onReturnPressed: {
-				if(event.modifiers & Qt.ControlModifier || event.modifiers & Qt.ShiftModifier)
-					postTweet();
-				else
-					event.accepted = false;
-			}
+            Layout.fillWidth: true
 
-			onTextChanged: {
-				postButton.enabled = true;
-				postButton.text = qsTr("Post")
-				if(length >= 110){
-					if(length > 140){
-						postButton.enabled = false;
-					} else if(length >= 130){
-						// TODO: change color
-					}
-					postButton.text = 140 - length
-				} else if(length == 0){
-					postButton.enabled = false;
-				}
-			}
-		}
+            font.pixelSize: 24*dp
+            placeholderText: qsTr("What's happened?")
 
-		FlatButton {
-			id: postButton
+            Keys.onReturnPressed: {
+                if(event.modifiers & Qt.ControlModifier || event.modifiers & Qt.ShiftModifier)
+                    postTweet();
+                else
+                    event.accepted = false;
+            }
 
-			Layout.preferredWidth: implicitWidth
-			Layout.fillHeight: true
+            onTextChanged: {
+                postButton.enabled = true;
+                postButton.text = qsTr("Post")
+                if(length >= 110){
+                    if(length > 140){
+                        postButton.enabled = false;
+                    } else if(length >= 130){
+                        // TODO: change color
+                    }
+                    postButton.text = 140 - length
+                } else if(length == 0){
+                    postButton.enabled = false;
+                }
+            }
+        }
 
-			enabled: false
-			text: qsTr("Post")
-			onClicked: postTweet()
-		}
-	}
+        FlatButton {
+            id: postButton
+
+            Layout.preferredWidth: implicitWidth
+            Layout.fillHeight: true
+
+            enabled: false
+            text: qsTr("Post")
+            onClicked: postTweet()
+        }
+    }
 
 //	FastBlur {
 //		anchors.fill: rect
