@@ -26,22 +26,23 @@ Item {
 
     height: mainRow.height + 10*dp
 
-    Status {
-        id: tweet
+//    Status {
+//        id: tweet
 
-        onLoadingChanged: {
-            if(loading === false) {
-                tweetEdit.text = ""
-                postButton.enabled = false
-                tweetEdit.enabled = true
-            }
-        }
-    }
+//        onLoadingChanged: {
+//            if(loading === false) {
+//                tweetEdit.text = ""
+//                postButton.enabled = false
+//                tweetEdit.enabled = true
+//            }
+//        }
+//    }
 
     function postTweet() {
         postButton.enabled = false;
         tweetEdit.enabled = false;
-        tweet.statusesUpdate({"status": tweetEdit.text})
+        aztter.tweet(tweetEdit.text)
+//        tweet.statusesUpdate({"status": tweetEdit.text})
     }
 
     Connections {
@@ -79,7 +80,7 @@ Item {
     Rectangle {
         id: rect
         anchors.fill: parent
-        color: "#c005b2d2"
+        color: "#c00585d1"
         radius: height / 3
     }
 
