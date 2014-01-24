@@ -22,132 +22,132 @@ import QtQuick.Controls.Styles 1.1
 import "components"
 
 ApplicationWindow {
-	id: mainWindow
-	title: qsTr("Aztter")
+    id: mainWindow
+    title: qsTr("Aztter")
 
-	width: 360*dp
-	height: 640*dp
+    width: 360*dp
+    height: 640*dp
 
-	Component.onCompleted : {
-		console.log("name: ", Screen.name)
-		console.debug("width: ", Screen.width, " height: ", Screen.height)
-		if(Screen.primaryOrientation === Qt.LandscapeOrientation){
-			console.debug("LandScape")
-		}
-		else {
-			console.debug("Portrait")
-		}
-		console.debug("pixelDensity: ", Screen.pixelDensity)
-	}
+    Component.onCompleted : {
+        console.log("name: ", Screen.name)
+        console.debug("width: ", Screen.width, " height: ", Screen.height)
+        if(Screen.primaryOrientation === Qt.LandscapeOrientation){
+            console.debug("LandScape")
+        }
+        else {
+            console.debug("Portrait")
+        }
+        console.debug("pixelDensity: ", Screen.pixelDensity)
+    }
 
-	property Component loadingPage: LoadingPage { }
-	property Component authPage: AuthPage { }
-	property Component timelineContainer: TimelineContainer {
-		onUpdateStatusBar: mainWindow.updateStatusBar(message)
-	}
+    property Component loadingPage: LoadingPage { }
+    property Component authPage: AuthPage { }
+    property Component timelineContainer: TimelineContainer {
+        onUpdateStatusBar: mainWindow.updateStatusBar(message)
+    }
 
-	function updateStatusBar(message) {
-		statusLabel.text = message
-		statusBarTimer.start()
-	}
+    function updateStatusBar(message) {
+        statusLabel.text = message
+        statusBarTimer.start()
+    }
 
-	Storage {
-		id: storage
-	}
+    Storage {
+        id: storage
+    }
 
-	StackView {
-		id: stackView
+    StackView {
+        id: stackView
 
-		anchors.fill: parent
-		initialItem: loadingPage
+        anchors.fill: parent
+        initialItem: loadingPage
 
-		delegate: StackViewDelegate {
-			pushTransition: StackViewTransition {
-				PropertyAnimation {
-					target: enterItem
-					property: "x"
-					duration: 500
-					easing.type: Easing.OutQuad
-					from: enterItem.width
-					to: 0
-				}
-			}
+        delegate: StackViewDelegate {
+            pushTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: enterItem
+                    property: "x"
+                    duration: 500
+                    easing.type: Easing.OutQuad
+                    from: enterItem.width
+                    to: 0
+                }
+            }
 
-			popTransition: StackViewTransition {
-				PropertyAnimation {
-					target: exitItem
-					property: "x"
-					duration: 500
-					easing.type: Easing.InQuad
-					from: 0
-					to: enterItem.width
-				}
-			}
+            popTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: exitItem
+                    property: "x"
+                    duration: 500
+                    easing.type: Easing.InQuad
+                    from: 0
+                    to: enterItem.width
+                }
+            }
 
-			replaceTransition: StackViewTransition {
-				PropertyAnimation {
-					target: enterItem
-					property: "x"
-					duration: 500
-					easing.type: Easing.OutQuad
-					from: enterItem.width
-					to: 0
-				}
-				PropertyAnimation {
-					target: exitItem
-					property: "x"
-					duration: 500
-					easing.type: Easing.InQuad
-					from: 0
-					to: enterItem.width
-				}
-			}
-		}
-	}
+            replaceTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: enterItem
+                    property: "x"
+                    duration: 500
+                    easing.type: Easing.OutQuad
+                    from: enterItem.width
+                    to: 0
+                }
+                PropertyAnimation {
+                    target: exitItem
+                    property: "x"
+                    duration: 500
+                    easing.type: Easing.InQuad
+                    from: 0
+                    to: enterItem.width
+                }
+            }
+        }
+    }
 
-	statusBar: StatusBar {
-		width: parent.width
-		height: statusLabel.text !== "" ? 25*dp : 0
+    statusBar: StatusBar {
+        width: parent.width
+        height: statusLabel.text !== "" ? 25*dp : 0
 
-		Behavior on height {
-			NumberAnimation {
-				easing.type: Easing.OutSine
-			}
-		}
+        Behavior on height {
+            NumberAnimation {
+                easing.type: Easing.OutSine
+            }
+        }
 
-		style: StatusBarStyle {
-			background: Rectangle {
-				implicitHeight: 30*dp
-				implicitWidth: mainWindow.width
-				color: "#2d373f"
-				Rectangle {
-					width: parent.width
-					height: 2
-					color: Qt.darker(parent.color, 1.5)
-				}
-			}
-		}
+        style: StatusBarStyle {
+            background: Rectangle {
+                implicitHeight: 25*dp
+                implicitWidth: mainWindow.width
+                color: "#2d373f"
+                Rectangle {
+                    width: parent.width
+                    height: 2*dp
+                    color: Qt.darker(parent.color, 1.5)
+                }
+            }
+        }
 
-		Label {
-			id: statusLabel
-			width: parent.width
-			text: ""
-			textFormat: Text.RichText
-			onLinkActivated: Qt.openUrlExternally(link)
-			wrapMode: Text.Wrap
-			font.pointSize: 12
-			font.bold: true
-			color: "whitesmoke"
-			verticalAlignment: Text.AlignVCenter
-			horizontalAlignment: Text.AlignHCenter
-		}
+        Label {
+            id: statusLabel
+            width: parent.width
+            text: ""
+            textFormat: Text.RichText
+            onLinkActivated: Qt.openUrlExternally(link)
+            wrapMode: Text.Wrap
+            font.pixelSize: 20*dp
+            font.bold: true
+            color: "whitesmoke"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+        }
 
-		Timer {
-			id: statusBarTimer
-			interval: 10000
-			running: false
-			triggeredOnStart: false
-			onTriggered: statusLabel.text = ""
-		}
-	}
+        Timer {
+            id: statusBarTimer
+            interval: 5000
+            running: false
+            triggeredOnStart: false
+            onTriggered: statusLabel.text = ""
+        }
+    }
 }
