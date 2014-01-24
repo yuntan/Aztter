@@ -21,30 +21,30 @@
 
 class AztterTweetEnum : public QObject
 {
-	Q_OBJECT
-	Q_ENUMS(Roles)
+    Q_OBJECT
+    Q_ENUMS(Roles)
 
 public:
-	enum Roles { //values accessed through data
-		TweetId = Qt::UserRole, // 256
-		TweetText,
-		TweetCreatedAt,
-		TweetSource,
-		TweetInReplyToStatusId,
-		TweetFavorited,
-		TweetRetweeted,
-		UserId,
-		UserName,
-		UserScreenName,
-		UserProfileImageUrl,
-		UserVerified,
-		RT,
-		RTUserId,
-		RTUserName,
-		RTUserScreenName,
-		RTUserProfileImageUrl,
-		RTUserVerified,
-	};
+    enum Roles { //values accessed through data
+        TweetId = Qt::UserRole, // 256
+        TweetText,
+        TweetCreatedAt,
+        TweetSource,
+        TweetInReplyToStatusId,
+        TweetFavorited,
+        TweetRetweeted,
+        UserId,
+        UserName,
+        UserScreenName,
+        UserProfileImageUrl,
+        UserVerified,
+        RT,
+        RTUserId,
+        RTUserName,
+        RTUserScreenName,
+        RTUserProfileImageUrl,
+        RTUserVerified,
+    };
 };
 
 #endif // AZTTERTWEETENUM_H

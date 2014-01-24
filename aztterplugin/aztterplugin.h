@@ -31,52 +31,52 @@ class AztterRT;
 
 class AztterPlugin : public QObject
 {
-	Q_OBJECT
-	Q_ENUMS(AztterStatusUpdate::PostStatus)
-	Q_PROPERTY(AztterStatusUpdate::PostStatus postStatus
-			   READ postStatus NOTIFY postStatusChanged)
-	Q_PROPERTY(QString clipboard READ clipboard WRITE setClipboard NOTIFY clipboardChanged)
+    Q_OBJECT
+    Q_ENUMS(AztterStatusUpdate::PostStatus)
+    Q_PROPERTY(AztterStatusUpdate::PostStatus postStatus
+               READ postStatus NOTIFY postStatusChanged)
+    Q_PROPERTY(QString clipboard READ clipboard WRITE setClipboard NOTIFY clipboardChanged)
 
 public:
-	explicit AztterPlugin(QObject *parent = 0);
+    explicit AztterPlugin(QObject *parent = 0);
 
-	// AztterAuthHelper
-	Q_INVOKABLE void startAuth();
-	// AztterUserStream
-	Q_INVOKABLE void startFetching();
-	Q_INVOKABLE void streamDisconnect();
-	// AztterFavRT
-	Q_INVOKABLE void fav(qint64 tweetId);
-	Q_INVOKABLE void unfav(qint64 tweetId);
-	Q_INVOKABLE void rt(qint64 tweetId);
-	Q_INVOKABLE void favrt(qint64 tweetId);
-	// AztterStatusUpdate
-	Q_INVOKABLE void tweet(const QString& tweet);
+    // AztterAuthHelper
+    Q_INVOKABLE void startAuth();
+    // AztterUserStream
+    Q_INVOKABLE void startFetching();
+    Q_INVOKABLE void streamDisconnect();
+    // AztterFavRT
+    Q_INVOKABLE void fav(qint64 tweetId);
+    Q_INVOKABLE void unfav(qint64 tweetId);
+    Q_INVOKABLE void rt(qint64 tweetId);
+    Q_INVOKABLE void favrt(qint64 tweetId);
+    // AztterStatusUpdate
+    Q_INVOKABLE void tweet(const QString& tweet);
 
-	// for Q_PROPERTY
-	AztterStatusUpdate::PostStatus postStatus();
-	QString clipboard();
-	void setClipboard(const QString &str);
+    // for Q_PROPERTY
+    AztterStatusUpdate::PostStatus postStatus();
+    QString clipboard();
+    void setClipboard(const QString &str);
 
 signals:
-	void authPageRequested(QString authPageUrl);
-	void authorized();
-	void tweetReceived(QVariantMap tweet);
-	void friendsListReceived();
-	void directMessageReceived();
-	void tweetDeleted(qint64 tweetId);
-	void favChanged(qint64 tweetId, bool favorited);
-	void postStatusChanged();
-	void clipboardChanged();
+    void authPageRequested(QString authPageUrl);
+    void authorized();
+    void tweetReceived(QVariantMap tweet);
+    void friendsListReceived();
+    void directMessageReceived();
+    void tweetDeleted(qint64 tweetId);
+    void favChanged(qint64 tweetId, bool favorited);
+    void postStatusChanged();
+    void clipboardChanged();
 
 private:
-	QClipboard *m_clipboard;
-	AztterAuthHelper *m_authHelper;
-	AztterUserStream *m_stream;
-	AztterHomeTL *m_homeTL;
-	AztterFav *m_fav;
-	AztterRT *m_rt;
-	AztterStatusUpdate *m_statusUpdate;
+    QClipboard *m_clipboard;
+    AztterAuthHelper *m_authHelper;
+    AztterUserStream *m_stream;
+    AztterHomeTL *m_homeTL;
+    AztterFav *m_fav;
+    AztterRT *m_rt;
+    AztterStatusUpdate *m_statusUpdate;
 };
 
 #endif // AZTTERPLUGIN_H

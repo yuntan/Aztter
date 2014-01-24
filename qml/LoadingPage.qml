@@ -18,40 +18,40 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 
 Rectangle {
-	id: loadingPage
+    id: loadingPage
 
-	Component.onCompleted: timer.start()
+    Component.onCompleted: timer.start()
 
-	color: "#1fc4ab"
+    color: "#1fc4ab"
 
-	Timer {
-		id: timer
+    Timer {
+        id: timer
 
-		interval: 1000
-		onTriggered: {
-			if(storage.isAuthenticated())
-				stackView.push(timelineContainer);
-			else
-				stackView.push(authPage);
-		}
-	}
+        interval: 1000
+        onTriggered: {
+            if(storage.isAuthenticated())
+                stackView.push(timelineContainer);
+            else
+                stackView.push(authPage);
+        }
+    }
 
-	Column {
-		anchors.centerIn: parent
-		spacing: 40*dp
+    Column {
+        anchors.centerIn: parent
+        spacing: 40*dp
 
-		Label {
-			id: loadingLabel
+        Label {
+            id: loadingLabel
 
-			anchors.horizontalCenter: parent.horizontalCenter
-			color: Qt.darker(loadingPage.color, 0.5)
-			text: qsTr("Loading...")
-			font.pointSize: 24
-		}
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: Qt.darker(loadingPage.color, 0.5)
+            text: qsTr("Loading...")
+            font.pointSize: 24
+        }
 
-		BusyIndicator {
-			anchors.horizontalCenter: parent.horizontalCenter
-			running: true
-		}
-	}
+        BusyIndicator {
+            anchors.horizontalCenter: parent.horizontalCenter
+            running: true
+        }
+    }
 }

@@ -21,19 +21,19 @@
 
 class AztterFav : public AztterAPIBase
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit AztterFav(QObject *parent = 0);
-	void fav(qint64 tweetId);
-	void unfav(qint64 tweetId);
+    explicit AztterFav(QObject *parent = 0);
+    void fav(qint64 tweetId);
+    void unfav(qint64 tweetId);
 
 signals:
-	void finished(qint64 tweetId, bool favorited);
+    void finished(qint64 tweetId, bool favorited);
 
 private:
-	void onRequestReady(QByteArray);
-	QNetworkReply *m_reply;
+    void onRequestReady(QByteArray);
+    QNetworkReply *m_reply;
 };
 
 #endif // AZTTERFAV_H

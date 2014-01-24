@@ -32,21 +32,21 @@
 
 class AztterAPIBase : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit AztterAPIBase(QObject *parent = 0);
-	void init(KQOAuthRequest::RequestHttpMethod method, const QUrl &requestEndpoint);
-	QVariantMap parseTweet(const QJsonObject &);
-	QDateTime parseCreatedAt(const QString &);
+    explicit AztterAPIBase(QObject *parent = 0);
+    void init(KQOAuthRequest::RequestHttpMethod method, const QUrl &requestEndpoint);
+    QVariantMap parseTweet(const QJsonObject &);
+    QDateTime parseCreatedAt(const QString &);
 
 protected slots:
-	virtual void onRequestReady(QByteArray) {}
-	virtual void onAuthorizedRequestDone() {}
+    virtual void onRequestReady(QByteArray) {}
+    virtual void onAuthorizedRequestDone() {}
 
 protected:
-	KQOAuthManager *m_oauthManager;
-	KQOAuthRequest *m_oauthRequest;
+    KQOAuthManager *m_oauthManager;
+    KQOAuthRequest *m_oauthRequest;
 };
 
 #endif // AZTTERAPIBASE_H

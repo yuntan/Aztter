@@ -24,33 +24,33 @@ class QString;
 
 class AztterStatusUpdate : public AztterAPIBase
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit AztterStatusUpdate(QObject *parent = 0);
+    explicit AztterStatusUpdate(QObject *parent = 0);
 
-	enum PostStatus {
-		Success = Qt::UserRole,
-		RateLimitExceeded, // code 88
-		OverCapacity, // code 130
-		InternalError, // code 131
-		TimeInvalid, // code 135
-		Duplicate, // code 187
-		Unknown
-	};
+    enum PostStatus {
+        Success = Qt::UserRole,
+        RateLimitExceeded, // code 88
+        OverCapacity, // code 130
+        InternalError, // code 131
+        TimeInvalid, // code 135
+        Duplicate, // code 187
+        Unknown
+    };
 
-	void updateStatus(const QString&);
-	PostStatus postStatus();
+    void updateStatus(const QString&);
+    PostStatus postStatus();
 
 signals:
-	void postStatusChanged();
+    void postStatusChanged();
 
 private slots:
-	void onRequestReady(QByteArray);
-	void onAuthorizedRequestDone();
+    void onRequestReady(QByteArray);
+    void onAuthorizedRequestDone();
 
 private:
-	PostStatus m_status;
+    PostStatus m_status;
 };
 
 #endif // AZTTERSTATUSUPDATE_H

@@ -21,18 +21,18 @@
 
 class AztterRT : public AztterAPIBase
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit AztterRT(QObject *parent = 0);
-	void rt(qint64 tweetId);
-	
+    explicit AztterRT(QObject *parent = 0);
+    void rt(qint64 tweetId);
+
 signals:
-	void finished(qint64 rtId, bool success);
-	
+    void finished(qint64 rtId, bool success);
+
 private:
-	void onRequestReady(QByteArray);
-	QNetworkReply *m_reply;
+    void onRequestReady(QByteArray);
+    QNetworkReply *m_reply;
 };
 
 #endif // AZTTERRT_H

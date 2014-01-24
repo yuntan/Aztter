@@ -21,65 +21,65 @@ import QtQuick.Layouts 1.1
 import "components"
 
 Page {
-	id: authPage
-	title: qsTr("Twitter Authentication")
+    id: authPage
+    title: qsTr("Twitter Authentication")
 
-	property string authUrl
+    property string authUrl
 
-	Component.onCompleted: {
-		aztter.startAuth()
-	}
+    Component.onCompleted: {
+        aztter.startAuth()
+    }
 
-	Connections {
-		target: aztter
-		onAuthPageRequested: authUrl = authPageUrl
-		onAuthorized: stackView.push(timelineContainer)
-	}
+    Connections {
+        target: aztter
+        onAuthPageRequested: authUrl = authPageUrl
+        onAuthorized: stackView.push(timelineContainer)
+    }
 
-	ColumnLayout {
-		anchors {
-			top: parent.top
-			left: parent.left
-			right: parent.right
-			margins: 25*dp
-		}
-		height: childrenRect.height
-		spacing: 40*dp
+    ColumnLayout {
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            margins: 25*dp
+        }
+        height: childrenRect.height
+        spacing: 40*dp
 
-		Label {
-			id: authLabel
+        Label {
+            id: authLabel
 
-			Layout.fillWidth: true
-			Layout.preferredHeight: implicitHeight
-			text: qsTr("Welcome to Aztter\n\n" +
-					   "You aren't logged in.\n" +
-					   "Let's do twitter authentication.\n" +
-					   "Please tap \"Open auth page\" button, and " +
-					   "you will see Twitter authentication page.\n" +
-					   "Please allow access from this app.")
+            Layout.fillWidth: true
+            Layout.preferredHeight: implicitHeight
+            text: qsTr("Welcome to Aztter\n\n" +
+                       "You aren't logged in.\n" +
+                       "Let's do twitter authentication.\n" +
+                       "Please tap \"Open auth page\" button, and " +
+                       "you will see Twitter authentication page.\n" +
+                       "Please allow access from this app.")
 
-			font.pointSize: 18
-			color: "white"
-			horizontalAlignment: Text.AlignHCenter
-			wrapMode: Text.Wrap
-		}
+            font.pointSize: 18
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+        }
 
-		// Qt5.2 Mobile dosen't supprt WebView
-		//	WebView {
-		//		id: authWebView
-		//		width: parent.width
-		//		anchors.top: authLabel.bottom
-		//		anchors.topMargin: parent.height / 20
-		//		anchors.bottom: parent.bottom
-		//	}
+        // Qt5.2 Mobile dosen't supprt WebView
+        //	WebView {
+        //		id: authWebView
+        //		width: parent.width
+        //		anchors.top: authLabel.bottom
+        //		anchors.topMargin: parent.height / 20
+        //		anchors.bottom: parent.bottom
+        //	}
 
-		FlatButton {
-			Layout.alignment: Qt.AlignHCenter
-			Layout.fillWidth: true
-			Layout.preferredHeight: implicitHeight
-			fontPixelSize: 27*dp
-			text: qsTr("Open auth page")
-			onClicked: Qt.openUrlExternally(authUrl)
-		}
-	}
+        FlatButton {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: implicitHeight
+            fontPixelSize: 27*dp
+            text: qsTr("Open auth page")
+            onClicked: Qt.openUrlExternally(authUrl)
+        }
+    }
 }

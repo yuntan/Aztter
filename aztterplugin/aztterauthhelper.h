@@ -25,31 +25,31 @@ class KQOAuthRequest;
 
 class AztterAuthHelper : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	// constractor
-	AztterAuthHelper(QObject *parent = 0);
-    
+    // constractor
+    AztterAuthHelper(QObject *parent = 0);
+
 signals:
-	// Q_PROPERTY NOTIFY function
-	void authPageRequested(QString authPageUrl);
-	void authorized();
+    // Q_PROPERTY NOTIFY function
+    void authPageRequested(QString authPageUrl);
+    void authorized();
 
 private slots:
-	// connected with signals in KQOAuth
-	void onTemporaryTokenReceived(QString temporaryToken, QString temporaryTokenSecret);
-	void onAuthorizationPageRequested(QUrl openWebPageUrl);
-	void onAuthorizationReceived(QString token, QString verifier);
-	void onAccessTokenReceived(QString token, QString tokenSecret);
-	void onAuthorizedRequestDone();
-	void onRequestReady(QByteArray);
+    // connected with signals in KQOAuth
+    void onTemporaryTokenReceived(QString temporaryToken, QString temporaryTokenSecret);
+    void onAuthorizationPageRequested(QUrl openWebPageUrl);
+    void onAuthorizationReceived(QString token, QString verifier);
+    void onAccessTokenReceived(QString token, QString tokenSecret);
+    void onAuthorizedRequestDone();
+    void onRequestReady(QByteArray);
 
 private:
-	KQOAuthManager *m_oauthManager;
-	KQOAuthRequest *m_oauthRequest;
-	QString m_oauthToken;
-	QString m_oauthTokenSecret;
+    KQOAuthManager *m_oauthManager;
+    KQOAuthRequest *m_oauthRequest;
+    QString m_oauthToken;
+    QString m_oauthTokenSecret;
 };
 
 #endif // AZTTERAUTHHELPER_H
