@@ -126,7 +126,7 @@ Page {
 
             transitions: [
                 Transition {
-                    NumberAnimation { target: "opacity" }
+                    NumberAnimation { properties: "opacity" }
                 }
             ]
         }
