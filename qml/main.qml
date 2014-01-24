@@ -25,8 +25,8 @@ ApplicationWindow {
     id: mainWindow
     title: qsTr("Aztter")
 
-    width: 360*dp
-    height: 640*dp
+    width: 360*dp; height: 640*dp
+    minimumWidth: 360*dp; minimumHeight: 200*dp
 
     Component.onCompleted : {
         console.log("name: ", Screen.name)
