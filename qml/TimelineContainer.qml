@@ -21,6 +21,7 @@ import QtQuick.Controls.Styles 1.1
 import TwitterAPI 1.1
 import Aztter 1.0
 import "components"
+import "../js/Utils.js" as Utils
 
 Page {
     id: timelineContainer
@@ -34,6 +35,13 @@ Page {
         UserStreamModel {
             onFollowedBy: updateStatusBar(status)
             onFavorited: updateStatusBar(status)
+            onCountChanged: {
+                if(streaming) { updateStatusBar(qsTr("Stream fetching started")) }
+            }
+            onStreamingChanged: {
+                if(streaming) { updateStatusBar(qsTr("Stream fetching started")) }
+                else { updateStatusBar(qsTr("Stream fetching stopped")) }
+            }
         }
         StatusesHomeTimelineModel {
             count: 200
@@ -58,7 +66,7 @@ Page {
             delegate: TweetItem {
                 isRT: model.retweeted_status !== undefined
                 text: isRT ? model.retweeted_status.rich_text : model.rich_text
-                createdAt: isRT ? model.retweeted_status.created_at : model.created_at
+                createdAt: Utils.parseCreatedAt(isRT ? model.retweeted_status.created_at : model.created_at)
                 fav: isRT ? model.retweeted_status.favorited : model.favorited
                 name: isRT ? model.retweeted_status.user.name : model.user.name
                 screenName: "@" + (isRT ? model.retweeted_status.user.screen_name : model.user.screen_name)
@@ -78,36 +86,23 @@ Page {
             // animation
             add: Transition {
                 id: addTrans
-                //		YAnimator { // sometimes Segmentation fault. BUG?
-                //			from: addTrans.ViewTransition.destination.y
-                //				  - addTrans.ViewTransition.item.height
-                //			duration: 333
-                //		}
+//                YAnimator { // sometimes Segmentation fault. BUG?
+//                    from: addTrans.ViewTransition.destination.y
+//                          - addTrans.ViewTransition.item.height
+//                    duration: 333
+//                }
                 NumberAnimation {
                     property: "y"
                     from: addTrans.ViewTransition.destination.y
                           - addTrans.ViewTransition.item.height
                     duration: 333
                 }
-                //		OpacityAnimator { //nothing changed. Why?
-                //			from: 0.0; to: 1.0
-                //			duration: 333
-                //		}
-                NumberAnimation {
-                    property: "opacity"
-                    from: 0.0; to: 1.0
-                    duration: 333
-                }
-
-                onRunningChanged: {
-                    if(running === false) { addTrans.ViewTransition.item.opacity = 1.0 }
-                }
             }
 
             displaced: Transition {
-                //		YAnimator {
-                //			duration: 333
-                //		}
+//                YAnimator {
+//                    duration: 333
+//                }
                 NumberAnimation {
                     property: "y"
                     duration: 333
@@ -116,31 +111,24 @@ Page {
 
             remove: Transition {
                 id: remTrans
-                //		YAnimator { // sometimes Segmentation fault. BUG?
-                //			to: remTrans.ViewTransition.item.y
-                //				- remTrans.ViewTransition.item.height
-                //			duration: 333
-                //		}
+//                YAnimator { // sometimes Segmentation fault. BUG?
+//                    to: remTrans.ViewTransition.item.y
+//                        - remTrans.ViewTransition.item.height
+//                    duration: 333
+//                }
                 NumberAnimation {
                     property: "y"
                     to: remTrans.ViewTransition.item.y
                         - remTrans.ViewTransition.item.height
                     duration: 333
                 }
-                //		OpacityAnimator { //nothing changed. Why?
-                //			to: 0.0
-                //			duration: 333
-                //		}
-                NumberAnimation {
-                    property: "opacity"
-                    to: 0.0
-                    duration: 333
-                }
-
-                onRunningChanged: {
-                    if(running === false) { remTrans.ViewTransition.item.opacity = 0.0 }
-                }
             }
+
+            transitions: [
+                Transition {
+                    NumberAnimation { target: "opacity" }
+                }
+            ]
         }
 
         style: ScrollViewStyle {
