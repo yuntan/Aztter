@@ -18,6 +18,7 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import "components"
+import "../js/Utils.js" as Utils
 
 Item {
     id: tweetItem
@@ -256,28 +257,12 @@ Item {
 
                     Layout.fillWidth: true
 
-                    property date createdAt
+                    property var createdAt
 
-                    text: calcTime()
-
+                    text: Utils.dateToStr(createdAt)
                     font.pixelSize: 12*dp
                     elide: Text.ElideNone
                     color: "#666666"
-
-                    function calcTime() {
-                        // FIXME
-                        var now = new Date();
-                        var diff = Math.floor((now.getTime() - createdAt.getTime()) / 1000);
-                        if(diff >= 86400)
-                            return Math.floor(diff / 86400) + qsTr(" days ago");
-                        if(diff >= 3600)
-                            return Math.floor(diff / 3600) + qsTr(" hours ago");
-                        if(diff >= 60)
-                            return Math.floor(diff / 60) + qsTr(" minutes ago");
-                        if(diff >= 10)
-                            return diff + qsTr(" seconds ago");
-                        return qsTr("Just now");
-                    }
                 }
             }
         }
