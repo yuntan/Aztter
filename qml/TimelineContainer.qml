@@ -33,23 +33,47 @@ Page {
     UnionModel {
         id: homeTLModel
         UserStreamModel {
-            onFollowedBy: updateStatusBar(status)
-            onFavorited: updateStatusBar(status)
-            onCountChanged: {
-                if(streaming) { updateStatusBar(qsTr("Stream fetching started")) }
-            }
+            id: userStream
+            enabled: false
+            onFollowedBy: {
+                updateStatusBar(qsTr("You are followed by %1 (@%2)")
+                                .arg(status.user.name).arg(status.user.screen_name)) }
+            onFavorited: {
+                updateStatusBar(qsTr("Your tweet is favorited by @%1")
+                                .arg(status.user.screen_name)) }
+            onUnfavorited: { updateStatusBar(qsTr("Your tweet is unfavorited by @%1")
+                                             .arg(status.user.screen_name)) }
             onStreamingChanged: {
                 if(streaming) { updateStatusBar(qsTr("Stream fetching started")) }
                 else { updateStatusBar(qsTr("Stream fetching stopped")) }
             }
         }
         StatusesHomeTimelineModel {
+            id: homeTL
+            enabled: true
             count: 200
             pushOrder: StatusesHomeTimelineModel.PushAtOnce
             sortKey: "id_str"
+            onLoadingChanged: {
+                if(!loading) {
+                    console.debug("HomeTimeline loaded")
+                    userStream.enabled = true
+                }
+            }
         }
     }
-    StatusesMentionsTimelineModel { id: mentionsTLModel }
+    StatusesMentionsTimelineModel { id: mentionsTLModel; enabled: false}
+
+    Status {
+        id: twitter
+        onFavoritedChanged: {
+            if(favorited) { updateStatusBar(qsTr("Favorited")) }
+            else { updateStatusBar(qsTr("Unfavorited")) }
+        }
+        onRetweetedChanged: {
+            if(retweeted) { updateStatusBar(qsTr("Retweeted")) }
+        }
+    }
 
     ScrollView {
         anchors.fill: parent
@@ -76,11 +100,24 @@ Page {
                 rtIconSource: model.user.profile_image_url !== undefined ?
                                   model.user.profile_image_url : ""
 
-                //		onItemSwipedLeft: fav ? helper.unfav(tweetId) : helper.fav(tweetId)
-                //		onItemSwipedRight: helper.rt(tweetId)
-                onClicked: console.log("tweetItem clicked!")
-                onSwiped: console.log("tweetItem swiped!")
-                onProfileIconClicked: console.log("profileIcon clicked!")
+                onClicked: console.debug("tweetItem clicked!")
+                onProfileIconClicked: console.debug("profileIcon clicked!")
+                onFlicked: {
+                    console.debug("tweetItem flicked! index: %1".arg(index))
+                    switch(index) {
+                    case 1: // fav
+                        twitter.id_str = model.id_str
+                        twitter.favorite()
+                        break
+                    case 2: // RT
+                        twitter.statusesRetweet({"id": model.id_str})
+                        break
+                    case 3: // favRT
+                        twitter.id_str = model.id_str
+                        twitter.favorite()
+                        twitter.statusesRetweet({"id": model.id_str})
+                    }
+                }
             }
 
             // animation

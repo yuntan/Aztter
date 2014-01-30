@@ -35,21 +35,15 @@ Item {
     property alias rtName: rtNameLabel.text
     property alias rtIconSource: rtIconImage.source
 
-    //	property alias control: controlContainer.control
-    //	property bool __controlAreaPressed: false
+    readonly property int flickOffset1: 30*dp
+    readonly property int flickOffset2: 55*dp
+    readonly property int flickOffset3: 80*dp
 
     signal clicked()
     signal profileIconClicked()
-    signal swiped(int index)
-
-    Component.onCompleted: {
-//		textLabel.text = Twttr.autoLink(text)
-        //		console.debug(textLabel.text)
-    }
+    signal flicked(int index)
 
     width: ListView.view.width; height: tweetCard.height + 10*dp
-
-    clip: true
 
     //	onSwiped: {
     //		console.log("Item swiped. index: " + index)
@@ -80,189 +74,207 @@ Item {
     ////			fontSize: "x-large" 34px
     //		}
     //	}
+    Flickable {
+        anchors.fill: parent
+        contentWidth: tweetCard.width; contentHeight: tweetCard.height
+        flickableDirection: Flickable.HorizontalFlick
 
-    Card {
-        id: tweetCard
+        onContentXChanged: {
 
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            margins: 10*dp
         }
-        height: rtRect.height + mainRow.height + 15*dp
 
-        onClicked: tweetItem.clicked()
+        onDraggingChanged: {
+            if(!dragging) {
+                console.debug("contentX: %1".arg(contentX))
+                if(Math.abs(contentX) < 30*dp) { return }
+                if(Math.abs(contentX) < 55*dp) { flicked(contentX < 0 ? +1 : -1) }
+                else if(Math.abs(contentX) < 80*dp) { flicked(contentX < 0 ? +2 : -2) }
+                else { flicked(contentX < 0 ? +3 : -3) }
+            }
+        }
 
-        Rectangle {
-            id: rtRect
+        Card {
+            id: tweetCard
 
             anchors {
                 top: parent.top
-                left: parent.left
-                right: parent.right
+                margins: 10*dp
             }
-            height: isRT ? 30*dp : 0
-            color: "#601ebba6"
+            x: parent.x + 10*dp
+            width: tweetItem.width - 20*dp; height: rtRect.height + mainRow.height + 15*dp
 
-            RowLayout {
-                id: rtRow
+            onClicked: tweetItem.clicked()
+
+            Rectangle {
+                id: rtRect
 
                 anchors {
-                    fill: parent
-                    margins: 3*dp
-                    leftMargin: 5*dp
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
                 }
-
-                spacing: 5*dp
-                property bool isRT
-                visible: isRT
-
-                Image {
-                    id: rtIconImage
-
-                    Layout.minimumWidth: 25*dp
-                    sourceSize.width: 25*dp; sourceSize.height: 25*dp
-                    fillMode: Image.PreserveAspectFit
-
-                    Component.onCompleted: {
-                        if(isRT && (source === undefined || source === ""))
-                            source = Qt.resolvedUrl("qrc:/img/loading.png")
-                    }
-                }
-
-                Label {
-                    id: rtNameLabel
-
-                    Layout.fillWidth: true
-                    font.pixelSize: 15*dp
-                    font.bold: true
-                    maximumLineCount: 1
-                    elide: Text.ElideRight
-                    color: "#666666"
-                }
-            }
-        }
-
-        RowLayout {
-            id: mainRow
-
-            anchors {
-                top: rtRect.bottom
-                left: parent.left
-                right: parent.right
-                margins: 5*dp
-            }
-            height: textCol.height
-            spacing: 5*dp
-
-            Image {
-                id: iconImage
-
-                Layout.alignment: Qt.AlignTop
-                Layout.minimumWidth: 50*dp
-                Layout.preferredHeight: 50*dp
-                fillMode: Image.PreserveAspectFit
-
-                property url fallbackSource: Qt.resolvedUrl("qrc:/img/loading.png")
-
-                Component.onCompleted: {
-                    if(source == undefined || source == "")
-                        source = fallbackSource
-                }
-            }
-
-            ColumnLayout {
-                id: textCol
-
-                anchors.top: parent.top
-                Layout.fillWidth: true
-                spacing: 5*dp
+                height: isRT ? 30*dp : 0
+                color: "#601ebba6"
 
                 RowLayout {
-                    id: nameRow
+                    id: rtRow
 
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: nameLabel.font.pixelSize
-                    spacing: 1*dp
+                    anchors {
+                        fill: parent
+                        margins: 3*dp
+                        leftMargin: 5*dp
+                    }
+
+                    spacing: 5*dp
+                    property bool isRT: false
+                    visible: isRT
+
+                    Image {
+                        id: rtIconImage
+
+                        Layout.minimumWidth: 25*dp
+                        sourceSize.width: 25*dp; sourceSize.height: 25*dp
+                        fillMode: Image.PreserveAspectFit
+
+                        Component.onCompleted: {
+                            if(isRT && (source === undefined || source === ""))
+                                source = Qt.resolvedUrl("qrc:/img/loading.png")
+                        }
+                    }
 
                     Label {
-                        id: nameLabel
+                        id: rtNameLabel
 
-                        Layout.preferredWidth: implicitWidth
+                        Layout.fillWidth: true
                         font.pixelSize: 15*dp
                         font.bold: true
                         maximumLineCount: 1
                         elide: Text.ElideRight
                         color: "#666666"
                     }
+                }
+            }
 
-                    Image {
-                        id: verifiedIcon
-                        property bool verified
+            RowLayout {
+                id: mainRow
 
-                        visible: verified
-                        Layout.preferredWidth: verified ? parent.height : 0
-                        Layout.preferredHeight: parent.height
-                        source: "qrc:/img/verified.png"
+                anchors {
+                    top: rtRect.bottom
+                    left: parent.left
+                    right: parent.right
+                    margins: 5*dp
+                }
+                height: textCol.height
+                spacing: 5*dp
+
+                Image {
+                    id: iconImage
+
+                    Layout.alignment: Qt.AlignTop
+                    Layout.minimumWidth: 50*dp
+                    Layout.preferredHeight: 50*dp
+                    fillMode: Image.PreserveAspectFit
+
+                    property url fallbackSource: Qt.resolvedUrl("qrc:/img/loading.png")
+
+                    Component.onCompleted: {
+                        if(source == undefined || source == "")
+                            source = fallbackSource
                     }
+                }
 
-                    Item {
-                        Layout.minimumWidth: 5*dp
+                ColumnLayout {
+                    id: textCol
+
+                    anchors.top: parent.top
+                    Layout.fillWidth: true
+                    spacing: 5*dp
+
+                    RowLayout {
+                        id: nameRow
+
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: nameLabel.font.pixelSize
+                        spacing: 1*dp
+
+                        Label {
+                            id: nameLabel
+
+                            Layout.preferredWidth: implicitWidth
+                            font.pixelSize: 15*dp
+                            font.bold: true
+                            maximumLineCount: 1
+                            elide: Text.ElideRight
+                            color: "#666666"
+                        }
+
+                        Image {
+                            id: verifiedIcon
+                            property bool verified
+
+                            visible: verified
+                            Layout.preferredWidth: verified ? parent.height : 0
+                            Layout.preferredHeight: parent.height
+                            source: "qrc:/img/verified.png"
+                        }
+
+                        Item {
+                            Layout.minimumWidth: 5*dp
+                        }
+
+                        Label {
+                            id: screenNameLabel
+
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignBottom
+                            font.pixelSize: 12*dp
+                            maximumLineCount: 1
+                            elide: Text.ElideRight
+                            color: "#666666"
+                        }
+
+                        Image {
+                            id: favIndicator
+                            property bool fav
+
+                            visible: fav
+                            Layout.preferredWidth: fav ? parent.height : 0
+                            Layout.preferredHeight: parent.height
+                            source: "qrc:/img/star.png"
+                        }
                     }
 
                     Label {
-                        id: screenNameLabel
+                        id: textLabel
+
+                        Layout.fillWidth: true // needed to enable word wrap
+                        font.pixelSize: 15*dp
+                        wrapMode: Text.Wrap
+                        textFormat: Text.StyledText
+                        lineHeight: 1.2
+                        color: "#666666"
+                        onLinkActivated: {
+                            console.log(link + " link activated")
+                            Qt.openUrlExternally(link)
+                        }
+                    }
+
+                    Item {
+                        Layout.minimumHeight: 3*dp
+                    }
+
+                    Label {
+                        id: timeLabel
 
                         Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignBottom
+
+                        property var createdAt
+
+                        text: Utils.dateToStr(createdAt)
                         font.pixelSize: 12*dp
-                        maximumLineCount: 1
-                        elide: Text.ElideRight
+                        elide: Text.ElideNone
                         color: "#666666"
                     }
-
-                    Image {
-                        id: favIndicator
-                        property bool fav
-
-                        visible: fav
-                        Layout.preferredWidth: fav ? parent.height : 0
-                        Layout.preferredHeight: parent.height
-                        source: "qrc:/img/star.png"
-                    }
-                }
-
-                Label {
-                    id: textLabel
-
-                    Layout.fillWidth: true // needed to enable word wrap
-                    font.pixelSize: 15*dp
-                    wrapMode: Text.Wrap
-                    textFormat: Text.StyledText
-                    lineHeight: 1.2
-                    color: "#666666"
-                    onLinkActivated: {
-                        console.log(link + " link activated")
-                        Qt.openUrlExternally(link)
-                    }
-                }
-
-                Item {
-                    Layout.minimumHeight: 3*dp
-                }
-
-                Label {
-                    id: timeLabel
-
-                    Layout.fillWidth: true
-
-                    property var createdAt
-
-                    text: Utils.dateToStr(createdAt)
-                    font.pixelSize: 12*dp
-                    elide: Text.ElideNone
-                    color: "#666666"
                 }
             }
         }
