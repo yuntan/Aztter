@@ -26,55 +26,45 @@ Item {
 
     height: mainRow.height + 10*dp
 
-//    Status {
-//        id: tweet
+    Status {
+        id: tweet
 
-//        onLoadingChanged: {
-//            if(loading === false) {
-//                tweetEdit.text = ""
-//                postButton.enabled = false
-//                tweetEdit.enabled = true
-//            }
-//        }
-//    }
+        onLoadingChanged: {
+            if(loading === false) {
+                postButton.enabled = false
+                tweetEdit.enabled = true
+                if(postStatus === Status.Success) {
+                    updateStatusBar(qsTr("Tweet sent."))
+                    tweetEdit.text = ""
+                } else {
+                    switch(postStatus) {
+                    case Status.RateLimitExceeded:
+                        updateStatusBar(qsTr("Rete limit exceeded."))
+                        break
+                    case Status.OverCapacity:
+                        updateStatusBar(qsTr("Twitter is now over capacity."))
+                        break
+                    case Status.InternalError:
+                        updateStatusBar(qsTr("Internal error occurd in twitter."))
+                        break
+                    case Status.TimeInvalid:
+                        updateStatusBar(qsTr("Your computer's time is not valid. Please fix it."))
+                        break
+                    case Status.Duplicate:
+                        updateStatusBar(qsTr("Tweet duplicated."))
+                        break
+                    default:
+                        updateStatusBar(qsTr("Unknown error."))
+                    }
+                }
+            }
+        }
+    }
 
     function postTweet() {
         postButton.enabled = false;
         tweetEdit.enabled = false;
-        aztter.tweet(tweetEdit.text)
-//        tweet.statusesUpdate({"status": tweetEdit.text})
-    }
-
-    Connections {
-        target: aztter
-        onPostStatusChanged: {
-            switch(aztter.postStatus) {
-            case aztter.Success:
-                updateStatusBar(qsTr("Tweet sent."))
-                break
-            case aztter.RateLimitExceeded:
-                updateStatusBar(qsTr("Rete limit exceeded."))
-                break
-            case aztter.OverCapacity:
-                updateStatusBar(qsTr("Twitter is now over capacity."))
-                break
-            case aztter.InternalError:
-                updateStatusBar(qsTr("Internal error occurd in twitter."))
-                break
-            case aztter.TimeInvalid:
-                updateStatusBar(qsTr("Your computer's time is not valid. Please fix it."))
-                break
-            case aztter.Duplicate:
-                updateStatusBar(qsTr("Tweet duplicated."))
-                break
-            default:
-                updateStatusBar(qsTr("Unknown error."))
-            }
-
-            tweetEdit.text = ""
-            postButton.enabled = false
-            tweetEdit.enabled = true
-        }
+        tweet.statusesUpdate({"status": tweetEdit.text})
     }
 
     Rectangle {

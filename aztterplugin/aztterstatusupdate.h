@@ -38,6 +38,7 @@ public:
         Duplicate, // code 187
         Unknown
     };
+    Q_ENUMS(PostStatus)
 
     void updateStatus(const QString&);
     PostStatus postStatus();

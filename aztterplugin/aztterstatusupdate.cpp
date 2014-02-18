@@ -71,7 +71,7 @@ void AztterStatusUpdate::onRequestReady(QByteArray response)
                 break;
             }
             emit postStatusChanged();
-        } else if(jsonObj.contains("text")){
+        } else {
             qDebug() << "tweet sent";
             m_status = Success;
             emit postStatusChanged();
