@@ -129,11 +129,11 @@ Item {
                     property bool isRT: false
                     visible: isRT
 
-                    Image {
+                    AnimatedImage {
                         id: rtIconImage
 
-                        Layout.minimumWidth: 25*dp
-                        sourceSize.width: 25*dp; sourceSize.height: 25*dp
+                        Layout.preferredWidth: 25*dp
+                        Layout.preferredHeight: 25*dp
                         fillMode: Image.PreserveAspectFit
 
                         Component.onCompleted: {
@@ -167,11 +167,11 @@ Item {
                 height: textCol.height
                 spacing: 5*dp
 
-                Image {
+                AnimatedImage {
                     id: iconImage
 
                     Layout.alignment: Qt.AlignTop
-                    Layout.minimumWidth: 50*dp
+                    Layout.preferredWidth: 50*dp
                     Layout.preferredHeight: 50*dp
                     fillMode: Image.PreserveAspectFit
 
