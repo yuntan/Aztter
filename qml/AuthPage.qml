@@ -17,26 +17,53 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
-//import QtWebKit 3.0
+import TwitterAPI 1.1
 import "components"
 
 Page {
     id: authPage
     title: qsTr("Twitter Authentication")
 
-    property string authUrl
-
     Component.onCompleted: {
-        aztter.startAuth()
+        state = "openAuthUrl"
+        openAuthPageButton.enabled = false
+        oauth.request_token()
     }
 
-    Connections {
-        target: aztter
-        onAuthPageRequested: authUrl = authPageUrl
-        onAuthorized: stackView.push(timelineContainer)
+    Storage {
+        id: storage
     }
+
+    OAuth {
+        id: oauth
+        onStateChanged: {
+            switch(state) {
+            case OAuth.RequestTokenReceived:
+                openAuthPageButton.enabled = true
+                break
+            case OAuth.UserAuthorizesRequestToken:
+                authPage.state = "inputPin"
+                break
+            case OAuth.Authorized:
+                storage.addAccount(screen_name, token, token_secret)
+                stackView.push(timelineContainer)
+                break
+            }
+        }
+    }
+
+    states: [
+        State { name: "openAuthUrl"
+            PropertyChanges { target: openAuthUrlCol; visible: true}
+            PropertyChanges { target: inputPinCol; visible: false }
+        },
+        State { name: "inputPin"
+            PropertyChanges { target: openAuthUrlCol; visible: false}
+            PropertyChanges { target: inputPinCol; visible: true }
+        }]
 
     ColumnLayout {
+        id: openAuthUrlCol
         anchors {
             top: parent.top
             left: parent.left
@@ -64,22 +91,60 @@ Page {
             wrapMode: Text.Wrap
         }
 
-        // Qt5.2 Mobile dosen't supprt WebView
-        //	WebView {
-        //		id: authWebView
-        //		width: parent.width
-        //		anchors.top: authLabel.bottom
-        //		anchors.topMargin: parent.height / 20
-        //		anchors.bottom: parent.bottom
-        //	}
-
         FlatButton {
+            id: openAuthPageButton
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
             fontPixelSize: 27*dp
             text: qsTr("Open auth page")
-            onClicked: Qt.openUrlExternally(authUrl)
+            onClicked: oauth.authorize()
+        }
+    }
+
+    ColumnLayout {
+        id: inputPinCol
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            margins: 25*dp
+        }
+        height: childrenRect.height
+        spacing: 40*dp
+
+        Label {
+            id: inputPinLabel
+
+            Layout.fillWidth: true
+            Layout.preferredHeight: implicitHeight
+            text: qsTr("Please input PIN.")
+
+            font.pointSize: 18
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+        }
+
+        TextField {
+            id: pinInput
+
+            Layout.fillWidth: true
+
+            font.pixelSize: 28*dp
+            placeholderText: qsTr("PIN")
+
+            Keys.onReturnPressed: oauth.access_token(text)
+        }
+
+        FlatButton {
+            id: accessTokenButton
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: implicitHeight
+            fontPixelSize: 27*dp
+            text: qsTr("Finish Authentication")
+            onClicked: oauth.access_token(pinInput.text)
         }
     }
 }

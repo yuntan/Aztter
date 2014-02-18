@@ -28,7 +28,7 @@ QML_FILES += \
 JS_FILES += \
     js/Utils.js
 
-OTHER_FILES += $$QML_FILES $$JS_FILES
+OTHER_FILES += $$QML_FILES $$JS_FILES android/AndroidManifest.xml
 
 RESOURCES += \
     qml/qml.qrc \
