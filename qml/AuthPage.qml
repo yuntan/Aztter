@@ -30,10 +30,6 @@ Page {
         oauth.request_token()
     }
 
-    Storage {
-        id: storage
-    }
-
     OAuth {
         id: oauth
         onStateChanged: {

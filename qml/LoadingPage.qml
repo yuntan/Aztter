@@ -16,6 +16,7 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.1
+import TwitterAPI 1.1
 
 Rectangle {
     id: loadingPage
@@ -24,15 +25,20 @@ Rectangle {
 
     color: "#1fc4ab"
 
+    OAuth {
+        id: oauth
+    }
+
     Timer {
         id: timer
 
         interval: 1000
         onTriggered: {
-            if(storage.isAuthenticated())
-                stackView.push(timelineContainer);
-            else
-                stackView.push(authPage);
+            if(storage.isAuthenticated()) {
+                oauth.token = storage.oauthToken(0)
+                oauth.token_secret = storage.oauthTokenSecret(0)
+                stackView.push(timelineContainer)
+            } else { stackView.push(authPage) }
         }
     }
 

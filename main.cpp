@@ -3,10 +3,11 @@
 #include <QtQml>
 #include <QtQuick/QQuickView>
 #include <QtCore/QString>
+#include <QDebug>
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras/QAndroidJniObject>
 #endif
-#include <QDebug>
 
 //twitter4qml
 #include <QtTwitterAPI/oauth.h>
@@ -15,11 +16,8 @@
 //UnionModel
 #include "src/unionmodel.h"
 
-//AztterPlugin
-#include "aztterplugin/aztterplugin.h"
-#include "aztterplugin/azttertweetlistmodel.h"
-#include "aztterplugin/aztterkeystore.h"
-#include "aztterplugin/aztterlocalstorage.h"
+//AztterKeyStore
+#include "src/aztterkeystore.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,16 +28,8 @@ int main(int argc, char *argv[])
     OAuth oauth;
     oauth.setConsumerKey(AztterKeyStore::consumerKey());
     oauth.setConsumerSecret(AztterKeyStore::consumerSecretKey());
-    auto *storage = new AztterLocalStorage();
-    oauth.setToken(storage->oauthToken(0));
-    oauth.setTokenSecret(storage->oauthTokenSecret(0));
     OAuthManager::instance().setAuthorized(true);
     OAuthManager::instance().setNetworkAccessManager(engine.networkAccessManager());
-
-    auto *aztterPlugin = new AztterPlugin();
-    engine.rootContext()->setContextProperty(QLatin1String("aztter"), aztterPlugin);
-    auto *tweetListModel = new AztterTweetListModel();
-    engine.rootContext()->setContextProperty(QLatin1String("tweetListModel"), tweetListModel);
 
     // twitter4qmlのUnionModelを登録
     qmlRegisterType<UnionModel>("Aztter", 1, 0, "UnionModel");
