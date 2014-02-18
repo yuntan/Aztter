@@ -1,0 +1,23 @@
+v0.3
+
+* swype to Fav/RT
+* swype indicator
+* display Fav/RT count
+* wallpaper
+
+v0.4
+
+* multi page(mentions, lists...)
+* icon caching
+
+v0.5
+
+* tweet info dialog
+* user info page
+* hide header when scrolled
+
+v0.6
+
+* image thumbnail/viewer
+* setting page
+
