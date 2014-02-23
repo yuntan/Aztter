@@ -70,20 +70,6 @@ Item {
         }
         spacing: 5*dp
 
-        Button {
-            id: openButton
-
-            Layout.preferredWidth: parent.height
-            Layout.fillHeight: true
-            iconSource: "qrc:/img/star.png"
-            style: ButtonStyle {
-                background: Rectangle {
-                    width: control.width; height: control.height
-                    color: control.pressed ? "#80000000" : "transparent"
-                }
-            }
-        }
-
         TextField {
             id: tweetEdit
 

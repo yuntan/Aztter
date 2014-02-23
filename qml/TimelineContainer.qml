@@ -27,8 +27,8 @@ Page {
                                 .arg(status.user.screen_name)) }
             onUnfavorited: { updateStatusBar(qsTr("Your tweet is unfavorited by @%1")
                                              .arg(status.user.screen_name)) }
-            onStreamingChanged: {
-                if(streaming) { updateStatusBar(qsTr("Stream fetching started")) }
+            onLoadingChanged: {
+                if(loading) { updateStatusBar(qsTr("Stream fetching started")) }
                 else { updateStatusBar(qsTr("Stream fetching stopped")) }
             }
         }
@@ -100,6 +100,7 @@ Page {
                         twitter.id_str = model.id_str
                         twitter.favorite()
                         twitter.statusesRetweet({"id": model.id_str})
+                        break
                     }
                 }
             }
