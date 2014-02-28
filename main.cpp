@@ -3,20 +3,22 @@
 #include <QtQml>
 #include <QtQuick/QQuickView>
 #include <QtCore/QString>
+#include <QFont>
+#include <QFontDatabase>
 #include <QDebug>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras/QAndroidJniObject>
 #endif
 
-//twitter4qml
+// twitter4qml
 #include <QtTwitterAPI/oauth.h>
 #include <QtTwitterAPI/oauthmanager.h>
 
-//UnionModel
+// UnionModel
 #include "src/unionmodel.h"
 
-//AztterKeyStore
+// AztterKeyStore
 #include "src/aztterkeystore.h"
 
 int main(int argc, char *argv[])
@@ -24,17 +26,17 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    // twitter4qmlにキーを設定
+    // set keys for twitter4qml
     OAuth oauth;
     oauth.setConsumerKey(AztterKeyStore::consumerKey());
     oauth.setConsumerSecret(AztterKeyStore::consumerSecretKey());
     OAuthManager::instance().setAuthorized(true);
     OAuthManager::instance().setNetworkAccessManager(engine.networkAccessManager());
 
-    // twitter4qmlのUnionModelを登録
+    // register UnionModel
     qmlRegisterType<UnionModel>("Aztter", 1, 0, "UnionModel");
 
-    //implement density-independent pixel
+    // implement density-independent pixel
     int dp = 1;
     qreal dotsPerInch = app.screens()[0]->physicalDotsPerInch();
     qDebug() << "physicalDotsPerInch = " << dotsPerInch;
@@ -55,7 +57,22 @@ int main(int argc, char *argv[])
 
     qDebug() << "OfflineStoragePath: " << engine.offlineStoragePath();
 
-    // qmlファイルをロード
+    // load Japanese font
+#ifdef Q_OS_ANDROID
+    if(QFile::exists("/system/etc/MTLmr3m.ttf")) {
+        int fontID = QFontDatabase::addApplicationFont("/system/etc/MTLmr3m.ttf");
+        QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(fontID);
+        if (!loadedFontFamilies.empty()) {
+            QString fontName = loadedFontFamilies[0];
+            qDebug() << "fontName = " << fontName;
+            app.setFont(QFont(fontName));
+        } else {
+            qWarning("Error: failed to load Japanese font");
+        }
+    }
+#endif
+
+    // load QML
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     QObject *topLevel = engine.rootObjects().value(0);
